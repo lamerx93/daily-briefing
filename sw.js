@@ -2,7 +2,7 @@
    Shell files: served from the saved copy at once, refreshed in the background.
    Edition data: fetched fresh when online, served from the saved copy when not. */
 
-const VERSION = "v6";
+const VERSION = "v7";
 const SHELL = "briefing-shell-" + VERSION;
 const DATA = "briefing-data";
 
@@ -29,7 +29,10 @@ const SHELL_FILES = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(SHELL).then((cache) => cache.addAll(SHELL_FILES)).then(() => self.skipWaiting())
+    // "reload" skips the browser's own cache, so a new version never installs yesterday's files.
+    caches.open(SHELL)
+      .then((cache) => cache.addAll(SHELL_FILES.map((url) => new Request(url, { cache: "reload" }))))
+      .then(() => self.skipWaiting())
   );
 });
 
@@ -69,7 +72,7 @@ async function dataFirstNetwork(request) {
 async function shellFirstCache(request) {
   const cache = await caches.open(SHELL);
   const saved = await cache.match(request, { ignoreSearch: true });
-  const refresh = fetch(request).then((fresh) => {
+  const refresh = fetch(request.url, { cache: "no-cache" }).then((fresh) => {
     if (fresh && fresh.ok) cache.put(request, fresh.clone());
     return fresh;
   });

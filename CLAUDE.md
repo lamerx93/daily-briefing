@@ -52,7 +52,8 @@ There are two kinds of run. Both end the same way:
    from the keys folder. If it is not available, skip this step and say so in the report.
 
 Leave `index.html`, `styles.css`, `app.js`, `sw.js`, the manifest and `scripts/` alone unless
-you are fixing a bug in them. If you change a file the app loads, bump `VERSION` in `sw.js`.
+you are fixing a bug in them. If you change a file the app loads, bump `VERSION` in `sw.js`;
+phones then update themselves and show the new number at the foot of the home screen.
 
 ### The morning set (first run of the day)
 

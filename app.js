@@ -214,6 +214,8 @@
     if (!m) return { view: "home", key: "/" };
     return m[2] ? { view: "article", date: m[1], id: m[2], key: "/" + m[1] + "/" + m[2] } : { view: "day", date: m[1], key: "/" + m[1] };
   }
+  let swReg = null;
+  let reloadDue = false;
   const depth = { home: 0, day: 1, article: 2 };
   const scrolls = {};
   let route = null;
@@ -225,6 +227,7 @@
   }
 
   async function show() {
+    if (reloadDue) { reloadDue = false; location.reload(); return; }
     const next = parseRoute();
     if (route) scrolls[route.key] = window.scrollY;
     const back = route && (depth[next.view] < depth[route.view] || next.key === route.key);
@@ -329,7 +332,19 @@
       el("div"),
       el("div", null,
         el("p", { class: "wordmark fit", text: "Briefing" }),
-        el("p", { class: "legal", text: "Written from public sources. Each article links to where it came from. Prints: Katsushika Hokusai, A Tour of Waterfalls in Various Provinces, about 1832, The Metropolitan Museum of Art, public domain." })));
+        el("p", { class: "legal", text: "Written from public sources. Each article links to where it came from. Prints: Katsushika Hokusai, A Tour of Waterfalls in Various Provinces, about 1832, The Metropolitan Museum of Art, public domain." }),
+        versionLine()));
+  }
+
+  // Which version of the app this phone is running, read from the saved copy.
+  function versionLine() {
+    const p = el("p", { class: "legal version" });
+    if (!("caches" in window)) return p;
+    caches.keys().then((keys) => {
+      const v = keys.map((k) => (k.match(/^briefing-shell-v(\d+)$/) || [])[1]).filter(Boolean).map(Number).sort((a, b) => b - a)[0];
+      if (v) p.textContent = "Version " + v + ".";
+    }).catch(() => {});
+    return p;
   }
 
   // The newest unread articles, for the foot of a first screen.
@@ -923,10 +938,23 @@
   window.addEventListener("hashchange", show);
   window.addEventListener("online", () => { offline = false; say(""); checkForNew(); });
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") checkForNew();
+    if (document.visibilityState !== "visible") return;
+    checkForNew();
+    // An app left open in the background never navigates, so ask for a newer version here.
+    if (swReg) swReg.update().catch(() => {});
   });
+  // A new version takes over as soon as it has installed: the page reloads itself once,
+  // waiting until an article being read is left.
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js").catch(() => {});
+    const hadController = !!navigator.serviceWorker.controller;
+    let reloaded = false;
+    navigator.serviceWorker.register("sw.js").then((reg) => { swReg = reg; }).catch(() => {});
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (!hadController || reloaded) return;
+      if (route && route.view === "article") { reloadDue = true; return; }
+      reloaded = true;
+      location.reload();
+    });
     // A tapped notification asks the open app to go to its article.
     navigator.serviceWorker.addEventListener("message", async (event) => {
       if (!event.data || event.data.type !== "open") return;

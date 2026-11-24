@@ -568,6 +568,7 @@ a.row .text, a.row .rt p, a.row .tease {
 .day-row .what { font-weight: 500; }
 .day-row .small { color: var(--ink); }
 .foot .legal, .foot .finish p { max-width: 62ch; }
+.foot .version { margin-top: 6px; min-height: 1.4em; }
 
 /* ---------- Notifications ---------- */
 
