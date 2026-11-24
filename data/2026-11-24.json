@@ -163,34 +163,61 @@
     },
     {
       "id": "market",
-      "title": "Indonesia market",
+      "title": "Asia market",
       "items": [
         {
-          "headline": "Foreign money keeps flowing into online lending",
-          "body": "OJK data show funding from foreign lenders to licensed online lenders (pindar) reached Rp 15.29 trillion through the third quarter of 2026, up 17.08%. Platforms say they hold that trust through disciplined portfolio management, governance and compliance.",
-          "soWhat": "Offshore appetite for Indonesian consumer credit is intact. Governance and reporting quality are what platforms themselves say keeps it.",
+          "headline": "Southeast Asia's digital loan book reaches $19.8 billion",
+          "body": "Momentum Works estimates digital consumer credit across Southeast Asia at $19.8 billion at the end of June 2026. Indonesia leads with $8.6 billion, then the Philippines at $4.3 billion and Thailand at $2.9 billion. The figure covers BNPL and cash loans from platforms, wallets and fintech lenders, not all consumer lending. Sea Group's Monee holds about 45%, and the report expects TikTok Shop to build its own lending business.",
+          "soWhat": "Origination is concentrating in a few platforms that lend in-house. For anyone funding or securitising these loans, that means fewer, larger originators with more bargaining power, and loan data that sits inside their systems.",
+          "sources": [
+            {
+              "title": "Monee leads SE Asia's US$19.8B consumer credit market",
+              "publisher": "Momentum Works",
+              "url": "https://thelowdown.momentum.asia/monee-leads-se-asias-us19-8b-consumer-credit-market-will-tiktok-shop-disrupt-it/"
+            },
+            {
+              "title": "SEA's digital consumer credit loan book reaches estimated $19.8 billion",
+              "publisher": "TNGlobal",
+              "url": "https://technode.global/2026/11/18/seas-digital-consumer-credit-loan-book-reaches-estimated-19-8-billion-at-the-end-of-first-half/"
+            }
+          ]
+        },
+        {
+          "headline": "Thailand moves to regulate buy now, pay later",
+          "body": "The Bank of Thailand has consulted on draft rules that would bring BNPL offered through online marketplaces under its supervised personal-loan regime, with specific rules on credit limits, repayment terms, pricing and consumer protection. Borrowers would have to be at least 20. Comments closed on 15 November. Malaysia has also brought in a licensing framework for BNPL providers.",
+          "soWhat": "Rule changes alter how loans are originated and priced, and that shifts how a pool performs. Each new market needs its regulatory calendar tracked as closely as OJK's is in Indonesia.",
+          "sources": [
+            {
+              "title": "2026 Legal Insights: BNPL under Personal Loan under Supervision",
+              "publisher": "Weerawong C&P",
+              "url": "https://www.weerawongcp.com/data/know/170.pdf"
+            },
+            {
+              "title": "Bank of Thailand targets buy now, pay later loans",
+              "publisher": "Chiang Rai Times",
+              "url": "https://www.chiangraitimes.com/finance/bank-of-thailand-bnpl-loans/"
+            },
+            {
+              "title": "Monee commands 45% of SE Asia digital consumer credit market",
+              "publisher": "DealStreetAsia",
+              "url": "https://www.dealstreetasia.com/stories/monee-commands-45-of-se-asia-digital-consumer-credit-market-report-501132"
+            }
+          ]
+        },
+        {
+          "headline": "Indonesia: foreign funding up, banks still dominant",
+          "body": "OJK data show foreign lenders' funding to licensed online lenders (pindar) reached Rp 15.29 trillion through the third quarter, up 17.08%. Banks supplied Rp 71.58 trillion, or 67.22% of the industry's funding, as of September. On 10 November OJK warned banks not to partner with fintech lenders carelessly and told them to re-assess those partners regularly.",
+          "soWhat": "Offshore appetite is intact, and a regulator pressing banks on partner quality is an opening for capital-markets funding. Expect partner due diligence to get stricter.",
           "sources": [
             {
               "title": "Fintech kian dilirik lender asing",
               "publisher": "Kontan",
               "url": "https://insight.kontan.co.id/news/fintech-kian-dilirik-lender-asing"
-            }
-          ]
-        },
-        {
-          "headline": "Banks still fund two-thirds of the industry",
-          "body": "Bank lenders supplied Rp 71.58 trillion, or 67.22% of pindar funding, as of September. Lending for productive purposes stood at 33.14% of the total, short of OJK's 40–50% target for 2025–26. On 10 November OJK also warned banks not to partner with fintech lenders carelessly and told them to re-assess those partners regularly.",
-          "soWhat": "Concentration in bank funding plus a regulator pressing banks on partner quality is an opening for capital-markets funding, and a reason partner due diligence will get stricter.",
-          "sources": [
+            },
             {
               "title": "OJK catat bank kuasai 67,22 persen pendanaan fintech lending",
               "publisher": "Media Kompeten",
               "url": "https://www.mediakompeten.co.id/bank-dominasi-pendanaan-fintech-lending"
-            },
-            {
-              "title": "Porsi pembiayaan fintech lending ke sektor produktif masih jauh dari target",
-              "publisher": "Kontan",
-              "url": "https://keuangan.kontan.co.id/news/porsi-pembiayaan-fintech-lending-ke-sektor-produktif-masih-jauh-dari-target-roadmap"
             },
             {
               "title": "OJK wanti-wanti bank, tak asal gandeng fintech pinjol",
@@ -200,22 +227,15 @@
           ]
         },
         {
-          "headline": "Consumer credit is slowing",
-          "body": "Bank Indonesia data show consumer loan growth easing to 4.73% year on year in October, from 6.58% in January. BCA's consumer credit shrank 2.2% in September, pulled down by vehicle loans. Analysts cited by The Jakarta Post point to strained household spending power and banks favouring lower-risk corporate borrowers.",
-          "soWhat": "Weaker household finances are the conditions under which a pool's default and prepayment assumptions get tested. Delinquency trends deserve a closer watch.",
+          "headline": "Indonesia: slower borrowing and organised non-payment",
+          "body": "Bank Indonesia data show consumer loan growth easing to 4.73% year on year in October, from 6.58% in January, with analysts pointing to strained household spending power. OJK has also called out joki galbay, third parties on social media who offer to help borrowers get out of repaying, as a threat to lenders. Separately, it told finance companies that borrow in foreign currency to watch the weaker rupiah and manage their exchange-rate risk.",
+          "soWhat": "Three things to raise before someone else does: weaker household finances testing default assumptions, organised non-payment as a new driver of defaults, and currency mismatch for anything funded offshore.",
           "sources": [
             {
               "title": "Consumer lending slows down amid strained spending power",
               "publisher": "The Jakarta Post",
               "url": "http://www.thejakartapost.com/business/2026/11/21/consumer-lending-slows-down-amid-strained-spending-power"
-            }
-          ]
-        },
-        {
-          "headline": "OJK flags default 'jockeys' and currency risk",
-          "body": "OJK has called out the spread on social media of joki galbay, third parties who offer to help borrowers get out of repaying, as a threat to lenders and to funding quality. Borrowers who use them still end up with a bad record in the SLIK credit registry. Separately, OJK told finance companies that borrow in foreign currency to watch the weaker rupiah, lean on rupiah funding and manage their exchange-rate risk.",
-          "soWhat": "Two risks to raise before someone else does: organised non-payment as a new driver of defaults, and currency mismatch for anything funded offshore.",
-          "sources": [
+            },
             {
               "title": "Joki galbay pindar kian marak, OJK ungkap dampaknya bagi peminjam",
               "publisher": "Infobank",
@@ -305,6 +325,10 @@
     {
       "term": "Pindar",
       "meaning": "Pinjaman daring. OJK's term for licensed online lending, formerly called P2P lending or pinjol."
+    },
+    {
+      "term": "BNPL",
+      "meaning": "Buy now, pay later. Short-term instalment credit offered at the point of purchase."
     }
   ]
 }

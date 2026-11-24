@@ -2,7 +2,7 @@
    Shell files: served from the saved copy at once, refreshed in the background.
    Edition data: fetched fresh when online, served from the saved copy when not. */
 
-const VERSION = "v1";
+const VERSION = "v2";
 const SHELL = "briefing-shell-" + VERSION;
 const DATA = "briefing-data";
 

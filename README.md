@@ -1,6 +1,6 @@
 # Daily Briefing
 
-A daily briefing on AI, AI agents and the Indonesian credit market, built as a small web app
+A daily briefing on AI, AI agents and consumer credit in Asia, built as a small web app
 that works offline once it has been opened.
 
 Open it at https://lamerx93.github.io/daily-briefing/

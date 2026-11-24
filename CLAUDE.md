@@ -8,16 +8,20 @@ else internal or personal into it. Editions are built from public sources only.
 
 ## Who it is for
 
-A technology and AI leader at a firm that structures and services securitisations of Indonesian
-consumer credit, funded by international institutional investors. The reader writes AI
+A technology and AI leader at a firm that structures and services securitisations of consumer
+credit across Asia, outside mainland China, funded by international institutional investors. The reader writes AI
 requirements and has to explain AI to non-technical senior people. The briefing exists so that
 they are the best-informed person in the room on four things:
 
 1. What is new in AI and AI agents.
 2. The tools and techniques a requirements writer should know, and how agents work in depth.
 3. How AI is being applied in structured finance, lending, servicing and capital markets.
-4. The Indonesian credit and fintech market: OJK and Bank Indonesia, online lending (pindar),
-   BNPL, securitisation and private credit, funding flows, credit quality, the rupiah.
+4. Consumer credit markets across Asia, excluding China: digital and non-bank lending, BNPL,
+   securitisation and private credit, funding flows, credit quality, regulation and currencies.
+   Indonesia is covered in depth (OJK, Bank Indonesia, pindar, the rupiah). The Philippines,
+   Thailand, Vietnam, Malaysia, Singapore, India and the rest of the region are covered as the
+   news warrants. China is left out of this market coverage for now; AI news from Chinese
+   labs still belongs in the AI sections.
 
 Readability is the top priority. If an edition is accurate but a chore to read, it has failed.
 
@@ -29,8 +33,9 @@ The date is today's date in Asia/Singapore. One edition per day.
    deep dive or a term from the last 30 editions. If today's file already exists, improve it
    in place instead of creating a second one.
 2. Research with web search. Prefer the last 24 to 72 hours for news, and go to original
-   sources (company posts, regulators, papers, wire services) over aggregators. Search in
-   Bahasa Indonesia as well as English for the market section. Read the pages you rely on.
+   sources (company posts, regulators, papers, wire services) over aggregators. For the
+   market section, search by country as well as by region, and in Bahasa Indonesia as well as
+   English. Read the pages you rely on.
 3. Write `data/YYYY-MM-DD.json` following the shape of the most recent edition exactly.
 4. Add the edition as the FIRST entry of `data/index.json`:
    `{ "date", "edition", "headline", "deepDive", "term" }`. `edition` is the previous number plus one.
@@ -45,7 +50,10 @@ a bug in them. If you do change any of them, bump `VERSION` in `sw.js` so phones
 - `lead`: the one story that matters most today. `headline` (70 characters at most), `dek`,
   `body` (1 to 4 short paragraphs), `whyItMatters` (addressed to the reader, concrete), `sources`.
 - `sections`: exactly four, in this order, with these ids: `agents` ("AI and agents"),
-  `techniques` ("For your requirements"), `field` ("In our field"), `market` ("Indonesia market").
+  `techniques` ("For your requirements"), `field` ("In our field"), `market` ("Asia market").
+  The market section should not be all one country: aim for at least one item from outside
+  Indonesia whenever there is real news, and start each headline with the country when the
+  item is about a single market.
   Each has 2 to 4 `items`: `headline`, `body` (95 words at most), `soWhat`, `sources`.
 - `deepDive`: one concept explained properly, as 3 to 6 ordered `steps`, plus `forRequirements`
   (3 to 6 lines the reader could lift into a requirements document). Work through a curriculum

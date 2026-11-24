@@ -1,7 +1,7 @@
 {
   "name": "Daily Briefing",
   "short_name": "Briefing",
-  "description": "A daily briefing on AI, agents and the Indonesian credit market.",
+  "description": "A daily briefing on AI, agents and consumer credit in Asia.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
