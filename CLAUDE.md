@@ -44,6 +44,13 @@ There are two kinds of run. Both end the same way:
    everything it reports. Never publish a day that fails.
 3. Commit only files under `data/` and push to `main`. GitHub Pages redeploys by itself.
 
+4. Notify the reader, if the private keys folder is available (the run's instructions say
+   where). One notification per new story in an update:
+   `NODE_USE_ENV_PROXY=1 node scripts/send_push.mjs --keys <folder> --title "<headline>" --body "<section name>" --url "#/YYYY-MM-DD/<id>"`.
+   For the morning set send one only: the lead headline as the title, "Morning edition, N
+   articles" as the body, and `#/YYYY-MM-DD` as the url. Never print, copy or commit anything
+   from the keys folder. If it is not available, skip this step and say so in the report.
+
 Leave `index.html`, `styles.css`, `app.js`, `sw.js`, the manifest and `scripts/` alone unless
 you are fixing a bug in them. If you change a file the app loads, bump `VERSION` in `sw.js`.
 

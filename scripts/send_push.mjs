@@ -2,15 +2,21 @@
 /* Send one notification to the reader's phone through the Web Push protocol.
    No dependencies. Secrets come from the environment and are never stored in this repository.
 
-   Usage:
+   Usage, with the keys in a private folder that holds vapid.json and subscription.json:
+     node scripts/send_push.mjs --keys /path/to/keys --title "Headline" --body "Asia market" --url "#/2026-11-24/slug"
+
+   Or with the keys in the environment:
      PUSH_SUBSCRIPTION='{"endpoint":"...","keys":{"p256dh":"...","auth":"..."}}' \
-     VAPID_PUBLIC='...' VAPID_PRIVATE_JWK='{"kty":"EC",...}' \
-     node scripts/send_push.mjs --title "Headline" --body "Asia market" --url "#/2026-11-24/slug"
+     VAPID_PUBLIC='...' VAPID_PRIVATE_JWK='{"kty":"EC",...}' node scripts/send_push.mjs --title "Headline"
+
+   vapid.json is { "publicKey": "...", "privateJwk": { ... } }. subscription.json is the setup code from the app.
 
    Set NODE_USE_ENV_PROXY=1 when the network goes through a proxy.
    Exits 0 when the push service accepts the message, 1 otherwise. */
 
 import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
 
 const b64u = (buf) => Buffer.from(buf).toString("base64url");
 const fromB64u = (s) => Buffer.from(String(s).replace(/=+$/, ""), "base64url");
@@ -98,22 +104,33 @@ async function main() {
     console.log(ok ? "self-test passed" : "self-test FAILED");
     process.exit(ok ? 0 : 1);
   }
-  const need = ["PUSH_SUBSCRIPTION", "VAPID_PUBLIC", "VAPID_PRIVATE_JWK"].filter((k) => !process.env[k]);
-  if (need.length) {
-    console.error("missing environment: " + need.join(", "));
-    process.exit(1);
-  }
   const title = arg("title");
   if (!title) {
-    console.error("usage: send_push.mjs --title <text> [--body <text>] [--url <#/date/id>]");
+    console.error("usage: send_push.mjs [--keys <folder>] --title <text> [--body <text>] [--url <#/date/id>]");
     process.exit(1);
   }
-  const subscription = JSON.parse(process.env.PUSH_SUBSCRIPTION);
-  const vapid = {
-    publicKey: process.env.VAPID_PUBLIC,
-    privateJwk: JSON.parse(process.env.VAPID_PRIVATE_JWK),
-    subject: process.env.VAPID_SUBJECT || "https://lamerx93.github.io/daily-briefing/"
-  };
+  let subscription;
+  let vapid;
+  const keys = arg("keys");
+  if (keys) {
+    const read = (name) => JSON.parse(fs.readFileSync(path.join(keys, name), "utf8"));
+    try {
+      subscription = read("subscription.json");
+      vapid = read("vapid.json");
+    } catch (err) {
+      console.error("could not read vapid.json and subscription.json in " + keys + ": " + err.code);
+      process.exit(1);
+    }
+  } else {
+    const need = ["PUSH_SUBSCRIPTION", "VAPID_PUBLIC", "VAPID_PRIVATE_JWK"].filter((k) => !process.env[k]);
+    if (need.length) {
+      console.error("missing environment: " + need.join(", ") + " (or pass --keys <folder>)");
+      process.exit(1);
+    }
+    subscription = JSON.parse(process.env.PUSH_SUBSCRIPTION);
+    vapid = { publicKey: process.env.VAPID_PUBLIC, privateJwk: JSON.parse(process.env.VAPID_PRIVATE_JWK) };
+  }
+  vapid.subject = vapid.subject || process.env.VAPID_SUBJECT || "https://lamerx93.github.io/daily-briefing/";
   const out = await send(subscription, vapid, { title, body: arg("body") || "", url: arg("url") || "#/" });
   const ok = out.status >= 200 && out.status < 300;
   console.log((ok ? "sent" : "NOT sent") + ": " + out.status + " " + out.text.slice(0, 200));
