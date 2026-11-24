@@ -1,11 +1,30 @@
 {
-  "editions": [
+  "days": [
     {
       "date": "2026-11-24",
-      "edition": 1,
-      "headline": "Banks are putting their AI agents on a short leash",
-      "deepDive": "How an agent works: the loop",
-      "term": "Agent harness"
+      "poster": [
+        "Banks leash",
+        "their agents"
+      ],
+      "headline": "Banks put their AI agents on a short leash",
+      "ids": [
+        "banks-leash-agents",
+        "langchain-ships-a-checkpoint-for-every",
+        "microsoft-gives-agents-a-staff-id",
+        "on-long-tasks-agents-now-finish",
+        "replay-tests-for-agents",
+        "prompt-only-rules-get-lost",
+        "five-moves-of-context-engineering",
+        "securitisation-ai-capability-outruns-adoption",
+        "private-credit-already-uses-ai-in",
+        "maker-checker-built-into-banking-agents",
+        "southeast-asia-s-digital-loan-book",
+        "thailand-moves-to-regulate-buy-now",
+        "indonesia-foreign-funding-up-banks-dominate",
+        "indonesia-slower-borrowing-organised-default",
+        "the-agent-loop",
+        "agent-harness"
+      ]
     }
   ]
 }

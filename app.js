@@ -1,10 +1,34 @@
 (() => {
   "use strict";
 
+  /* Three views, addressed by the hash:
+       #/                    home: every edition, newest first
+       #/2026-11-24          the front page for one day
+       #/2026-11-24/slug     one article
+     Each day is one file in data/. Articles can be added to a day at any hour. */
+
   const app = document.getElementById("app");
   const paydown = document.getElementById("paydown");
+  const dock = document.getElementById("dock");
   const notice = document.getElementById("notice");
+  const navUp = document.getElementById("navUp");
+  const navSearch = document.getElementById("navSearch");
+  const readBtn = document.getElementById("readToggle");
+  const sheet = document.getElementById("sheet");
+  const sheetTitle = document.getElementById("sheetTitle");
+  const sheetBody = document.getElementById("sheetBody");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+
+  const SECTIONS = [
+    ["agents", "AI and agents"],
+    ["techniques", "For your requirements"],
+    ["field", "In our field"],
+    ["market", "Asia market"]
+  ];
+  const SECTION_NAME = Object.fromEntries(SECTIONS);
+  const KIND_NAME = { deepdive: "Deep dive", plain: "Say it simply" };
+  const FIELD = { agents: "", techniques: "on-night", field: "on-surface", market: "on-moss", deepdive: "", plain: "on-night" };
+  const INK = { "": "dark", "on-surface": "dark", "on-night": "light", "on-moss": "light" };
 
   /* ---------- small helpers ---------- */
 
@@ -29,11 +53,8 @@
   function rich(text) {
     const frag = document.createDocumentFragment();
     String(text || "").split(/(\*\*[^*]+\*\*)/g).forEach((part) => {
-      if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
-        frag.append(el("strong", { text: part.slice(2, -2) }));
-      } else if (part) {
-        frag.append(part);
-      }
+      if (part.startsWith("**") && part.endsWith("**") && part.length > 4) frag.append(el("strong", { text: part.slice(2, -2) }));
+      else if (part) frag.append(part);
     });
     return frag;
   }
@@ -46,7 +67,6 @@
       return null;
     }
   }
-
   function sourceLinks(list) {
     const out = [];
     (list || []).forEach((s) => {
@@ -56,10 +76,6 @@
       out.push(el("a", { href, target: "_blank", rel: "noopener", title: s.title || null }, s.publisher || s.title || "Source"));
     });
     return out;
-  }
-  function sources(list) {
-    const links = sourceLinks(list);
-    return links.length ? el("p", { class: "small" }, "From ", links, ".") : null;
   }
   // Sources set inside the end of a paragraph, so no stray label sits above the next title.
   function withSources(text, list) {
@@ -71,14 +87,11 @@
     const [y, m, d] = iso.split("-").map(Number);
     return new Date(y, m - 1, d, 12);
   }
-  function longDate(iso) {
-    return new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long" }).format(parseDate(iso));
-  }
-  function shortDate(iso) {
-    return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short" }).format(parseDate(iso));
-  }
+  const fmt = (opts) => (iso) => new Intl.DateTimeFormat("en-GB", opts).format(parseDate(iso));
+  const longDate = fmt({ weekday: "long", day: "numeric", month: "long" });
+  const midDate = fmt({ weekday: "short", day: "numeric", month: "short" });
+  const shortDate = fmt({ day: "numeric", month: "short" });
 
-  // Break a sentence into n lines of roughly equal length.
   function splitLines(text, n) {
     const words = String(text || "").trim().split(/\s+/);
     const total = words.join(" ").length;
@@ -89,8 +102,7 @@
       line.push(w);
       used += w.length + 1;
       const left = words.length - i - 1;
-      const target = (total * (lines.length + 1)) / n;
-      if (lines.length < n - 1 && used >= target - 2 && left >= n - lines.length - 1) {
+      if (lines.length < n - 1 && used >= (total * (lines.length + 1)) / n - 2 && left >= n - lines.length - 1) {
         lines.push(line.join(" "));
         line = [];
       }
@@ -99,59 +111,94 @@
     return lines;
   }
 
-  /* ---------- reading record (this device only) ---------- */
+  function bodyOf(a) { return Array.isArray(a.body) ? a.body : a.body ? [a.body] : []; }
+  function teaser(a) {
+    if (a.dek) return a.dek;
+    if (a.kind === "plain") return a.stair || a.simple || "";
+    const first = bodyOf(a)[0] || "";
+    const cut = first.match(/^.{40,170}?[.!?](?=\s|$)/);
+    return cut ? cut[0] : first.slice(0, 160);
+  }
+  function minutes(a) {
+    const words = JSON.stringify([a.headline, a.dek, a.body, a.soWhat, a.steps, a.forRequirements, a.example, a.stair, a.simple, a.analogy]).split(/\s+/).length;
+    return Math.max(1, Math.round(words / 220));
+  }
+  function whereOf(a) { return a.kind === "story" ? SECTION_NAME[a.section] || "News" : KIND_NAME[a.kind] || "Article"; }
+
+  /* ---------- reading record (this device only), one entry per article ---------- */
 
   const store = {
-    get() {
+    all() {
       try {
-        const v = JSON.parse(localStorage.getItem("briefing.read") || "[]");
-        return Array.isArray(v) ? v : [];
+        const v = JSON.parse(localStorage.getItem("briefing.read.v2") || "[]");
+        return new Set(Array.isArray(v) ? v : []);
       } catch (e) {
-        return [];
+        return new Set();
       }
     },
-    set(date, read) {
+    has(date, id) { return this.all().has(date + "/" + id); },
+    set(date, id, read) {
       try {
-        const set = new Set(this.get());
-        if (read) set.add(date); else set.delete(date);
-        localStorage.setItem("briefing.read", JSON.stringify([...set].sort()));
-      } catch (e) { /* private mode: the button still works for this visit */ }
+        const set = this.all();
+        if (read) set.add(date + "/" + id); else set.delete(date + "/" + id);
+        localStorage.setItem("briefing.read.v2", JSON.stringify([...set].sort().slice(-4000)));
+      } catch (e) { /* private mode: nothing is kept between visits */ }
     }
   };
-
-  // Consecutive calendar days read, ending at the most recent day read.
-  function streak(readDates) {
-    if (!readDates.length) return 0;
-    const days = [...readDates].sort().reverse();
-    let n = 1;
-    for (let i = 1; i < days.length; i++) {
-      const gap = Math.round((parseDate(days[i - 1]) - parseDate(days[i])) / 86400000);
-      if (gap === 1) n++;
-      else break;
-    }
-    return n;
+  function unreadCount(date, ids) {
+    const set = store.all();
+    return (ids || []).filter((id) => !set.has(date + "/" + id)).length;
   }
-  function streakText(n) {
-    if (n <= 0) return "";
-    return n === 1 ? "1 day read." : n + " days in a row.";
+  function countLine(total, unread) {
+    const n = total + (total === 1 ? " article" : " articles");
+    if (!unread) return n + ", all read";
+    return n + ", " + unread + " unread";
   }
 
-  /* ---------- pictures: Hokusai's eight waterfalls, four a day, in rotation ---------- */
+  /* ---------- data ---------- */
+
+  let index = null;
+  const days = {};
+
+  async function getJson(path) {
+    const res = await fetch(path, { cache: "no-cache" });
+    if (!res.ok) throw new Error(path + " " + res.status);
+    return { data: await res.json(), cached: res.headers.get("x-briefing-cache") === "1" };
+  }
+  async function loadIndex(force) {
+    if (index && !force) return index;
+    const got = await getJson("data/index.json");
+    index = got.data;
+    offline = got.cached || navigator.onLine === false;
+    return index;
+  }
+  async function loadDay(date, force) {
+    if (days[date] && !force) return days[date];
+    const got = await getJson("data/" + date + ".json");
+    days[date] = got.data;
+    return got.data;
+  }
+  let offline = false;
+  function say(msg) {
+    notice.textContent = msg || "";
+    notice.hidden = !msg;
+  }
+
+  /* ---------- pictures: Hokusai's eight waterfalls, in rotation ---------- */
 
   const FALLS = [
-    ["amida", "The Amida Falls in the far reaches of the Kisokaid\u014d road", 1432],
+    ["amida", "The Amida Falls in the far reaches of the Kisokaidō road", 1433],
     ["kirifuri", "Kirifuri Waterfall at Kurokami Mountain in Shimotsuke", 1425],
     ["yoshitsune", "The waterfall where Yoshitsune washed his horse, at Yoshino", 1432],
-    ["yoro", "Y\u014dr\u014d Waterfall in Mino Province", 1407],
-    ["ono", "Ono Waterfall on the Kisokaid\u014d", 1400],
-    ["aoigaoka", "The falls at Aoigaoka in Edo", 1442],
-    ["roben", "R\u014dben Waterfall at \u014cyama in Sagami Province", 1417],
-    ["kiyotaki", "Kiyotaki Kannon Waterfall at Sakanoshita on the T\u014dkaid\u014d", 1427]
+    ["yoro", "Yōrō Waterfall in Mino Province", 1407],
+    ["ono", "Ono Waterfall on the Kisokaidō", 1400],
+    ["aoigaoka", "The falls at Aoigaoka in Edo", 1441],
+    ["roben", "Rōben Waterfall at Ōyama in Sagami Province", 1417],
+    ["kiyotaki", "Kiyotaki Kannon Waterfall at Sakanoshita on the Tōkaidō", 1427]
   ];
-
-  function plate(ed, k) {
-    const day = Math.round(parseDate(ed.date).getTime() / 86400000);
-    const f = FALLS[(((day % 2) * 4 + k) % 8 + 8) % 8];
+  function dayNumber(date) { return Math.round(parseDate(date).getTime() / 86400000); }
+  function plate(n) {
+    const f = FALLS[((n % 8) + 8) % 8];
     const img = el("img", { src: "pictures/" + f[0] + ".webp", width: 1000, height: f[2], alt: f[1] + ", a colour woodblock print by Katsushika Hokusai", loading: "lazy", decoding: "async" });
     img.addEventListener("error", () => { const fig = img.closest(".plate"); if (fig) fig.hidden = true; });
     return el("figure", { class: "plate", "data-ink": "light" },
@@ -159,124 +206,300 @@
       el("figcaption", null, el("span", { text: f[1] }), el("span", { text: "Katsushika Hokusai, about 1832" })));
   }
 
-  /* ---------- sections ---------- */
+  /* ---------- routing ---------- */
 
-  function itemParts(it) {
-    return {
-      body: withSources(it.body, it.sources),
-      soWhat: it.soWhat ? el("p", { class: "sowhat" }, "So what: ", rich(it.soWhat)) : null
-    };
+  function parseRoute() {
+    const h = location.hash.replace(/^#\/?/, "");
+    const m = h.match(/^(\d{4}-\d{2}-\d{2})(?:\/([a-z0-9-]+))?$/);
+    if (!m) return { view: "home", key: "/" };
+    return m[2] ? { view: "article", date: m[1], id: m[2], key: "/" + m[1] + "/" + m[2] } : { view: "day", date: m[1], key: "/" + m[1] };
+  }
+  const depth = { home: 0, day: 1, article: 2 };
+  const scrolls = {};
+  let route = null;
+  let rendering = 0;
+
+  function go(path) {
+    if (location.hash === "#" + path) show();
+    else location.hash = path;
   }
 
-  function lineup(s) {
-    return el("section", { class: "sec lineup", id: s.id, "data-ink": "dark" },
-      el("h2", { class: "head", text: s.title }),
-      (s.items || []).map((it) => {
-        const p = itemParts(it);
-        return el("article", { class: "row" },
-          el("h3", { class: "title", text: it.headline }),
-          el("div", { class: "text" }, p.body),
-          el("div", { class: "side" }, p.soWhat));
-      }));
-  }
-
-  function posterList(s) {
-    return el("section", { class: "sec on-night poster-list", id: s.id, "data-ink": "light" },
-      el("h2", { class: "head", text: s.title }),
-      (s.items || []).map((it) => {
-        const p = itemParts(it);
-        return el("article", { class: "row" },
-          el("h3", { class: "name", text: it.headline }),
-          el("div", { class: "desc" }, p.body, p.soWhat));
-      }));
-  }
-
-  function ended(s) {
-    return el("section", { class: "sec on-surface ended", id: s.id, "data-ink": "dark" },
-      el("div", { class: "grid" },
-        el("h2", { class: "head", text: s.title }),
-        el("div", { class: "rows" }, (s.items || []).map((it) => {
-          const p = itemParts(it);
-          const first = (it.sources || [])[0];
-          return el("article", { class: "row" },
-            el("div", { class: "ends" },
-              el("h3", { class: "title", text: it.headline }),
-              first ? el("span", { class: "small", text: first.publisher || "" }) : null),
-            el("div", { class: "rt" }, p.body, p.soWhat));
-        }))));
-  }
-
-  function market(s, num) {
-    const rows = el("div", { class: "market-rows" }, (s.items || []).map((it) => {
-      const p = itemParts(it);
-      return el("article", { class: "row" }, el("h3", { class: "title", text: it.headline }), p.body, p.soWhat);
-    }));
-    if (!num || !num.value) {
-      return el("section", { class: "sec on-moss figure", id: s.id, "data-ink": "light" },
-        el("h2", { class: "head", text: s.title }), rows);
+  async function show() {
+    const next = parseRoute();
+    if (route) scrolls[route.key] = window.scrollY;
+    const back = route && (depth[next.view] < depth[route.view] || next.key === route.key);
+    const mine = ++rendering;
+    closeSheet();
+    try {
+      await loadIndex();
+      let nodes;
+      if (next.view === "home") {
+        const first = (index.days || [])[0];
+        const today = first ? await loadDay(first.date).catch(() => null) : null;
+        if (mine !== rendering) return;
+        nodes = home(today);
+      } else {
+        const day = await loadDay(next.date);
+        if (mine !== rendering) return;
+        if (next.view === "day") nodes = front(day);
+        else {
+          const art = (day.articles || []).find((a) => a.id === next.id);
+          if (!art) { location.replace("#/" + next.date); return; }
+          nodes = article(day, art);
+        }
+      }
+      if (mine !== rendering) return;
+      route = next;
+      app.className = next.view === "day" ? "front" : next.view;
+      app.replaceChildren(...nodes);
+      chrome();
+      window.scrollTo(0, back && scrolls[next.key] ? scrolls[next.key] : 0);
+      fitAll();
+      buildBar();
+      entrances();
+      say(offline ? "You're offline. This is what was saved on this phone." : "");
+      keepRecent();
+    } catch (err) {
+      if (next.view !== "home" && index) { location.replace("#/"); return; }
+      const sub = app.querySelector(".hero-sub");
+      if (sub) sub.textContent = "The briefing couldn't load. Connect to the internet and open it again.";
     }
+  }
+
+  // Keep the last week available offline.
+  let kept = false;
+  function keepRecent() {
+    if (kept || !index) return;
+    kept = true;
+    (index.days || []).slice(0, 7).forEach((d) => { if (!days[d.date]) loadDay(d.date).catch(() => {}); });
+  }
+
+  /* ---------- the bar at the top ---------- */
+
+  function chrome() {
+    if (route.view === "home") {
+      navUp.textContent = "Daily Briefing";
+      document.title = "Daily Briefing";
+    } else if (route.view === "day") {
+      navUp.textContent = "All editions";
+      document.title = "Briefing, " + shortDate(route.date);
+    } else {
+      navUp.textContent = midDate(route.date);
+      const a = (days[route.date].articles || []).find((x) => x.id === route.id);
+      document.title = a ? a.headline : "Briefing";
+    }
+    readBtn.hidden = route.view !== "article";
+    syncRead();
+  }
+  navUp.addEventListener("click", () => {
+    if (!route || route.view === "home") window.scrollTo({ top: 0, behavior: reduced.matches ? "auto" : "smooth" });
+    else if (route.view === "day") go("/");
+    else go("/" + route.date);
+  });
+
+  function syncRead() {
+    if (!route || route.view !== "article") return;
+    const isRead = store.has(route.date, route.id);
+    readBtn.setAttribute("aria-pressed", String(isRead));
+    readBtn.textContent = isRead ? "Read" : "Mark read";
+    const done = app.querySelector(".end .done");
+    if (done) {
+      done.setAttribute("aria-pressed", String(isRead));
+      done.textContent = isRead ? "Read. Back to the front page" : "Mark as read";
+    }
+  }
+  readBtn.addEventListener("click", () => {
+    if (!route || route.view !== "article") return;
+    store.set(route.date, route.id, !store.has(route.date, route.id));
+    syncRead();
+  });
+
+  /* ---------- home: every edition ---------- */
+
+  function footer(extra) {
+    return el("footer", { class: "foot", id: "end", "data-ink": "light" },
+      el("div", { class: "top" }, extra),
+      el("div"),
+      el("div", null,
+        el("p", { class: "wordmark fit", text: "Briefing" }),
+        el("p", { class: "legal", text: "Written from public sources. Each article links to where it came from. Prints: Katsushika Hokusai, A Tour of Waterfalls in Various Provinces, about 1832, The Metropolitan Museum of Art, public domain." })));
+  }
+
+  // The newest unread articles, for the foot of a first screen.
+  function latest(day) {
+    if (!day) return null;
+    const set = store.all();
+    const rows = (day.articles || [])
+      .map((a, i) => ({ a, i }))
+      .filter(({ a }) => !set.has(day.date + "/" + a.id) && !a.lead)
+      .sort((x, y) => (x.a.time < y.a.time ? 1 : x.a.time > y.a.time ? -1 : x.i - y.i))
+      .slice(0, 3);
+    if (!rows.length) return null;
+    return el("ul", { class: "inside" }, rows.map(({ a }) =>
+      el("li", null, el("a", { href: "#/" + day.date + "/" + a.id }, el("span", { text: (a.time || "") + ", " + whereOf(a) }), el("span", { text: a.headline })))));
+  }
+
+  function home(todayDay) {
+    const list = index.days || [];
+    const today = list[0];
+    const out = [];
+    if (!today) {
+      return [el("header", { class: "hero", "data-ink": "light" },
+        el("h1", { class: "poster fit" }, el("span", { text: "Daily" }), el("span", { text: "Briefing" })),
+        el("p", { class: "hero-sub", text: "The first edition has not been published yet." }))];
+    }
+    const unread = unreadCount(today.date, today.ids);
+    const poster = today.poster && today.poster.length === 2 ? today.poster : splitLines(today.headline, 2);
+    out.push(el("header", { class: "hero", id: "top", "data-ink": "light" },
+      el("h1", { class: "poster fit", "aria-label": "Daily Briefing: " + poster.join(" ") }, poster.map((l) => el("span", { text: l }))),
+      el("p", { class: "hero-sub", text: today.headline + "." }),
+      el("a", { class: "btn", href: "#/" + today.date, text: "Open today's edition" }),
+      el("div", { class: "hero-foot" },
+        latest(todayDay),
+        el("p", { class: "hero-meta", text: "Daily Briefing, " + longDate(today.date) + ". " + countLine(today.ids.length, unread) + "." }))));
+
+    out.push(el("section", { class: "sec editions", id: "editions", "data-ink": "dark" },
+      el("div", { class: "grid" },
+        el("h2", { class: "head", text: "Every edition" }),
+        el("div", { class: "rows" }, list.map((d) => {
+          const u = unreadCount(d.date, d.ids);
+          return el("a", { class: "day-row", href: "#/" + d.date, "data-read": String(!u) },
+            el("span", { class: "when", text: midDate(d.date) }),
+            el("span", { class: "what", text: d.headline }),
+            el("span", { class: "small", text: countLine(d.ids.length, u) }));
+        })))));
+    out.push(plate(dayNumber(today.date)));
+    out.push(footer(el("div", { class: "finish" },
+      el("h2", { class: "head", text: "How it works" }),
+      el("p", { text: "New articles are added through the day, Singapore time. Anything you have opened stays on this phone and reads without a connection." }))));
+    return out;
+  }
+
+  /* ---------- the front page for one day ---------- */
+
+  function rowMeta(date, a) {
+    const read = store.has(date, a.id);
+    const m = minutes(a);
+    return (a.time || "") + (m > 1 ? ", " + m + " min" : "") + (read ? ", read" : "");
+  }
+  function link(date, a, cls, ...kids) {
+    return el("a", { class: "row " + (cls || ""), href: "#/" + date + "/" + a.id, "data-read": String(store.has(date, a.id)) }, kids);
+  }
+
+  function numberBlock(num, title, href) {
     const dots = "·".repeat(80);
     const slip = num.rows && num.rows.length ? el("div", { class: "slip", "data-ui": true },
       num.unit ? el("p", { class: "unit", text: num.unit }) : null,
       el("ul", null,
         num.rows.map((r) => el("li", null, el("span", { text: r.label }), el("span", { class: "dots", "aria-hidden": "true", text: dots }), el("span", { text: r.value }))),
         num.total ? el("li", { class: "sum" }, el("span", { text: "Total" }), el("span", { class: "dots", "aria-hidden": "true", text: dots }), el("span", { text: num.total })) : null)) : null;
-    return el("section", { class: "sec on-moss figure", id: s.id, "data-ink": "light" },
-      el("div", { class: "split" },
-        el("div", { class: "left" },
-          el("h2", { class: "head", text: s.title }),
-          el("p", { class: "note" }, rich(num.caption)),
-          el("p", { class: "total", text: num.value }),
-          num.source ? el("p", { class: "caption" }, "From ", sourceLinks([num.source])) : null),
-        slip),
-      rows);
+    const total = el("p", { class: "total", text: num.value });
+    return el("div", { class: "split" },
+      el("div", { class: "left" },
+        title ? el("h2", { class: "head", text: title }) : null,
+        el("p", { class: "note" }, rich(num.caption)),
+        href ? el("a", { class: "total-link", href, "aria-label": num.value + ". Read the article" }, total) : total,
+        num.source ? el("p", { class: "caption" }, "From ", sourceLinks([num.source]), ".") : null),
+      slip);
   }
 
-  function deepDive(dd) {
-    return el("section", { class: "sec dive", id: "deep", "data-ink": "dark" },
-      el("div", { class: "top" },
-        el("h2", { class: "head", text: dd.title }),
-        dd.intro ? el("p", { class: "intro" }, rich(dd.intro)) : null),
-      el("ol", { class: "bar", "data-ui": true }, (dd.steps || []).map((st) =>
-        el("li", null, el("h3", { class: "title", text: st.title }), el("p", null, rich(st.body))))),
-      dd.example && dd.example.rows && dd.example.rows.length ? el("div", { class: "run" },
-        el("h3", { class: "title", text: dd.example.title || "One run, step by step" }),
-        el("ol", { class: "trace", "data-ui": true }, dd.example.rows.map((r) =>
-          el("li", { "data-state": r.state || null }, el("span", { class: "who", text: r.actor }), el("span", { text: r.text }))))) : null,
-      dd.forRequirements && dd.forRequirements.length ? el("div", { class: "reqs" },
-        el("h3", { class: "title", text: "What to put in the requirement" }),
-        el("ul", null, dd.forRequirements.map((r) => el("li", null, rich(r))))) : null,
-      sources(dd.sources));
+  function front(day) {
+    const date = day.date;
+    const arts = day.articles || [];
+    const lead = arts.find((a) => a.lead) || arts[0];
+    const unread = unreadCount(date, arts.map((a) => a.id));
+    const poster = lead.poster && lead.poster.length === 2 ? lead.poster : splitLines(lead.headline, 2);
+    const out = [];
+
+    out.push(el("header", { class: "hero", id: "top", "data-ink": "light" },
+      el("h1", { class: "poster fit", "aria-label": poster.join(" ") }, poster.map((l) => el("span", { text: l }))),
+      el("p", { class: "hero-sub", text: lead.headline + "." }),
+      el("a", { class: "btn", href: "#/" + date + "/" + lead.id, text: store.has(date, lead.id) ? "Read the top story again" : "Read the top story" }),
+      el("div", { class: "hero-foot" },
+        latest(day),
+        el("p", { class: "hero-meta", text: longDate(date) + ". " + countLine(arts.length, unread) + "." }))));
+
+    const by = (id) => arts.filter((a) => a.kind === "story" && a.section === id).sort((x, y) => (x.time < y.time ? 1 : x.time > y.time ? -1 : 0));
+    const n = dayNumber(date);
+
+    const agents = by("agents");
+    if (agents.length) {
+      out.push(el("section", { class: "sec lineup", id: "agents", "data-ink": "dark" },
+        el("h2", { class: "head", text: SECTION_NAME.agents }),
+        agents.map((a) => link(date, a, "",
+          el("h3", { class: "title", text: a.headline }),
+          el("p", { class: "side small", text: rowMeta(date, a) }),
+          el("p", { class: "text", text: teaser(a) })))));
+    }
+
+    const tech = by("techniques");
+    if (tech.length) {
+      out.push(el("section", { class: "sec on-night poster-list", id: "techniques", "data-ink": "light" },
+        el("h2", { class: "head", text: SECTION_NAME.techniques }),
+        tech.map((a) => link(date, a, "",
+          el("h3", { class: "name", text: a.headline }),
+          el("div", { class: "desc" }, el("p", { class: "small", text: rowMeta(date, a) }), el("p", { class: "tease", text: teaser(a) }))))));
+    }
+    out.push(plate(n));
+
+    const lessons = arts.filter((a) => a.kind === "deepdive" || a.kind === "plain");
+    if (lessons.length) {
+      out.push(el("section", { class: "sec ended lesson", id: "lesson", "data-ink": "dark" },
+        el("div", { class: "grid" },
+          el("h2", { class: "head", text: "Today's lesson" }),
+          el("div", { class: "rows" }, lessons.map((a) => link(date, a, "",
+            el("div", { class: "ends" }, el("h3", { class: "title", text: a.headline }), el("span", { class: "small", text: KIND_NAME[a.kind] + ", " + rowMeta(date, a) })),
+            el("div", { class: "rt" }, el("p", { text: teaser(a) }))))))));
+    }
+
+    const field = by("field");
+    if (field.length) {
+      out.push(el("section", { class: "sec on-surface ended", id: "field", "data-ink": "dark" },
+        el("div", { class: "grid" },
+          el("h2", { class: "head", text: SECTION_NAME.field }),
+          el("div", { class: "rows" }, field.map((a) => link(date, a, "",
+            el("div", { class: "ends" }, el("h3", { class: "title", text: a.headline }), el("span", { class: "small", text: rowMeta(date, a) })),
+            el("div", { class: "rt" }, el("p", { text: teaser(a) }))))))));
+    }
+
+    const market = by("market");
+    if (market.length) {
+      const withNum = market.find((a) => a.number && a.number.value);
+      out.push(el("section", { class: "sec on-moss figure", id: "market", "data-ink": "light" },
+        withNum ? numberBlock(withNum.number, SECTION_NAME.market, "#/" + date + "/" + withNum.id) : el("h2", { class: "head", text: SECTION_NAME.market }),
+        el("div", { class: "market-rows" }, market.map((a) => link(date, a, "",
+          el("h3", { class: "title", text: a.headline }),
+          el("p", { class: "small", text: rowMeta(date, a) }),
+          el("p", { class: "tease", text: teaser(a) }))))));
+    }
+
+    if (day.line && day.line.line) {
+      out.push(el("section", { class: "room", id: "room", "data-ink": "light" },
+        el("div", { class: "quote" },
+          el("h2", { class: "head", text: "A line for the room" }),
+          el("blockquote", { text: "“" + day.line.line + "”" })),
+        day.line.backup ? el("div", { class: "who" }, el("p", null, el("strong", { text: "If challenged" }), rich(day.line.backup))) : null));
+    }
+
+    if (day.terms && day.terms.length) {
+      out.push(el("section", { class: "sec terms", id: "glossary", "data-ink": "dark" },
+        el("div", { class: "grid" },
+          el("h2", { class: "head", text: "Terms used today" }),
+          el("div", { class: "list" }, day.terms.map((g) => el("details", null, el("summary", { text: g.term }), el("p", null, rich(g.meaning))))))));
+    }
+
+    const list = index.days || [];
+    const at = list.findIndex((d) => d.date === date);
+    const step = (label, d) => d ? el("a", { class: "btn", href: "#/" + d.date, text: label }) : null;
+    out.push(footer(el("div", { class: "finish" },
+      el("h2", { class: "head", text: unread ? unread + " left to read" : "All read" }),
+      el("div", { class: "pair" }, step("Older edition", list[at + 1]), step("Newer edition", list[at - 1]), el("a", { class: "btn", href: "#/", text: "All editions" })))));
+    return out;
   }
 
-  function plainSection(plain) {
-    const wide = matchMedia("(min-width: 900px)").matches;
-    const stmt = plain.stair || plain.simple;
-    return el("section", { class: "sec on-night stair", id: "plain", "data-ink": "light" },
-      el("div", { class: "top" },
-        el("h2", { class: "head", text: "Say it simply" }),
-        el("div", { class: "intro" },
-          el("p", { class: "term", text: plain.term }),
-          plain.jargon ? el("p", { class: "jargon", text: plain.jargon }) : null)),
-      el("p", { class: "steps-stmt" }, splitLines(stmt, wide ? 3 : 4).map((line, i) => {
-        const span = el("span", { text: line + " " });
-        span.style.setProperty("--i", i);
-        return span;
-      })),
-      el("div", { class: "after" },
-        plain.stair && plain.simple ? el("p", { class: "more" }, rich(plain.simple)) : null,
-        plain.analogy ? el("p", { class: "more" }, rich(plain.analogy)) : null));
-  }
+  /* ---------- one article ---------- */
 
-  function roomSection(room) {
-    return el("section", { class: "room", id: "room", "data-ink": "light" },
-      el("div", { class: "quote" },
-        el("h2", { class: "head", text: "A line for the room" }),
-        el("blockquote", { text: "“" + room.line + "”" })),
-      room.backup ? el("div", { class: "who" }, el("p", null, el("strong", { text: "If challenged" }), rich(room.backup.replace(/^If challenged:\s*/i, "")))) : null);
-  }
-
-  function quizSection(quiz) {
+  function quizBlock(quiz) {
     const explain = el("p", { class: "explain", hidden: true }, rich(quiz.explanation));
     const buttons = quiz.options.map((opt, i) => {
       const b = el("button", { type: "button", text: opt });
@@ -298,105 +521,82 @@
         el("div", { class: "answers", "data-ui": true }, el("div", { class: "options" }, buttons), explain)));
   }
 
-  function termsSection(list) {
-    return el("section", { class: "sec terms", id: "glossary", "data-ink": "dark" },
-      el("div", { class: "grid" },
-        el("h2", { class: "head", text: "Terms used today" }),
-        el("div", { class: "list" }, list.map((g) =>
-          el("details", null, el("summary", { text: g.term }), el("p", null, rich(g.meaning)))))));
-  }
+  function article(day, a) {
+    const date = day.date;
+    const arts = day.articles || [];
+    const field = a.kind === "story" ? FIELD[a.section] || "" : FIELD[a.kind] || "";
+    const ink = INK[field];
+    const out = [];
+    const meta = whereOf(a) + ". " + longDate(date) + (a.time ? ", " + a.time : "") + ". A " + minutes(a) + " minute read.";
 
-  function footer(ed, index) {
-    const read = store.get();
-    const isRead = read.includes(ed.date);
-    const streakLine = el("p", { class: "streak", text: isRead ? streakText(streak(read)) : "" });
-    const done = el("button", { class: "btn done", type: "button", "aria-pressed": String(isRead), text: isRead ? "Read" : "Mark as read" });
-    done.addEventListener("click", () => setRead(ed.date, done.getAttribute("aria-pressed") !== "true"));
-    const editions = (index && index.editions) || [];
-    return el("footer", { class: "foot", id: "end", "data-ink": "light" },
+    const paras = bodyOf(a);
+    const story = a.kind === "story";
+    out.push(el("header", { class: "sec art-head " + (story ? "" : "solo " + field), id: "top", "data-ink": story ? "dark" : ink },
+      el("div", { class: "grid" },
+        el("h1", { class: "art-h1", text: a.headline }),
+        a.kind === "plain" ? el("p", { class: "dek jargon", text: a.jargon }) : a.dek ? el("p", { class: "dek", text: a.dek }) : null,
+        el("p", { class: "small meta", text: meta }),
+        story ? el("div", { class: "body" }, paras.map((p, i) => i === paras.length - 1 ? withSources(p, a.sources) : el("p", null, rich(p)))) : null)));
+
+    if (story) {
+      if (a.soWhat) {
+        out.push(el("section", { class: "sec on-surface matters", id: "matters", "data-ink": "dark" },
+          el("div", { class: "grid" }, el("h2", { class: "head", text: "So what" }), el("p", null, rich(a.soWhat)))));
+      }
+      if (a.number && a.number.value) {
+        out.push(el("section", { class: "sec on-moss figure", id: "number", "data-ink": "light" }, numberBlock(a.number, "The number")));
+      }
+    } else if (a.kind === "deepdive") {
+      out.push(el("section", { class: "sec dive", id: "steps", "data-ink": "dark" },
+        el("h2", { class: "head", text: "Step by step" }),
+        el("ol", { class: "bar", "data-ui": true }, (a.steps || []).map((st) =>
+          el("li", null, el("h3", { class: "title", text: st.title }), el("p", null, rich(st.body))))),
+        a.example && a.example.rows && a.example.rows.length ? el("div", { class: "run" },
+          el("h3", { class: "title", text: a.example.title || "One run, step by step" }),
+          el("ol", { class: "trace", "data-ui": true }, a.example.rows.map((r) =>
+            el("li", { "data-state": r.state || null }, el("span", { class: "who", text: r.actor }), el("span", { text: r.text }))))) : null,
+        a.forRequirements && a.forRequirements.length ? el("div", { class: "reqs" },
+          el("h3", { class: "title", text: "What to put in the requirement" }),
+          el("ul", null, a.forRequirements.map((r) => el("li", null, rich(r))))) : null,
+        sourceLinks(a.sources).length ? el("p", { class: "small" }, "From ", sourceLinks(a.sources), ".") : null));
+      if (a.quiz && Array.isArray(a.quiz.options)) out.push(quizBlock(a.quiz));
+    } else if (a.kind === "plain") {
+      const wide = matchMedia("(min-width: 900px)").matches;
+      out.push(el("section", { class: "sec on-night stair", id: "plain", "data-ink": "light" },
+        el("h2", { class: "head", text: "Say it simply" }),
+        el("p", { class: "steps-stmt" }, splitLines(a.stair || a.simple, wide ? 3 : 4).map((line, i) => {
+          const span = el("span", { text: line + " " });
+          span.style.setProperty("--i", i);
+          return span;
+        })),
+        el("div", { class: "after" },
+          a.stair && a.simple ? el("p", { class: "more" }, rich(a.simple)) : null,
+          a.analogy ? el("p", { class: "more" }, rich(a.analogy)) : null)));
+    }
+
+    out.push(plate(dayNumber(date) + 2 + arts.indexOf(a)));
+
+    const next = arts.find((x) => x.id !== a.id && !store.has(date, x.id));
+    const done = el("button", { class: "btn done", type: "button", "aria-pressed": "false", text: "Mark as read" });
+    done.addEventListener("click", () => {
+      store.set(date, a.id, true);
+      go("/" + date);
+    });
+    out.push(el("footer", { class: "foot end", id: "end", "data-ink": "light" },
       el("div", { class: "top" },
         el("div", { class: "finish" },
-          el("h2", { class: "head", text: "That's today" }), done, streakLine),
+          el("h2", { class: "head", text: "Finished?" }), done),
         el("div", { class: "cols" },
+          next ? el("div", null,
+            el("h3", { text: "Next unread" }),
+            el("a", { class: "next", href: "#/" + date + "/" + next.id }, el("span", { class: "what", text: next.headline }), el("span", { class: "small", text: whereOf(next) }))) : null,
           el("div", null,
-            el("h3", { text: "Editions" }),
-            el("ul", null, editions.slice(0, 14).map((e) =>
-              el("li", null, el("a", { href: "#" + e.date, "aria-current": e.date === ed.date ? "page" : null },
-                el("span", { text: shortDate(e.date) }), el("span", { text: e.headline })))))),
-          el("div", null,
-            el("h3", { text: "How it works" }),
-            el("p", { text: "A new edition is published every morning, Singapore time. The last one you opened stays on this phone and opens without a connection." })))),
+            el("h3", { text: "This edition" }),
+            el("a", { class: "next", href: "#/" + date }, el("span", { class: "what", text: "Front page, " + midDate(date) })),
+            el("a", { class: "next", href: "#/" }, el("span", { class: "what", text: "All editions" }))))),
       el("div"),
-      el("div", null,
-        el("p", { class: "wordmark fit", text: "Briefing" }),
-        el("p", { class: "legal", text: "Written from public sources. Each item links to where it came from. Prints: Katsushika Hokusai, A Tour of Waterfalls in Various Provinces, about 1832, The Metropolitan Museum of Art, public domain." })));
-  }
-
-  function render(ed, index) {
-    const lead = ed.lead || {};
-    const poster = Array.isArray(lead.poster) && lead.poster.length === 2 ? lead.poster : splitLines(lead.headline, 2);
-    const out = [];
-
-    out.push(el("header", { class: "hero", id: "top", "data-ink": "light" },
-      el("h1", { class: "poster fit", "aria-label": poster.join(" ") }, poster.map((l) => el("span", { text: l }))),
-      el("p", { class: "hero-sub", text: lead.headline + "." }),
-      el("a", { class: "btn", href: "#lead", text: "Start reading" }),
-      el("div", { class: "hero-foot" },
-        el("ul", { class: "inside" }, (ed.sections || []).filter((s) => s.items && s.items[0]).slice(0, 4).map((s) =>
-          el("li", null, el("a", { href: "#" + s.id }, el("span", { text: s.title }), el("span", { text: s.items[0].headline }))))),
-        el("p", { class: "hero-meta", text: "Daily Briefing, " + longDate(ed.date) + (ed.readMinutes ? ". A " + ed.readMinutes + " minute read." : ".") }))));
-
-    out.push(el("section", { class: "sec lead", id: "lead", "data-ink": "dark" },
-      el("div", { class: "grid" },
-        el("h2", { class: "head", text: "Top story" }),
-        lead.dek ? el("p", { class: "dek", text: lead.dek }) : null,
-        el("div", { class: "body" }, (lead.body || []).map((p, i, all) =>
-          i === all.length - 1 ? withSources(p, lead.sources) : el("p", null, rich(p)))))));
-    if (lead.whyItMatters) {
-      out.push(el("section", { class: "sec on-surface matters", id: "matters", "data-ink": "dark" },
-        el("div", { class: "grid" },
-          el("h2", { class: "head", text: "Why it matters to you" }),
-          el("p", null, rich(lead.whyItMatters)))));
-    }
-    out.push(plate(ed, 0));
-
-    const byId = {};
-    (ed.sections || []).forEach((s) => { byId[s.id] = s; });
-    if (byId.agents) out.push(lineup(byId.agents));
-    if (byId.techniques) out.push(posterList(byId.techniques));
-    out.push(plate(ed, 1));
-    if (ed.deepDive) out.push(deepDive(ed.deepDive));
-    if (byId.field) out.push(ended(byId.field));
-    out.push(plate(ed, 2));
-    if (byId.market) out.push(market(byId.market, ed.number));
-    (ed.sections || []).filter((s) => !["agents", "techniques", "field", "market"].includes(s.id)).forEach((s) => out.push(lineup(s)));
-    if (ed.plain) out.push(plainSection(ed.plain));
-    if (ed.roomLine) out.push(roomSection(ed.roomLine));
-    out.push(plate(ed, 3));
-    if (ed.quiz && Array.isArray(ed.quiz.options)) out.push(quizSection(ed.quiz));
-    if (ed.glossary && ed.glossary.length) out.push(termsSection(ed.glossary));
-    out.push(footer(ed, index));
-
-    app.replaceChildren(...out);
-    shown = ed.date;
-    current = ed;
-    syncRead();
-    document.title = "Briefing, " + shortDate(ed.date);
-
-    app.querySelector(".hero .btn").addEventListener("click", (ev) => {
-      ev.preventDefault();
-      document.getElementById("lead").scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" });
-    });
-    app.querySelectorAll(".inside a").forEach((a) => a.addEventListener("click", (ev) => {
-      const target = document.getElementById(a.getAttribute("href").slice(1));
-      if (!target) return;
-      ev.preventDefault();
-      target.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" });
-    }));
-
-    fitAll();
-    buildBar();
-    entrances();
+      el("div", null, el("p", { class: "wordmark fit", text: "Briefing" }))));
+    return out;
   }
 
   /* ---------- type fitted to the measure ---------- */
@@ -422,9 +622,8 @@
     });
   }
 
-  /* ---------- the paydown bar ---------- */
+  /* ---------- the progress bar and the bar's colour ---------- */
 
-  const dock = document.getElementById("dock");
   let dockOn = null;
   let chapters = [];
   let segs = [];
@@ -434,43 +633,55 @@
   function buildBar() {
     dockOn = null;
     chapters = [...app.querySelectorAll("[data-ink]")];
-    segs = chapters.filter((c) => !c.classList.contains("plate"));
     plates = [...app.querySelectorAll(".plate img")];
-    paydown.replaceChildren(...segs.map(() => el("i")));
-    sizeBar();
+    if (route.view === "day") {
+      // One segment per article, filled once it has been read.
+      const arts = days[route.date].articles || [];
+      segs = [];
+      paydown.replaceChildren(...arts.map((a) => {
+        const i = el("i");
+        i.style.setProperty("--read", store.has(route.date, a.id) ? 1 : 0);
+        return i;
+      }));
+      paydown.hidden = false;
+    } else if (route.view === "article") {
+      segs = [app];
+      paydown.replaceChildren(el("i"));
+      paydown.hidden = false;
+    } else {
+      segs = [];
+      paydown.replaceChildren();
+      paydown.hidden = true;
+    }
     paintBar();
   }
-  function sizeBar() {
-    segs.forEach((c, i) => {
-      if (paydown.children[i]) paydown.children[i].style.flexGrow = Math.max(1, Math.round(c.offsetHeight));
-    });
-  }
+
   function paintBar() {
     ticking = false;
     stage(false);
-    const line = window.innerHeight * 0.6;
     const doc = document.documentElement;
-    const atEnd = window.innerHeight + window.scrollY >= doc.scrollHeight - 2;
+    const total = Math.max(1, doc.scrollHeight - window.innerHeight);
+    const done = Math.min(1, Math.max(0, window.scrollY / total));
+    if (route && route.view === "article" && paydown.firstElementChild) {
+      paydown.firstElementChild.style.setProperty("--read", done.toFixed(3));
+    }
+    paydown.setAttribute("aria-valuenow", String(Math.round(done * 100)));
     let ink = "dark";
-    segs.forEach((c, i) => {
-      const r = c.getBoundingClientRect();
-      const done = atEnd ? 1 : Math.min(1, Math.max(0, (line - r.top) / Math.max(1, r.height)));
-      if (paydown.children[i]) paydown.children[i].style.setProperty("--read", done.toFixed(3));
-    });
     let under = chapters[0];
     chapters.forEach((c) => {
       const r = c.getBoundingClientRect();
       if (r.top <= 50 && r.bottom > 50) { ink = c.dataset.ink; under = c; }
     });
+    if (paydown.dataset.ink !== ink) paydown.dataset.ink = ink;
     // The bar takes the ground and ink of the chapter beneath it, changing exactly at the edge.
-    if (under && dock && under !== dockOn) {
+    if (under && under !== dockOn) {
       dockOn = under;
       let cs = getComputedStyle(under);
       if (/rgba\(0, 0, 0, 0\)|transparent/.test(cs.backgroundColor) && under.firstElementChild) cs = getComputedStyle(under.firstElementChild);
       dock.style.backgroundColor = cs.backgroundColor;
       dock.style.color = cs.color;
     }
-    // The prints drift a little against the scroll: the page's one moving picture.
+    // The prints drift a little against the scroll.
     if (!reduced.matches) {
       const H = window.innerHeight;
       plates.forEach((img) => {
@@ -480,23 +691,20 @@
         img.style.transform = "scale(1.14) translateY(" + ((t - 0.5) * -9).toFixed(2) + "%)";
       });
     }
-    if (paydown.dataset.ink !== ink) paydown.dataset.ink = ink;
-    const total = Math.max(1, doc.scrollHeight - window.innerHeight);
-    paydown.setAttribute("aria-valuenow", String(Math.round((Math.min(total, window.scrollY) / total) * 100)));
   }
 
   window.addEventListener("scroll", () => {
     if (!ticking) { ticking = true; requestAnimationFrame(paintBar); }
   }, { passive: true });
-  window.addEventListener("resize", () => { fitAll(); sizeBar(); paintBar(); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { fitAll(); sizeBar(); paintBar(); });
+  window.addEventListener("resize", () => { fitAll(); paintBar(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { fitAll(); paintBar(); });
 
-  /* ---------- entrances: the parts of each section arrive in reading order ---------- */
+  /* ---------- entrances ---------- */
 
   // Each part waits just below the fold, hidden only while it is about to be scrolled into view,
-  // then rises as it crosses the line. Nothing far down the page is ever hidden, so a jump,
-  // a failed script or a long page cannot leave a hole.
+  // then rises as it crosses the line. Nothing far down the page is ever hidden.
   let parts = [];
+  const PARTS = ".poster span, .hero-sub, .hero .btn, .hero-meta, .art-h1, .dek, .meta, .head, .body, .row, .day-row, .bar li, .run .title, .trace li, .reqs .title, .reqs li, .note, .total, .caption, .slip, .steps-stmt span, .more, blockquote, .who p, .question, .options button, details, figcaption, .matters p, .done, .next, .pair .btn, .wordmark";
 
   function stage(first) {
     if (!parts.length) return;
@@ -505,10 +713,7 @@
       if (p.state === "done") return;
       const top = p.node.getBoundingClientRect().top;
       if (p.state === "idle") {
-        if (first && top < H * 0.94) {
-          p.node.classList.add("rise");
-          p.state = "armed";
-        } else if (top >= H && top < H * 1.35) {
+        if ((first && top < H * 0.94) || (top >= H && top < H * 1.35)) {
           p.node.classList.add("rise");
           p.state = "armed";
         } else if (top < H) {
@@ -528,66 +733,18 @@
     parts = [];
     if (reduced.matches) return;
     document.documentElement.classList.add("motion");
-    const groups = [
-      [".hero", ".poster span, .hero-sub, .btn, .inside li, .hero-meta"],
-      [".lead", ".head, .dek, .body"],
-      [".matters", ".head, p"],
-      [".lineup", ".head, .row"],
-      [".poster-list", ".head, .row"],
-      [".dive", ".head, .intro, .bar li, .run .title, .trace li, .reqs .title, .reqs li"],
-      [".ended", ".head, .row"],
-      [".figure", ".head, .note, .total, .caption, .slip, .market-rows .row"],
-      [".stair", ".head, .intro, .steps-stmt span, .more"],
-      [".room", ".head, blockquote, .who p"],
-      [".plate", "figcaption"],
-      [".quiz", ".head, .question, .options button"],
-      [".terms", ".head, details"],
-      [".foot", ".head, .done, .cols > div, .wordmark"]
-    ];
-    groups.forEach(([sec, sel]) => {
-      app.querySelectorAll(sec).forEach((s) => {
-        let within = 0;
-        s.querySelectorAll(sel).forEach((node) => {
-          node.style.setProperty("--d", Math.min(within++, 5));
-          parts.push({ node, state: "idle" });
-        });
+    app.querySelectorAll("[data-ink]").forEach((chapter) => {
+      let within = 0;
+      chapter.querySelectorAll(PARTS).forEach((node) => {
+        node.style.setProperty("--d", Math.min(within++, 5));
+        parts.push({ node, state: "idle" });
       });
     });
     stage(true);
     requestAnimationFrame(() => requestAnimationFrame(() => stage(false)));
   }
 
-  /* ---------- reading record shown in two places ---------- */
-
-  const readBtn = document.getElementById("readToggle");
-
-  function syncRead() {
-    if (!shown) return;
-    const read = store.get();
-    const isRead = read.includes(shown);
-    if (readBtn) {
-      readBtn.setAttribute("aria-pressed", String(isRead));
-      readBtn.textContent = isRead ? "Read" : "Mark read";
-    }
-    const done = app.querySelector(".foot .done");
-    if (done) {
-      done.setAttribute("aria-pressed", String(isRead));
-      done.textContent = isRead ? "Read" : "Mark as read";
-    }
-    const line = app.querySelector(".foot .streak");
-    if (line) line.textContent = isRead ? streakText(streak(read)) : "";
-  }
-  function setRead(date, read) {
-    store.set(date, read);
-    syncRead();
-  }
-  if (readBtn) readBtn.addEventListener("click", () => { if (shown) setRead(shown, readBtn.getAttribute("aria-pressed") !== "true"); });
-
-  /* ---------- the sheet: sections, editions, search ---------- */
-
-  const sheet = document.getElementById("sheet");
-  const sheetTitle = document.getElementById("sheetTitle");
-  const sheetBody = document.getElementById("sheetBody");
+  /* ---------- search across every edition ---------- */
 
   function closeSheet() { if (sheet.open) sheet.close(); }
   function openSheet(title, body) {
@@ -596,84 +753,24 @@
     if (!sheet.open) sheet.showModal();
     sheet.scrollTop = 0;
   }
-  function jump(id) {
-    closeSheet();
-    const target = document.getElementById(id);
-    if (target) target.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" });
-  }
-  function openEdition(date, sectionId) {
-    closeSheet();
-    if (date === shown) { if (sectionId) jump(sectionId); else window.scrollTo(0, 0); return; }
-    pending = sectionId || null;
-    location.hash = date;
-  }
 
-  // What each part of an edition is called, and where it sits on the page.
-  function outline(ed) {
-    const rows = [["top", "Front page", ed.lead.headline], ["lead", "Top story", ed.lead.dek], ["matters", "Why it matters to you", ""]];
-    const byId = {};
-    (ed.sections || []).forEach((s) => { byId[s.id] = s; });
-    const sec = (id) => { if (byId[id]) rows.push([id, byId[id].title, (byId[id].items || []).map((i) => i.headline).join(". ")]); };
-    sec("agents"); sec("techniques");
-    if (ed.deepDive) rows.push(["deep", "Deep dive", ed.deepDive.title]);
-    sec("field"); sec("market");
-    if (ed.plain) rows.push(["plain", "Say it simply", ed.plain.term]);
-    if (ed.roomLine) rows.push(["room", "A line for the room", ""]);
-    if (ed.quiz) rows.push(["quiz", "Check yourself", ""]);
-    if (ed.glossary) rows.push(["glossary", "Terms used today", ed.glossary.map((g) => g.term).join(", ")]);
-    return rows;
-  }
-
-  function showSections() {
-    if (!current) return;
-    openSheet("Sections", el("ul", { class: "jump" }, outline(current).map(([id, title, sub]) => {
-      const b = el("button", { type: "button" }, el("span", { class: "big", text: title }), sub ? el("span", { class: "small", text: sub }) : null);
-      b.addEventListener("click", () => jump(id));
-      return el("li", null, b);
-    })));
-  }
-
-  function showEditions() {
-    const editions = (index && index.editions) || [];
-    const read = store.get();
-    const at = editions.findIndex((e) => e.date === shown);
-    const step = (label, to) => {
-      const b = el("button", { class: "btn", type: "button", text: label, disabled: !editions[to] });
-      b.addEventListener("click", () => editions[to] && openEdition(editions[to].date));
-      return b;
-    };
-    openSheet("Editions", [
-      el("div", { class: "pair" }, step("Older day", at + 1), step("Newer day", at - 1)),
-      el("ul", { class: "days" }, editions.map((e) => {
-        const b = el("button", { type: "button", "aria-current": e.date === shown ? "true" : null },
-          el("span", { class: "when", text: shortDate(e.date) }),
-          el("span", { class: "what", text: e.headline }),
-          el("span", { class: "small", text: read.includes(e.date) ? "Read" : "Unread" }));
-        b.addEventListener("click", () => openEdition(e.date));
-        return el("li", null, b);
-      }))
-    ]);
-  }
-
-  // Search reads every edition once, then keeps them in memory.
   let corpus = null;
+  let corpusFor = 0;
   async function loadCorpus() {
-    if (corpus) return corpus;
-    const editions = ((index && index.editions) || []).slice(0, 120);
-    const loaded = await Promise.all(editions.map((e) => getJson("data/" + e.date + ".json").then((g) => g.data).catch(() => null)));
+    const list = ((index && index.days) || []).slice(0, 180);
+    const size = list.reduce((n, d) => n + d.ids.length, 0);
+    if (corpus && corpusFor === size) return corpus;
+    const loaded = await Promise.all(list.map((d) => loadDay(d.date).catch(() => null)));
     const docs = [];
-    loaded.filter(Boolean).forEach((ed) => {
-      const add = (id, where, title, ...texts) => docs.push({ date: ed.date, id, where, title: title || where, text: texts.flat().filter(Boolean).join(" ") });
-      const lead = ed.lead || {};
-      add("lead", "Top story", lead.headline, lead.dek, lead.body, lead.whyItMatters);
-      (ed.sections || []).forEach((s) => (s.items || []).forEach((it) => add(s.id, s.title, it.headline, it.body, it.soWhat)));
-      const dd = ed.deepDive;
-      if (dd) add("deep", "Deep dive", dd.title, dd.intro, (dd.steps || []).map((s) => s.title + ". " + s.body), dd.forRequirements, ((dd.example || {}).rows || []).map((r) => r.text));
-      if (ed.plain) add("plain", "Say it simply", ed.plain.term, ed.plain.jargon, ed.plain.stair, ed.plain.simple, ed.plain.analogy);
-      if (ed.roomLine) add("room", "A line for the room", ed.roomLine.line, ed.roomLine.backup);
-      (ed.glossary || []).forEach((g) => add("glossary", "Terms", g.term, g.meaning));
-    });
+    loaded.filter(Boolean).forEach((day) => (day.articles || []).forEach((a) => {
+      docs.push({
+        date: day.date, id: a.id, where: whereOf(a), title: a.headline,
+        text: [a.dek, bodyOf(a), a.soWhat, (a.steps || []).map((s) => s.title + ". " + s.body), a.forRequirements,
+          ((a.example || {}).rows || []).map((r) => r.text), a.jargon, a.stair, a.simple, a.analogy].flat().filter(Boolean).join(" ")
+      });
+    }));
     corpus = docs;
+    corpusFor = size;
     return docs;
   }
 
@@ -717,10 +814,10 @@
       status.textContent = hits.length ? hits.length + (hits.length === 1 ? " result" : " results") : "Nothing found for that. Try one word.";
       list.replaceChildren(...hits.map(({ d }) => {
         const b = el("button", { type: "button" },
-          el("span", { class: "small", text: shortDate(d.date) + ", " + d.where }),
+          el("span", { class: "small", text: shortDate(d.date) + ", " + d.where + (store.has(d.date, d.id) ? ", read" : "") }),
           el("span", { class: "what", text: d.title }),
           el("span", { class: "snip" }, snippet(d, terms)));
-        b.addEventListener("click", () => openEdition(d.date, d.id));
+        b.addEventListener("click", () => go("/" + d.date + "/" + d.id));
         return el("li", null, b);
       }));
     }
@@ -728,85 +825,30 @@
     openSheet("Search", [input, status, list]);
     input.focus();
   }
-
-  document.querySelectorAll("#dock [data-open]").forEach((b) => b.addEventListener("click", () => {
-    const what = b.dataset.open;
-    if (what === "sections") showSections();
-    else if (what === "editions") showEditions();
-    else showSearch();
-  }));
+  navSearch.addEventListener("click", showSearch);
   document.getElementById("sheetClose").addEventListener("click", closeSheet);
 
-  /* ---------- loading ---------- */
+  /* ---------- keeping up with new articles ---------- */
 
-  async function getJson(path) {
-    const res = await fetch(path, { cache: "no-cache" });
-    if (!res.ok) throw new Error(path + " " + res.status);
-    return { data: await res.json(), cached: res.headers.get("x-briefing-cache") === "1" };
-  }
-
-  function say(msg) {
-    notice.textContent = msg || "";
-    notice.hidden = !msg;
-  }
-
-  let index = null;
-  let shown = null;
-  let current = null;
-  let pending = null;
-
-  // Reopening the app the next morning should pick up the new edition,
-  // without disturbing an edition that is being read.
+  // Coming back to the app picks up anything published since, without disturbing an article being read.
   async function checkForNew() {
-    if (location.hash) return;
     try {
-      const got = await getJson("data/index.json");
-      const newest = got.data.editions && got.data.editions[0];
-      if (newest && newest.date !== shown) { index = got.data; show(); }
+      const before = JSON.stringify(index);
+      await loadIndex(true);
+      if (JSON.stringify(index) === before) return;
+      corpus = null;
+      (index.days || []).slice(0, 2).forEach((d) => { delete days[d.date]; });
+      if (route && route.view !== "article") show();
     } catch (e) { /* offline: keep what is on screen */ }
   }
 
-  async function show() {
-    try {
-      if (!index) {
-        const got = await getJson("data/index.json");
-        index = got.data;
-      }
-      const editions = index.editions || [];
-      if (!editions.length) throw new Error("no editions");
-      const wanted = location.hash.slice(1);
-      const pick = editions.find((e) => e.date === wanted) || editions[0];
-      const got = await getJson("data/" + pick.date + ".json");
-      render(got.data, index);
-      if (pending && document.getElementById(pending)) {
-        document.getElementById(pending).scrollIntoView({ block: "start" });
-      } else if (wanted === pick.date) {
-        window.scrollTo(0, 0);
-      }
-      pending = null;
-      say(got.cached || navigator.onLine === false ? "You're offline. This is the edition saved on this phone." : "");
-      // Keep the last week available offline.
-      editions.slice(0, 7).forEach((e) => { if (e.date !== pick.date) fetch("data/" + e.date + ".json").catch(() => {}); });
-    } catch (err) {
-      if (!shown) {
-        const sub = app.querySelector(".hero-sub");
-        if (sub) sub.textContent = "The briefing couldn't load. Connect to the internet and open it again.";
-      }
-    }
-  }
-
-  window.addEventListener("hashchange", () => {
-    const h = location.hash.slice(1);
-    if (/^\d{4}-\d{2}-\d{2}$/.test(h)) { closeSheet(); show(); }
-  });
-  window.addEventListener("online", () => { say(""); checkForNew(); });
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  window.addEventListener("hashchange", show);
+  window.addEventListener("online", () => { offline = false; say(""); checkForNew(); });
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") checkForNew();
   });
-
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js").catch(() => {});
-  }
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 
   show();
 })();

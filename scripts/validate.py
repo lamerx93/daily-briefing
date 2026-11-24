@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Check an edition file and the index before publishing.
+"""Check a day's file and the index before publishing.
 
-Usage: python3 scripts/validate.py 2026-11-24
-Exits non-zero and lists every problem if the edition would break the app.
+Usage: python3 scripts/validate.py YYYY-MM-DD [--full]
+--full also checks that the day has the complete morning set.
+Exits non-zero and lists every problem if the day would break the app.
 """
 import json
 import re
@@ -10,6 +11,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+SECTIONS = ("agents", "techniques", "field", "market")
 problems = []
 
 
@@ -24,6 +26,14 @@ def text(obj, key, where, min_len=1):
     return val if isinstance(val, str) else ""
 
 
+def words(val):
+    if isinstance(val, str):
+        return len(val.split())
+    if isinstance(val, list):
+        return sum(words(v) for v in val)
+    return 0
+
+
 def check_sources(obj, where, required=True):
     src = obj.get("sources") if isinstance(obj, dict) else None
     if not src:
@@ -36,135 +46,153 @@ def check_sources(obj, where, required=True):
         need(isinstance(s, dict) and (s.get("publisher") or s.get("title")), f"{where}: source {i + 1} needs a publisher or title")
 
 
+def check_number(num, where):
+    need(isinstance(num, dict) and 0 < len(str(num.get("value", ""))) <= 8, f"{where}: number.value is a figure of 8 characters at most, such as $19.8bn")
+    text(num, "caption", f"{where} number")
+    src = num.get("source") if isinstance(num, dict) else None
+    need(isinstance(src, dict) and re.match(r"^https?://\S+$", src.get("url", "") or ""), f"{where}: number.source needs a url")
+    rows = num.get("rows") if isinstance(num, dict) else None
+    if rows:
+        need(isinstance(rows, list) and 2 <= len(rows) <= 8, f"{where}: number.rows has 2 to 8 rows")
+        try:
+            total = float(str(num.get("total", "")).replace(",", ""))
+            parts = sum(float(str(r.get("value", "")).replace(",", "")) for r in rows)
+            need(abs(total - parts) < 0.051, f"{where}: number.rows add up to {parts:g}, not the total {total:g}; add a remainder row or drop the rows")
+        except (ValueError, AttributeError):
+            problems.append(f"{where}: number.rows and number.total must be plain numbers so the slip can be checked")
+
+
+def check_story(a, where):
+    need(a.get("section") in SECTIONS, f"{where}: 'section' must be one of {', '.join(SECTIONS)}")
+    limit = 36 if a.get("section") == "techniques" else 48
+    head = text(a, "headline", where)
+    need(len(head) <= limit, f"{where}: headline is {len(head)} characters; the limit is {limit} so it fits two lines")
+    need(not head.endswith("."), f"{where}: headline must not end with a full stop")
+    if a.get("dek") is not None:
+        need(isinstance(a["dek"], str) and 0 < words(a["dek"]) <= 32, f"{where}: dek is one sentence, 32 words at most")
+    body = a.get("body")
+    need(isinstance(body, list) and 1 <= len(body) <= 5 and all(isinstance(p, str) and p.strip() for p in body), f"{where}: body is a list of 1 to 5 paragraphs")
+    need(30 <= words(body) <= 320, f"{where}: body should be 30 to 320 words (it is {words(body)})")
+    need(0 < words(text(a, "soWhat", where)) <= 70, f"{where}: soWhat is 70 words at most")
+    check_sources(a, where)
+    if a.get("lead"):
+        poster = a.get("poster")
+        need(isinstance(poster, list) and len(poster) == 2 and all(isinstance(x, str) and 3 <= len(x) <= 12 for x in poster),
+             f"{where}: the lead story needs 'poster', two lines of 3 to 12 characters each")
+    if a.get("number") is not None:
+        check_number(a["number"], where)
+
+
+def check_deepdive(a, where):
+    need(len(text(a, "headline", where)) <= 34, f"{where}: headline over 34 characters")
+    text(a, "dek", where)
+    steps = a.get("steps")
+    need(isinstance(steps, list) and 3 <= len(steps) <= 6, f"{where}: 3 to 6 steps")
+    for n, st in enumerate(steps or [], 1):
+        need(len(text(st, "title", f"{where} step {n}")) <= 34, f"{where} step {n}: title over 34 characters")
+        text(st, "body", f"{where} step {n}")
+    reqs = a.get("forRequirements")
+    need(isinstance(reqs, list) and 3 <= len(reqs) <= 6, f"{where}: 3 to 6 'forRequirements' lines")
+    ex = a.get("example")
+    if ex is not None:
+        rows = ex.get("rows") if isinstance(ex, dict) else None
+        need(isinstance(rows, list) and 4 <= len(rows) <= 9, f"{where}: example has 4 to 9 rows")
+        for n, r in enumerate(rows or [], 1):
+            need(isinstance(r, dict) and 0 < len(r.get("actor", "")) <= 8, f"{where} example row {n}: 'actor' is one short word")
+            need(isinstance(r, dict) and 0 < len(r.get("text", "")) <= 110, f"{where} example row {n}: 'text' up to 110 characters")
+            need(isinstance(r, dict) and r.get("state") in (None, "held", "done"), f"{where} example row {n}: 'state' is held, done or absent")
+    quiz = a.get("quiz") or {}
+    text(quiz, "question", f"{where} quiz")
+    opts = quiz.get("options")
+    need(isinstance(opts, list) and 3 <= len(opts) <= 4, f"{where} quiz: 3 or 4 options")
+    need(isinstance(quiz.get("answer"), int) and isinstance(opts, list) and 0 <= quiz["answer"] < len(opts), f"{where} quiz: 'answer' is the index of the right option")
+    text(quiz, "explanation", f"{where} quiz")
+    check_sources(a, where, required=False)
+
+
+def check_plain(a, where):
+    need(len(text(a, "headline", where)) <= 24, f"{where}: headline is the term itself, 24 characters at most")
+    for k in ("jargon", "stair", "simple", "analogy"):
+        text(a, k, where)
+    stair = a.get("stair") or ""
+    need(10 <= len(stair.split()) <= 18, f"{where}: stair is 10 to 18 words")
+    need(" ".join(stair.split()[:4]) != " ".join((a.get("simple") or "").split()[:4]), f"{where}: simple must carry on from stair, not repeat it")
+
+
 def main():
-    if len(sys.argv) != 2 or not re.match(r"^\d{4}-\d{2}-\d{2}$", sys.argv[1]):
-        sys.exit("usage: validate.py YYYY-MM-DD")
-    date = sys.argv[1]
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    full = "--full" in sys.argv
+    if len(args) != 1 or not re.match(r"^\d{4}-\d{2}-\d{2}$", args[0]):
+        sys.exit("usage: validate.py YYYY-MM-DD [--full]")
+    date = args[0]
     path = ROOT / "data" / f"{date}.json"
     if not path.exists():
         sys.exit(f"missing {path}")
     try:
-        ed = json.loads(path.read_text(encoding="utf-8"))
+        day = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
         sys.exit(f"{path.name} is not valid JSON: {e}")
 
-    need(ed.get("date") == date, "'date' must match the file name")
-    need(isinstance(ed.get("edition"), int), "'edition' must be a number")
-    need(isinstance(ed.get("readMinutes"), int) and 3 <= ed["readMinutes"] <= 12, "'readMinutes' should be 3 to 12")
+    need(day.get("date") == date, "'date' must match the file name")
+    arts = day.get("articles")
+    need(isinstance(arts, list) and len(arts) >= 1, "'articles' must be a list with at least one article")
+    arts = arts if isinstance(arts, list) else []
 
-    lead = ed.get("lead") or {}
-    head = text(lead, "headline", "lead")
-    need(len(head) <= 60, "lead headline is over 60 characters")
-    need(not head.endswith("."), "lead headline must not end with a full stop; the app adds one")
-    poster = lead.get("poster")
-    need(isinstance(poster, list) and len(poster) == 2 and all(isinstance(x, str) and 3 <= len(x) <= 12 for x in poster),
-         "lead.poster must be two lines of 3 to 12 characters each; it is set at poster size on the first screen")
-    text(lead, "dek", "lead")
-    need(isinstance(lead.get("body"), list) and 1 <= len(lead["body"]) <= 4, "lead body should be 1 to 4 paragraphs")
-    text(lead, "whyItMatters", "lead")
-    check_sources(lead, "lead")
+    ids = [a.get("id") for a in arts if isinstance(a, dict)]
+    need(len(ids) == len(set(ids)), "article ids must be unique within the day")
+    for a in arts:
+        where = f"article '{a.get('id')}'"
+        need(isinstance(a.get("id"), str) and re.match(r"^[a-z0-9]+(-[a-z0-9]+)*$", a.get("id", "")) and len(a["id"]) <= 48,
+             f"{where}: id is lowercase words joined by hyphens, 48 characters at most")
+        need(isinstance(a.get("time"), str) and re.match(r"^([01]\d|2[0-3]):[0-5]\d$", a.get("time", "")), f"{where}: 'time' is HH:MM, Singapore time")
+        kind = a.get("kind")
+        if kind == "story":
+            check_story(a, where)
+        elif kind == "deepdive":
+            check_deepdive(a, where)
+        elif kind == "plain":
+            check_plain(a, where)
+        else:
+            problems.append(f"{where}: 'kind' must be story, deepdive or plain")
 
-    sections = ed.get("sections")
-    need(isinstance(sections, list) and len(sections) == 4, "expected 4 sections: agents, techniques, field, market")
-    ids = [s.get("id") for s in sections or [] if isinstance(s, dict)]
-    need(ids == ["agents", "techniques", "field", "market"], f"section ids must be agents, techniques, field, market in that order (got {ids})")
-    for s in sections or []:
-        where = f"section {s.get('id')}"
-        text(s, "title", where)
-        items = s.get("items")
-        need(isinstance(items, list) and 2 <= len(items) <= 4, f"{where}: 2 to 4 items")
-        for n, it in enumerate(items or [], 1):
-            w = f"{where} item {n}"
-            h = text(it, "headline", w)
-            limit = 36 if s.get("id") == "techniques" else 52
-            need(len(h) <= limit, f"{w}: headline over {limit} characters; it must fit two lines at its display size")
-            body = text(it, "body", w)
-            need(len(body.split()) <= 95, f"{w}: body over 95 words")
-            text(it, "soWhat", w)
-            check_sources(it, w)
+    leads = [a for a in arts if a.get("lead")]
+    need(len(leads) == 1 and leads[0].get("kind") == "story", "exactly one story must have \"lead\": true")
+    need(sum(1 for a in arts if a.get("kind") == "deepdive") <= 1, "one deep dive a day at most")
+    need(sum(1 for a in arts if a.get("kind") == "plain") <= 1, "one plain-language term a day at most")
+    need(sum(1 for a in arts if a.get("number")) <= 1, "one article a day carries the number")
 
-    dd = ed.get("deepDive") or {}
-    need(len(text(dd, "title", "deepDive")) <= 34, "deepDive: title over 34 characters")
-    text(dd, "intro", "deepDive")
-    ex = dd.get("example")
-    if ex is not None:
-        rows = ex.get("rows") if isinstance(ex, dict) else None
-        need(isinstance(rows, list) and 4 <= len(rows) <= 9, "deepDive.example: 4 to 9 rows")
-        for n, r in enumerate(rows or [], 1):
-            need(isinstance(r, dict) and 0 < len(r.get("actor", "")) <= 8, f"deepDive.example row {n}: 'actor' is one short word")
-            need(isinstance(r, dict) and 0 < len(r.get("text", "")) <= 110, f"deepDive.example row {n}: 'text' up to 110 characters")
-            need(isinstance(r, dict) and r.get("state") in (None, "held", "done"), f"deepDive.example row {n}: 'state' is held, done or absent")
-    need(isinstance(dd.get("steps"), list) and 3 <= len(dd["steps"]) <= 6, "deepDive: 3 to 6 steps")
-    for n, st in enumerate(dd.get("steps") or [], 1):
-        need(len(text(st, "title", f"deepDive step {n}")) <= 34, f"deepDive step {n}: title over 34 characters")
-        text(st, "body", f"deepDive step {n}")
-    need(isinstance(dd.get("forRequirements"), list) and 3 <= len(dd["forRequirements"]) <= 6, "deepDive: 3 to 6 'forRequirements' lines")
-    check_sources(dd, "deepDive", required=False)
+    line = day.get("line")
+    if line is not None:
+        need(0 < len(text(line, "line", "line").split()) <= 18, "line.line: 18 words at most")
+        need(not text(line, "backup", "line").lower().startswith("if challenged"), "line.backup: start with the fact; the app adds 'If challenged'")
+    terms = day.get("terms")
+    if terms is not None:
+        need(isinstance(terms, list) and 2 <= len(terms) <= 8, "terms: 2 to 8 terms")
+        for g in terms or []:
+            need(len(text(g, "term", "terms")) <= 24, "terms: a term is 24 characters at most")
+            text(g, "meaning", "terms")
 
-    plain = ed.get("plain") or {}
-    for k in ("term", "jargon", "simple", "analogy", "stair"):
-        text(plain, k, "plain")
-    stair = plain.get("stair") or ""
-    need(10 <= len(stair.split()) <= 18, "plain.stair: one sentence or two, 10 to 18 words in all")
-    need(" ".join(stair.split()[:4]) != " ".join((plain.get("simple") or "").split()[:4]), "plain.simple must carry on from plain.stair, not repeat it")
-
-    room = ed.get("roomLine") or {}
-    line = text(room, "line", "roomLine")
-    need(len(line.split()) <= 18, "roomLine: keep the line to 18 words")
-    need(not text(room, "backup", "roomLine").lower().startswith("if challenged"), "roomLine.backup: start with the fact; the app adds 'If challenged'")
-
-    num = ed.get("number")
-    if num is not None:
-        need(isinstance(num, dict) and 0 < len(str(num.get("value", ""))) <= 8, "number.value: a figure of 8 characters at most, such as $19.8bn")
-        text(num, "caption", "number")
-        src = num.get("source") if isinstance(num, dict) else None
-        need(isinstance(src, dict) and re.match(r"^https?://\S+$", src.get("url", "") or ""), "number.source needs a url")
-        rows = num.get("rows") if isinstance(num, dict) else None
-        if rows:
-            need(isinstance(rows, list) and 2 <= len(rows) <= 8, "number.rows: 2 to 8 rows")
-            try:
-                total = float(str(num.get("total", "")).replace(",", ""))
-                parts = sum(float(str(r.get("value", "")).replace(",", "")) for r in rows)
-                need(abs(total - parts) < 0.051, f"number.rows add up to {parts:g}, not the total {total:g}; add a remainder row or drop the rows")
-            except (ValueError, AttributeError):
-                problems.append("number.rows and number.total must be plain numbers so the slip can be checked")
-
-    quiz = ed.get("quiz") or {}
-    text(quiz, "question", "quiz")
-    opts = quiz.get("options")
-    need(isinstance(opts, list) and 3 <= len(opts) <= 4, "quiz: 3 or 4 options")
-    need(isinstance(quiz.get("answer"), int) and isinstance(opts, list) and 0 <= quiz["answer"] < len(opts), "quiz: 'answer' must be the index of the right option")
-    text(quiz, "explanation", "quiz")
-
-    gl = ed.get("glossary")
-    need(isinstance(gl, list) and 2 <= len(gl) <= 5, "glossary: 2 to 5 terms")
-    for g in gl or []:
-        text(g, "term", "glossary")
-        text(g, "meaning", "glossary")
-
-    def prose(o):
-        if isinstance(o, str):
-            return len(o.split())
-        if isinstance(o, dict):
-            return sum(prose(v) for k, v in o.items() if k not in ("url", "sources", "id", "date"))
-        if isinstance(o, list):
-            return sum(prose(v) for v in o)
-        return 0
-
-    words = prose(ed)
-    need(1100 <= words <= 2200, f"edition should be 1,100 to 2,200 words of prose (it is {words})")
+    if full:
+        for sec in SECTIONS:
+            n = sum(1 for a in arts if a.get("kind") == "story" and a.get("section") == sec)
+            need(n >= 2, f"morning set: section '{sec}' needs at least 2 stories (it has {n})")
+        need(any(a.get("kind") == "deepdive" for a in arts), "morning set: the deep dive is missing")
+        need(any(a.get("kind") == "plain" for a in arts), "morning set: the plain-language term is missing")
+        need(line is not None, "morning set: the line for the room is missing")
+        need(terms is not None, "morning set: the terms are missing")
 
     try:
         index = json.loads((ROOT / "data" / "index.json").read_text(encoding="utf-8"))
-        eds = index.get("editions") or []
-        need(bool(eds) and eds[0].get("date") == date, "data/index.json: this edition must be the first entry")
-        dates = [e.get("date") for e in eds]
-        need(dates == sorted(dates, reverse=True), "data/index.json: editions must be newest first")
-        need(len(dates) == len(set(dates)), "data/index.json: duplicate dates")
-        for e in eds:
-            need((ROOT / "data" / f"{e.get('date')}.json").exists(), f"data/index.json lists {e.get('date')} but the file is missing")
-        if eds and eds[0].get("date") == date:
-            need(eds[0].get("headline") == lead.get("headline"), "data/index.json: headline must match the lead headline")
+        days = index.get("days") or []
+        dates = [d.get("date") for d in days]
+        need(dates == sorted(dates, reverse=True) and len(dates) == len(set(dates)), "data/index.json: days must be unique and newest first")
+        entry = next((d for d in days if d.get("date") == date), None)
+        need(entry is not None, "data/index.json has no entry for this day; run scripts/build_index.py")
+        if entry and leads:
+            need(entry.get("ids") == ids, "data/index.json: ids do not match the day file; run scripts/build_index.py")
+            need(entry.get("headline") == leads[0].get("headline"), "data/index.json: headline does not match the lead; run scripts/build_index.py")
+        for d in days:
+            need((ROOT / "data" / f"{d.get('date')}.json").exists(), f"data/index.json lists {d.get('date')} but the file is missing")
     except (OSError, json.JSONDecodeError) as e:
         problems.append(f"data/index.json unreadable: {e}")
 
@@ -173,7 +201,7 @@ def main():
         for p in problems:
             print(" -", p)
         sys.exit(1)
-    print(f"OK: {path.name} ({words} words, about {round(words / 220)} min read)")
+    print(f"OK: {path.name}, {len(arts)} article(s)")
 
 
 if __name__ == "__main__":

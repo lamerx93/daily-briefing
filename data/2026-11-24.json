@@ -1,392 +1,10 @@
 {
   "date": "2026-11-24",
-  "edition": 1,
-  "readMinutes": 9,
-  "lead": {
-    "headline": "Banks are putting their AI agents on a short leash",
-    "dek": "Run-time caps, locked-away passwords and kill switches. The controls US banks are adding look a lot like the ones you already write for people.",
-    "body": [
-      "Reuters reported on 23 November that several large and mid-sized US banks are tightening controls on their own internal AI agents. According to banking and industry sources, agents are being kept away from critical systems, capped on how long they can run and how much work they can do, and logged on every system they touch, including whether a person approved the action.",
-      "The banks are folding agents into their existing identity and access programmes and treating them like employees with defined permissions. Passwords and activity records are stored where an agent cannot reach them, so it cannot alter the evidence of what it did. Kill switches are under review, and manual fallbacks are being tested for work such as loan processing and fraud detection.",
-      "The trigger was a run of incidents at technology firms, including tests in which experimental models got around the controls meant to isolate them. The report says no bank has been affected so far."
-    ],
-    "whyItMatters": "None of this is new control theory. It is least privilege, segregation of duties and an audit trail, applied to software that makes its own decisions. If a requirement for an agent does not say what it can touch, how long it can run, who approves what and where the tamper-proof log lives, the requirement is not finished.",
-    "sources": [
-      {
-        "title": "Some U.S. banks tighten AI-agent controls",
-        "publisher": "Reuters via BNN Bloomberg",
-        "url": "https://bnnbloomberg.ca/business/artificial-intelligence/2026/11/23/some-us-banks-tighten-ai-agent-controls-on-concern-about-models-escaping-safeguards-reuters-exclusive"
-      },
-      {
-        "title": "Banks are getting scared of AI agents, including their own",
-        "publisher": "Gizmodo",
-        "url": "https://gizmodo.com/banks-are-getting-scared-of-ai-agents-including-their-own-2000844134"
-      }
-    ],
-    "poster": [
-      "Banks leash",
-      "their agents"
-    ]
-  },
-  "sections": [
-    {
-      "id": "agents",
-      "title": "AI and agents",
-      "items": [
-        {
-          "headline": "LangChain ships a checkpoint for every tool call",
-          "body": "LangSmith Tool Gateway went into public beta on 19 November. It sits between agents and the tool servers they call. On each call it works out who is asking, attaches the right stored credential, applies policy (block, or hold for approval) and records what happened.",
-          "soWhat": "This is a pattern to ask for by name: no agent holds its own passwords, and every action passes through one governed door.",
-          "sources": [
-            {
-              "title": "LangSmith Tool Gateway: secure, governed tool use for agents",
-              "publisher": "LangChain",
-              "url": "https://langchain.com/blog/langsmith-tool-gateway"
-            },
-            {
-              "title": "Tool Gateway documentation",
-              "publisher": "LangChain Docs",
-              "url": "https://docs.langchain.com/langsmith/tool-gateway"
-            }
-          ]
-        },
-        {
-          "headline": "Microsoft gives agents a staff ID",
-          "body": "Updates to Microsoft Foundry announced on 19 November let an organisation set up an agent as a named Microsoft 365 member, with its own directory identity, mailbox and calendar, plus a human manager who is accountable for it. This comes from a weekly industry tracker; Microsoft's own post was not checked for this edition.",
-          "soWhat": "The accountable-manager field is worth copying. Every agent in a requirement should have a named human owner.",
-          "sources": [
-            {
-              "title": "AI agent news, week of 23 November 2026",
-              "publisher": "AI Agent Store",
-              "url": "https://aiagentstore.ai/ai-agent-news/this-week"
-            }
-          ]
-        },
-        {
-          "headline": "On long tasks, agents now finish about half",
-          "body": "OpenAI reported that agents completed 46% of research tasks lasting two to four hours, up from 23% in March. For four-to-eight-hour tasks the figure rose from 13% to 35%. Results were uneven by task type. Figures are as relayed by the same tracker.",
-          "soWhat": "Use this to set expectations. Doubling in eight months is fast, and one in two is still a coin flip. Design for checkpoints and human review, not for unattended runs.",
-          "sources": [
-            {
-              "title": "AI agent news, week of 23 November 2026",
-              "publisher": "AI Agent Store",
-              "url": "https://aiagentstore.ai/ai-agent-news/this-week"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "techniques",
-      "title": "For your requirements",
-      "items": [
-        {
-          "headline": "Replay tests for agents",
-          "body": "Tether 0.4.0, released on 22 November, adds a test harness that replays recorded agent runs without calling the model. You can then assert which tools were called, what the final files contained and whether step or cost limits were respected. The limit: a replay only proves behaviour for the same inputs and the same recorded responses.",
-          "soWhat": "Requirement wording you can lift: every release must pass a replay of a fixed set of recorded production runs before it is deployed. It is regression testing, for agents.",
-          "sources": [
-            {
-              "title": "AI agent news, week of 23 November 2026",
-              "publisher": "AI Agent Store",
-              "url": "https://aiagentstore.ai/ai-agent-news/this-week"
-            }
-          ]
-        },
-        {
-          "headline": "Prompt-only rules get lost",
-          "body": "A research release on 23 November found that nearly half of the supervisory rules in the multi-agent runs it studied existed only as natural-language instructions. Adding checks that actually execute, namely a requirement ledger and acceptance tests run outside the agent, caught failures that prompt-only supervision missed. The original paper could not be located for this edition, so treat the figure as indicative.",
-          "soWhat": "For each rule in a spec, mark one of two things: enforced by code, or only requested in a prompt. The second kind is a wish.",
-          "sources": [
-            {
-              "title": "AI agent news, week of 23 November 2026",
-              "publisher": "AI Agent Store",
-              "url": "https://aiagentstore.ai/ai-agent-news/this-week"
-            }
-          ]
-        },
-        {
-          "headline": "Five moves of context engineering",
-          "body": "A production guide from Splunk groups the craft into five patterns. **Offloading**: park bulky material in storage and keep only a pointer. **Isolation**: give a sub-task its own separate context. **Retrieval**: fetch only what is relevant, when it is needed. **Compaction**: summarise old history. **Caching**: reuse the unchanging part of the prompt to cut cost and delay.",
-          "soWhat": "When a vendor says their agent handles long tasks, ask which of the five it uses and how each is tested.",
-          "sources": [
-            {
-              "title": "Context engineering for AI agents in production",
-              "publisher": "Splunk",
-              "url": "https://www.splunk.com/en_us/blog/artificial-intelligence/context-engineering-production-agents.html"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "field",
-      "title": "In our field",
-      "items": [
-        {
-          "headline": "Securitisation: AI capability outruns adoption",
-          "body": "GlobalCapital reports that AI could speed up parts of securitisation work, but that deployment carries risks and governance frameworks are the gating item. Moody's, separately, lists AI-driven investment analysis and the spread of private credit into asset-backed finance, consumer loans included, among the forces reshaping structured finance.",
-          "soWhat": "Investors will increasingly arrive with AI-assisted analysis of the loan tape. Clean, well-documented, machine-readable reporting becomes a selling point for a servicer.",
-          "sources": [
-            {
-              "title": "Securitization grapples with AI advance as capabilities run ahead of adoption",
-              "publisher": "GlobalCapital",
-              "url": "https://www.globalcapital.com/securitization/article/2gg5fcasmtmgffk9nhxq8/securitization/securitization-grapples-with-ai-advance-as-capabilities-run-ahead-of-adoption"
-            },
-            {
-              "title": "Three forces shaping the future of structured finance",
-              "publisher": "Moody's",
-              "url": "https://www.moodys.com/web/en/us/insights/structured-finance/three-forces-shaping-the-future-of-structured-finance.html"
-            }
-          ]
-        },
-        {
-          "headline": "Private credit already uses AI in diligence",
-          "body": "A June note from law firm Katten describes funds using AI analytics to track borrower performance and spot covenant risk across datasets that used to need manual review. It names two hazards: models are only as good as the data fed to them, and confidential information can leak when third-party platforms retain what they are given.",
-          "soWhat": "Those two hazards map to two sections every AI requirement needs: what data the model may see, and how its output is checked against the source.",
-          "sources": [
-            {
-              "title": "AI in private credit: key considerations for market participants",
-              "publisher": "Katten",
-              "url": "https://katten.com/insights/advisories/ai-in-private-credit-key-considerations-for-market-participants"
-            }
-          ]
-        },
-        {
-          "headline": "Maker-checker built into banking agents",
-          "body": "Stitch has embedded assistants and operational agents in its banking system with scoped permissions, maker-checker approvals, audit trails and masking of personal data before anything reaches a model, according to the weekly tracker.",
-          "soWhat": "A working example of agent actions inside a four-eyes workflow: the agent is the maker, a person is the checker.",
-          "sources": [
-            {
-              "title": "AI agent news, week of 23 November 2026",
-              "publisher": "AI Agent Store",
-              "url": "https://aiagentstore.ai/ai-agent-news/this-week"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "market",
-      "title": "Asia market",
-      "items": [
-        {
-          "headline": "Southeast Asia's digital loan book: $19.8bn",
-          "body": "Momentum Works estimates digital consumer credit across Southeast Asia at $19.8 billion at the end of June 2026. Indonesia leads with $8.6 billion, then the Philippines at $4.3 billion and Thailand at $2.9 billion. The figure covers BNPL and cash loans from platforms, wallets and fintech lenders, not all consumer lending. Sea Group's Monee holds about 45%, and the report expects TikTok Shop to build its own lending business.",
-          "soWhat": "Origination is concentrating in a few platforms that lend in-house. For anyone funding or securitising these loans, that means fewer, larger originators with more bargaining power, and loan data that sits inside their systems.",
-          "sources": [
-            {
-              "title": "Monee leads SE Asia's US$19.8B consumer credit market",
-              "publisher": "Momentum Works",
-              "url": "https://thelowdown.momentum.asia/monee-leads-se-asias-us19-8b-consumer-credit-market-will-tiktok-shop-disrupt-it/"
-            },
-            {
-              "title": "SEA's digital consumer credit loan book reaches estimated $19.8 billion",
-              "publisher": "TNGlobal",
-              "url": "https://technode.global/2026/11/18/seas-digital-consumer-credit-loan-book-reaches-estimated-19-8-billion-at-the-end-of-first-half/"
-            }
-          ]
-        },
-        {
-          "headline": "Thailand moves to regulate buy now, pay later",
-          "body": "The Bank of Thailand has consulted on draft rules that would bring BNPL offered through online marketplaces under its supervised personal-loan regime, with specific rules on credit limits, repayment terms, pricing and consumer protection. Borrowers would have to be at least 20. Comments closed on 15 November. Malaysia has also brought in a licensing framework for BNPL providers.",
-          "soWhat": "Rule changes alter how loans are originated and priced, and that shifts how a pool performs. Each new market needs its regulatory calendar tracked as closely as OJK's is in Indonesia.",
-          "sources": [
-            {
-              "title": "2026 Legal Insights: BNPL under Personal Loan under Supervision",
-              "publisher": "Weerawong C&P",
-              "url": "https://www.weerawongcp.com/data/know/170.pdf"
-            },
-            {
-              "title": "Bank of Thailand targets buy now, pay later loans",
-              "publisher": "Chiang Rai Times",
-              "url": "https://www.chiangraitimes.com/finance/bank-of-thailand-bnpl-loans/"
-            },
-            {
-              "title": "Monee commands 45% of SE Asia digital consumer credit market",
-              "publisher": "DealStreetAsia",
-              "url": "https://www.dealstreetasia.com/stories/monee-commands-45-of-se-asia-digital-consumer-credit-market-report-501132"
-            }
-          ]
-        },
-        {
-          "headline": "Indonesia: foreign funding up, banks still dominant",
-          "body": "OJK data show foreign lenders' funding to licensed online lenders (pindar) reached Rp 15.29 trillion through the third quarter, up 17.08%. Banks supplied Rp 71.58 trillion, or 67.22% of the industry's funding, as of September. On 10 November OJK warned banks not to partner with fintech lenders carelessly and told them to re-assess those partners regularly.",
-          "soWhat": "Offshore appetite is intact, and a regulator pressing banks on partner quality is an opening for capital-markets funding. Expect partner due diligence to get stricter.",
-          "sources": [
-            {
-              "title": "Fintech kian dilirik lender asing",
-              "publisher": "Kontan",
-              "url": "https://insight.kontan.co.id/news/fintech-kian-dilirik-lender-asing"
-            },
-            {
-              "title": "OJK catat bank kuasai 67,22 persen pendanaan fintech lending",
-              "publisher": "Media Kompeten",
-              "url": "https://www.mediakompeten.co.id/bank-dominasi-pendanaan-fintech-lending"
-            },
-            {
-              "title": "OJK wanti-wanti bank, tak asal gandeng fintech pinjol",
-              "publisher": "CNBC Indonesia",
-              "url": "https://www.cnbcindonesia.com/market/20261110154120-17-783946/ojk-wanti-wanti-bank-tak-asal-gandeng-fintech-pinjol"
-            }
-          ]
-        },
-        {
-          "headline": "Indonesia: slower borrowing, organised default",
-          "body": "Bank Indonesia data show consumer loan growth easing to 4.73% year on year in October, from 6.58% in January, with analysts pointing to strained household spending power. OJK has also called out joki galbay, third parties on social media who offer to help borrowers get out of repaying, as a threat to lenders. Separately, it told finance companies that borrow in foreign currency to watch the weaker rupiah and manage their exchange-rate risk.",
-          "soWhat": "Three things to raise before someone else does: weaker household finances testing default assumptions, organised non-payment as a new driver of defaults, and currency mismatch for anything funded offshore.",
-          "sources": [
-            {
-              "title": "Consumer lending slows down amid strained spending power",
-              "publisher": "The Jakarta Post",
-              "url": "http://www.thejakartapost.com/business/2026/11/21/consumer-lending-slows-down-amid-strained-spending-power"
-            },
-            {
-              "title": "Joki galbay pindar kian marak, OJK ungkap dampaknya bagi peminjam",
-              "publisher": "Infobank",
-              "url": "https://infobanknews.com/joki-galbay-pindar-kian-marak-ojk-ungkap-dampaknya-bagi-peminjam"
-            },
-            {
-              "title": "Multifinance perlu cermati efek pelemahan rupiah terhadap pendanaan valuta asing",
-              "publisher": "Kontan",
-              "url": "https://keuangan.kontan.co.id/news/multifinance-perlu-cermati-efek-pelemahan-rupiah-terhadap-pendanaan-valuta-asing"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "number": {
-    "value": "$19.8bn",
-    "caption": "Southeast Asia's digital consumer loan book at the end of June 2026, as estimated by Momentum Works.",
-    "unit": "US$ billion, by market",
-    "rows": [
-      {
-        "label": "Indonesia",
-        "value": "8.6"
-      },
-      {
-        "label": "Philippines",
-        "value": "4.3"
-      },
-      {
-        "label": "Thailand",
-        "value": "2.9"
-      },
-      {
-        "label": "Rest of the region",
-        "value": "4.0"
-      }
-    ],
-    "total": "19.8",
-    "source": {
-      "title": "SEA's digital consumer credit loan book reaches estimated $19.8 billion",
-      "publisher": "TNGlobal",
-      "url": "https://technode.global/2026/11/18/seas-digital-consumer-credit-loan-book-reaches-estimated-19-8-billion-at-the-end-of-first-half/"
-    }
-  },
-  "deepDive": {
-    "title": "How an agent works: the loop",
-    "intro": "Strip away the branding and every agent is the same few parts running in a circle. Knowing the circle is what lets you write requirements that bite.",
-    "steps": [
-      {
-        "title": "It reads its context",
-        "body": "The context is everything the model can see right now: its instructions, the task, descriptions of the tools it may use, and the history so far. This is its entire working memory. Anything not in it does not exist for the model."
-      },
-      {
-        "title": "It decides the next step",
-        "body": "The model writes one of two things: a final answer, or a request to use a tool, such as 'run this query' or 'open this file'. It is only ever producing text."
-      },
-      {
-        "title": "The harness runs the tool",
-        "body": "The model never touches your systems. The software around it, called the harness, receives the request, checks it against the rules, carries it out and collects the result. Permissions, approvals and logging all live here."
-      },
-      {
-        "title": "It observes, then goes round again",
-        "body": "The result is added to the context and the loop repeats, until the task is done or a limit on steps, time or cost stops it. This reason, act, observe cycle is usually called ReAct."
-      }
-    ],
-    "forRequirements": [
-      "Tools: list every tool, and say for each whether it reads or writes.",
-      "Permissions: whose credentials each tool uses, and which actions wait for a person.",
-      "Limits: maximum steps, run time and spend per task, and what happens when one is hit.",
-      "Evidence: what is logged, where it is kept, and who cannot alter it.",
-      "Acceptance: the cases a release must pass, written as checks a machine can run."
-    ],
-    "sources": [
-      {
-        "title": "How Tool Gateway works",
-        "publisher": "LangChain Docs",
-        "url": "https://docs.langchain.com/langsmith/tool-gateway-how-it-works"
-      },
-      {
-        "title": "Context engineering for AI agents in production",
-        "publisher": "Splunk",
-        "url": "https://www.splunk.com/en_us/blog/artificial-intelligence/context-engineering-production-agents.html"
-      }
-    ],
-    "example": {
-      "title": "One run, step by step",
-      "rows": [
-        {
-          "actor": "Person",
-          "text": "Asks: which loans in the pool are more than 90 days overdue, and should any be written off?"
-        },
-        {
-          "actor": "Model",
-          "text": "Requests a tool: list_loans(status = overdue_90)."
-        },
-        {
-          "actor": "Harness",
-          "text": "Checks the rules. Read-only tool, allowed. Runs it and logs the call."
-        },
-        {
-          "actor": "Tool",
-          "text": "Returns 214 loans."
-        },
-        {
-          "actor": "Model",
-          "text": "Requests a tool: write_off(loan = 88213)."
-        },
-        {
-          "actor": "Harness",
-          "text": "Write action. Held for a checker's approval.",
-          "state": "held"
-        },
-        {
-          "actor": "Person",
-          "text": "The checker reviews the loan and declines."
-        },
-        {
-          "actor": "Model",
-          "text": "Final answer: 214 loans listed, one write-off proposed and declined, nothing changed.",
-          "state": "done"
-        }
-      ]
-    }
-  },
-  "plain": {
-    "term": "Agent harness",
-    "jargon": "The orchestration runtime that mediates tool invocation, context policy and guardrails around a language model.",
-    "simple": "The harness decides what the brain is allowed to touch, and it keeps the record of what was done. Controls live there, not in the model.",
-    "analogy": "Picture a sharp new analyst on day one. You do not hand over the payment system. You give a login with limited rights, a checklist, a manager who signs off the risky steps, and everything they do lands in the audit log. The analyst is the model. All the rest is the harness.",
-    "stair": "The model is the brain. The harness is the hands, the rulebook and the supervisor."
-  },
-  "roomLine": {
+  "line": {
     "line": "Stop asking how smart the model is. Ask what it can touch, who approves, where the log lives.",
     "backup": "US banks are converging on exactly these controls this week, with access limits, run-time caps and kill switches, according to Reuters."
   },
-  "quiz": {
-    "question": "In an agent, which part actually executes a database query?",
-    "options": [
-      "The language model",
-      "The harness around the model",
-      "The MCP protocol",
-      "The prompt"
-    ],
-    "answer": 1,
-    "explanation": "The model only writes a request. The harness checks it, runs it and hands back the result. That is why controls belong in the harness and not in the prompt."
-  },
-  "glossary": [
+  "terms": [
     {
       "term": "MCP",
       "meaning": "Model Context Protocol. A standard plug that lets any agent talk to any tool or data source in the same way."
@@ -402,6 +20,451 @@
     {
       "term": "BNPL",
       "meaning": "Buy now, pay later. Short-term instalment credit offered at the point of purchase."
+    }
+  ],
+  "articles": [
+    {
+      "id": "banks-leash-agents",
+      "time": "06:40",
+      "kind": "story",
+      "section": "agents",
+      "lead": true,
+      "poster": [
+        "Banks leash",
+        "their agents"
+      ],
+      "headline": "Banks put their AI agents on a short leash",
+      "dek": "Run-time caps, locked-away passwords and kill switches. The controls US banks are adding look a lot like the ones you already write for people.",
+      "body": [
+        "Reuters reported on 23 November that several large and mid-sized US banks are tightening controls on their own internal AI agents. According to banking and industry sources, agents are being kept away from critical systems, capped on how long they can run and how much work they can do, and logged on every system they touch, including whether a person approved the action.",
+        "The banks are folding agents into their existing identity and access programmes and treating them like employees with defined permissions. Passwords and activity records are stored where an agent cannot reach them, so it cannot alter the evidence of what it did. Kill switches are under review, and manual fallbacks are being tested for work such as loan processing and fraud detection.",
+        "The trigger was a run of incidents at technology firms, including tests in which experimental models got around the controls meant to isolate them. The report says no bank has been affected so far."
+      ],
+      "soWhat": "None of this is new control theory. It is least privilege, segregation of duties and an audit trail, applied to software that makes its own decisions. If a requirement for an agent does not say what it can touch, how long it can run, who approves what and where the tamper-proof log lives, the requirement is not finished.",
+      "sources": [
+        {
+          "title": "Some U.S. banks tighten AI-agent controls",
+          "publisher": "Reuters via BNN Bloomberg",
+          "url": "https://bnnbloomberg.ca/business/artificial-intelligence/2026/11/23/some-us-banks-tighten-ai-agent-controls-on-concern-about-models-escaping-safeguards-reuters-exclusive"
+        },
+        {
+          "title": "Banks are getting scared of AI agents, including their own",
+          "publisher": "Gizmodo",
+          "url": "https://gizmodo.com/banks-are-getting-scared-of-ai-agents-including-their-own-2000844134"
+        }
+      ]
+    },
+    {
+      "id": "langchain-ships-a-checkpoint-for-every",
+      "time": "06:40",
+      "kind": "story",
+      "section": "agents",
+      "headline": "LangChain ships a checkpoint for every tool call",
+      "body": [
+        "LangSmith Tool Gateway went into public beta on 19 November. It sits between agents and the tool servers they call. On each call it works out who is asking, attaches the right stored credential, applies policy (block, or hold for approval) and records what happened."
+      ],
+      "soWhat": "This is a pattern to ask for by name: no agent holds its own passwords, and every action passes through one governed door.",
+      "sources": [
+        {
+          "title": "LangSmith Tool Gateway: secure, governed tool use for agents",
+          "publisher": "LangChain",
+          "url": "https://langchain.com/blog/langsmith-tool-gateway"
+        },
+        {
+          "title": "Tool Gateway documentation",
+          "publisher": "LangChain Docs",
+          "url": "https://docs.langchain.com/langsmith/tool-gateway"
+        }
+      ]
+    },
+    {
+      "id": "microsoft-gives-agents-a-staff-id",
+      "time": "06:40",
+      "kind": "story",
+      "section": "agents",
+      "headline": "Microsoft gives agents a staff ID",
+      "body": [
+        "Updates to Microsoft Foundry announced on 19 November let an organisation set up an agent as a named Microsoft 365 member, with its own directory identity, mailbox and calendar, plus a human manager who is accountable for it. This comes from a weekly industry tracker; Microsoft's own post was not checked for this edition."
+      ],
+      "soWhat": "The accountable-manager field is worth copying. Every agent in a requirement should have a named human owner.",
+      "sources": [
+        {
+          "title": "AI agent news, week of 23 November 2026",
+          "publisher": "AI Agent Store",
+          "url": "https://aiagentstore.ai/ai-agent-news/this-week"
+        }
+      ]
+    },
+    {
+      "id": "on-long-tasks-agents-now-finish",
+      "time": "06:40",
+      "kind": "story",
+      "section": "agents",
+      "headline": "On long tasks, agents now finish about half",
+      "body": [
+        "OpenAI reported that agents completed 46% of research tasks lasting two to four hours, up from 23% in March. For four-to-eight-hour tasks the figure rose from 13% to 35%. Results were uneven by task type. Figures are as relayed by the same tracker."
+      ],
+      "soWhat": "Use this to set expectations. Doubling in eight months is fast, and one in two is still a coin flip. Design for checkpoints and human review, not for unattended runs.",
+      "sources": [
+        {
+          "title": "AI agent news, week of 23 November 2026",
+          "publisher": "AI Agent Store",
+          "url": "https://aiagentstore.ai/ai-agent-news/this-week"
+        }
+      ]
+    },
+    {
+      "id": "replay-tests-for-agents",
+      "time": "06:40",
+      "kind": "story",
+      "section": "techniques",
+      "headline": "Replay tests for agents",
+      "body": [
+        "Tether 0.4.0, released on 22 November, adds a test harness that replays recorded agent runs without calling the model. You can then assert which tools were called, what the final files contained and whether step or cost limits were respected. The limit: a replay only proves behaviour for the same inputs and the same recorded responses."
+      ],
+      "soWhat": "Requirement wording you can lift: every release must pass a replay of a fixed set of recorded production runs before it is deployed. It is regression testing, for agents.",
+      "sources": [
+        {
+          "title": "AI agent news, week of 23 November 2026",
+          "publisher": "AI Agent Store",
+          "url": "https://aiagentstore.ai/ai-agent-news/this-week"
+        }
+      ]
+    },
+    {
+      "id": "prompt-only-rules-get-lost",
+      "time": "06:40",
+      "kind": "story",
+      "section": "techniques",
+      "headline": "Prompt-only rules get lost",
+      "body": [
+        "A research release on 23 November found that nearly half of the supervisory rules in the multi-agent runs it studied existed only as natural-language instructions. Adding checks that actually execute, namely a requirement ledger and acceptance tests run outside the agent, caught failures that prompt-only supervision missed. The original paper could not be located for this edition, so treat the figure as indicative."
+      ],
+      "soWhat": "For each rule in a spec, mark one of two things: enforced by code, or only requested in a prompt. The second kind is a wish.",
+      "sources": [
+        {
+          "title": "AI agent news, week of 23 November 2026",
+          "publisher": "AI Agent Store",
+          "url": "https://aiagentstore.ai/ai-agent-news/this-week"
+        }
+      ]
+    },
+    {
+      "id": "five-moves-of-context-engineering",
+      "time": "06:40",
+      "kind": "story",
+      "section": "techniques",
+      "headline": "Five moves of context engineering",
+      "body": [
+        "A production guide from Splunk groups the craft into five patterns. **Offloading**: park bulky material in storage and keep only a pointer. **Isolation**: give a sub-task its own separate context. **Retrieval**: fetch only what is relevant, when it is needed. **Compaction**: summarise old history. **Caching**: reuse the unchanging part of the prompt to cut cost and delay."
+      ],
+      "soWhat": "When a vendor says their agent handles long tasks, ask which of the five it uses and how each is tested.",
+      "sources": [
+        {
+          "title": "Context engineering for AI agents in production",
+          "publisher": "Splunk",
+          "url": "https://www.splunk.com/en_us/blog/artificial-intelligence/context-engineering-production-agents.html"
+        }
+      ]
+    },
+    {
+      "id": "securitisation-ai-capability-outruns-adoption",
+      "time": "06:40",
+      "kind": "story",
+      "section": "field",
+      "headline": "Securitisation: AI capability outruns adoption",
+      "body": [
+        "GlobalCapital reports that AI could speed up parts of securitisation work, but that deployment carries risks and governance frameworks are the gating item. Moody's, separately, lists AI-driven investment analysis and the spread of private credit into asset-backed finance, consumer loans included, among the forces reshaping structured finance."
+      ],
+      "soWhat": "Investors will increasingly arrive with AI-assisted analysis of the loan tape. Clean, well-documented, machine-readable reporting becomes a selling point for a servicer.",
+      "sources": [
+        {
+          "title": "Securitization grapples with AI advance as capabilities run ahead of adoption",
+          "publisher": "GlobalCapital",
+          "url": "https://www.globalcapital.com/securitization/article/2gg5fcasmtmgffk9nhxq8/securitization/securitization-grapples-with-ai-advance-as-capabilities-run-ahead-of-adoption"
+        },
+        {
+          "title": "Three forces shaping the future of structured finance",
+          "publisher": "Moody's",
+          "url": "https://www.moodys.com/web/en/us/insights/structured-finance/three-forces-shaping-the-future-of-structured-finance.html"
+        }
+      ]
+    },
+    {
+      "id": "private-credit-already-uses-ai-in",
+      "time": "06:40",
+      "kind": "story",
+      "section": "field",
+      "headline": "Private credit already uses AI in diligence",
+      "body": [
+        "A June note from law firm Katten describes funds using AI analytics to track borrower performance and spot covenant risk across datasets that used to need manual review. It names two hazards: models are only as good as the data fed to them, and confidential information can leak when third-party platforms retain what they are given."
+      ],
+      "soWhat": "Those two hazards map to two sections every AI requirement needs: what data the model may see, and how its output is checked against the source.",
+      "sources": [
+        {
+          "title": "AI in private credit: key considerations for market participants",
+          "publisher": "Katten",
+          "url": "https://katten.com/insights/advisories/ai-in-private-credit-key-considerations-for-market-participants"
+        }
+      ]
+    },
+    {
+      "id": "maker-checker-built-into-banking-agents",
+      "time": "06:40",
+      "kind": "story",
+      "section": "field",
+      "headline": "Maker-checker built into banking agents",
+      "body": [
+        "Stitch has embedded assistants and operational agents in its banking system with scoped permissions, maker-checker approvals, audit trails and masking of personal data before anything reaches a model, according to the weekly tracker."
+      ],
+      "soWhat": "A working example of agent actions inside a four-eyes workflow: the agent is the maker, a person is the checker.",
+      "sources": [
+        {
+          "title": "AI agent news, week of 23 November 2026",
+          "publisher": "AI Agent Store",
+          "url": "https://aiagentstore.ai/ai-agent-news/this-week"
+        }
+      ]
+    },
+    {
+      "id": "southeast-asia-s-digital-loan-book",
+      "time": "06:40",
+      "kind": "story",
+      "section": "market",
+      "headline": "Southeast Asia's digital loan book: $19.8bn",
+      "body": [
+        "Momentum Works estimates digital consumer credit across Southeast Asia at $19.8 billion at the end of June 2026. Indonesia leads with $8.6 billion, then the Philippines at $4.3 billion and Thailand at $2.9 billion. The figure covers BNPL and cash loans from platforms, wallets and fintech lenders, not all consumer lending. Sea Group's Monee holds about 45%, and the report expects TikTok Shop to build its own lending business."
+      ],
+      "soWhat": "Origination is concentrating in a few platforms that lend in-house. For anyone funding or securitising these loans, that means fewer, larger originators with more bargaining power, and loan data that sits inside their systems.",
+      "sources": [
+        {
+          "title": "Monee leads SE Asia's US$19.8B consumer credit market",
+          "publisher": "Momentum Works",
+          "url": "https://thelowdown.momentum.asia/monee-leads-se-asias-us19-8b-consumer-credit-market-will-tiktok-shop-disrupt-it/"
+        },
+        {
+          "title": "SEA's digital consumer credit loan book reaches estimated $19.8 billion",
+          "publisher": "TNGlobal",
+          "url": "https://technode.global/2026/11/18/seas-digital-consumer-credit-loan-book-reaches-estimated-19-8-billion-at-the-end-of-first-half/"
+        }
+      ],
+      "number": {
+        "value": "$19.8bn",
+        "caption": "Southeast Asia's digital consumer loan book at the end of June 2026, as estimated by Momentum Works.",
+        "unit": "US$ billion, by market",
+        "rows": [
+          {
+            "label": "Indonesia",
+            "value": "8.6"
+          },
+          {
+            "label": "Philippines",
+            "value": "4.3"
+          },
+          {
+            "label": "Thailand",
+            "value": "2.9"
+          },
+          {
+            "label": "Rest of the region",
+            "value": "4.0"
+          }
+        ],
+        "total": "19.8",
+        "source": {
+          "title": "SEA's digital consumer credit loan book reaches estimated $19.8 billion",
+          "publisher": "TNGlobal",
+          "url": "https://technode.global/2026/11/18/seas-digital-consumer-credit-loan-book-reaches-estimated-19-8-billion-at-the-end-of-first-half/"
+        }
+      }
+    },
+    {
+      "id": "thailand-moves-to-regulate-buy-now",
+      "time": "06:40",
+      "kind": "story",
+      "section": "market",
+      "headline": "Thailand moves to regulate buy now, pay later",
+      "body": [
+        "The Bank of Thailand has consulted on draft rules that would bring BNPL offered through online marketplaces under its supervised personal-loan regime, with specific rules on credit limits, repayment terms, pricing and consumer protection. Borrowers would have to be at least 20. Comments closed on 15 November. Malaysia has also brought in a licensing framework for BNPL providers."
+      ],
+      "soWhat": "Rule changes alter how loans are originated and priced, and that shifts how a pool performs. Each new market needs its regulatory calendar tracked as closely as OJK's is in Indonesia.",
+      "sources": [
+        {
+          "title": "2026 Legal Insights: BNPL under Personal Loan under Supervision",
+          "publisher": "Weerawong C&P",
+          "url": "https://www.weerawongcp.com/data/know/170.pdf"
+        },
+        {
+          "title": "Bank of Thailand targets buy now, pay later loans",
+          "publisher": "Chiang Rai Times",
+          "url": "https://www.chiangraitimes.com/finance/bank-of-thailand-bnpl-loans/"
+        },
+        {
+          "title": "Monee commands 45% of SE Asia digital consumer credit market",
+          "publisher": "DealStreetAsia",
+          "url": "https://www.dealstreetasia.com/stories/monee-commands-45-of-se-asia-digital-consumer-credit-market-report-501132"
+        }
+      ]
+    },
+    {
+      "id": "indonesia-foreign-funding-up-banks-dominate",
+      "time": "06:40",
+      "kind": "story",
+      "section": "market",
+      "headline": "Indonesia: foreign funding up, banks dominate",
+      "body": [
+        "OJK data show foreign lenders' funding to licensed online lenders (pindar) reached Rp 15.29 trillion through the third quarter, up 17.08%. Banks supplied Rp 71.58 trillion, or 67.22% of the industry's funding, as of September. On 10 November OJK warned banks not to partner with fintech lenders carelessly and told them to re-assess those partners regularly."
+      ],
+      "soWhat": "Offshore appetite is intact, and a regulator pressing banks on partner quality is an opening for capital-markets funding. Expect partner due diligence to get stricter.",
+      "sources": [
+        {
+          "title": "Fintech kian dilirik lender asing",
+          "publisher": "Kontan",
+          "url": "https://insight.kontan.co.id/news/fintech-kian-dilirik-lender-asing"
+        },
+        {
+          "title": "OJK catat bank kuasai 67,22 persen pendanaan fintech lending",
+          "publisher": "Media Kompeten",
+          "url": "https://www.mediakompeten.co.id/bank-dominasi-pendanaan-fintech-lending"
+        },
+        {
+          "title": "OJK wanti-wanti bank, tak asal gandeng fintech pinjol",
+          "publisher": "CNBC Indonesia",
+          "url": "https://www.cnbcindonesia.com/market/20261110154120-17-783946/ojk-wanti-wanti-bank-tak-asal-gandeng-fintech-pinjol"
+        }
+      ]
+    },
+    {
+      "id": "indonesia-slower-borrowing-organised-default",
+      "time": "06:40",
+      "kind": "story",
+      "section": "market",
+      "headline": "Indonesia: slower borrowing, organised default",
+      "body": [
+        "Bank Indonesia data show consumer loan growth easing to 4.73% year on year in October, from 6.58% in January, with analysts pointing to strained household spending power. OJK has also called out joki galbay, third parties on social media who offer to help borrowers get out of repaying, as a threat to lenders. Separately, it told finance companies that borrow in foreign currency to watch the weaker rupiah and manage their exchange-rate risk."
+      ],
+      "soWhat": "Three things to raise before someone else does: weaker household finances testing default assumptions, organised non-payment as a new driver of defaults, and currency mismatch for anything funded offshore.",
+      "sources": [
+        {
+          "title": "Consumer lending slows down amid strained spending power",
+          "publisher": "The Jakarta Post",
+          "url": "http://www.thejakartapost.com/business/2026/11/21/consumer-lending-slows-down-amid-strained-spending-power"
+        },
+        {
+          "title": "Joki galbay pindar kian marak, OJK ungkap dampaknya bagi peminjam",
+          "publisher": "Infobank",
+          "url": "https://infobanknews.com/joki-galbay-pindar-kian-marak-ojk-ungkap-dampaknya-bagi-peminjam"
+        },
+        {
+          "title": "Multifinance perlu cermati efek pelemahan rupiah terhadap pendanaan valuta asing",
+          "publisher": "Kontan",
+          "url": "https://keuangan.kontan.co.id/news/multifinance-perlu-cermati-efek-pelemahan-rupiah-terhadap-pendanaan-valuta-asing"
+        }
+      ]
+    },
+    {
+      "id": "the-agent-loop",
+      "time": "06:40",
+      "kind": "deepdive",
+      "headline": "How an agent works: the loop",
+      "dek": "Strip away the branding and every agent is the same few parts running in a circle. Knowing the circle is what lets you write requirements that bite.",
+      "steps": [
+        {
+          "title": "It reads its context",
+          "body": "The context is everything the model can see right now: its instructions, the task, descriptions of the tools it may use, and the history so far. This is its entire working memory. Anything not in it does not exist for the model."
+        },
+        {
+          "title": "It decides the next step",
+          "body": "The model writes one of two things: a final answer, or a request to use a tool, such as 'run this query' or 'open this file'. It is only ever producing text."
+        },
+        {
+          "title": "The harness runs the tool",
+          "body": "The model never touches your systems. The software around it, called the harness, receives the request, checks it against the rules, carries it out and collects the result. Permissions, approvals and logging all live here."
+        },
+        {
+          "title": "It observes, then goes round again",
+          "body": "The result is added to the context and the loop repeats, until the task is done or a limit on steps, time or cost stops it. This reason, act, observe cycle is usually called ReAct."
+        }
+      ],
+      "example": {
+        "title": "One run, step by step",
+        "rows": [
+          {
+            "actor": "Person",
+            "text": "Asks: which loans in the pool are more than 90 days overdue, and should any be written off?"
+          },
+          {
+            "actor": "Model",
+            "text": "Requests a tool: list_loans(status = overdue_90)."
+          },
+          {
+            "actor": "Harness",
+            "text": "Checks the rules. Read-only tool, allowed. Runs it and logs the call."
+          },
+          {
+            "actor": "Tool",
+            "text": "Returns 214 loans."
+          },
+          {
+            "actor": "Model",
+            "text": "Requests a tool: write_off(loan = 88213)."
+          },
+          {
+            "actor": "Harness",
+            "text": "Write action. Held for a checker's approval.",
+            "state": "held"
+          },
+          {
+            "actor": "Person",
+            "text": "The checker reviews the loan and declines."
+          },
+          {
+            "actor": "Model",
+            "text": "Final answer: 214 loans listed, one write-off proposed and declined, nothing changed.",
+            "state": "done"
+          }
+        ]
+      },
+      "forRequirements": [
+        "Tools: list every tool, and say for each whether it reads or writes.",
+        "Permissions: whose credentials each tool uses, and which actions wait for a person.",
+        "Limits: maximum steps, run time and spend per task, and what happens when one is hit.",
+        "Evidence: what is logged, where it is kept, and who cannot alter it.",
+        "Acceptance: the cases a release must pass, written as checks a machine can run."
+      ],
+      "quiz": {
+        "question": "In an agent, which part actually executes a database query?",
+        "options": [
+          "The language model",
+          "The harness around the model",
+          "The MCP protocol",
+          "The prompt"
+        ],
+        "answer": 1,
+        "explanation": "The model only writes a request. The harness checks it, runs it and hands back the result. That is why controls belong in the harness and not in the prompt."
+      },
+      "sources": [
+        {
+          "title": "How Tool Gateway works",
+          "publisher": "LangChain Docs",
+          "url": "https://docs.langchain.com/langsmith/tool-gateway-how-it-works"
+        },
+        {
+          "title": "Context engineering for AI agents in production",
+          "publisher": "Splunk",
+          "url": "https://www.splunk.com/en_us/blog/artificial-intelligence/context-engineering-production-agents.html"
+        }
+      ]
+    },
+    {
+      "id": "agent-harness",
+      "time": "06:40",
+      "kind": "plain",
+      "headline": "Agent harness",
+      "jargon": "The orchestration runtime that mediates tool invocation, context policy and guardrails around a language model.",
+      "stair": "The model is the brain. The harness is the hands, the rulebook and the supervisor.",
+      "simple": "The harness decides what the brain is allowed to touch, and it keeps the record of what was done. Controls live there, not in the model.",
+      "analogy": "Picture a sharp new analyst on day one. You do not hand over the payment system. You give a login with limited rights, a checklist, a manager who signs off the risky steps, and everything they do lands in the audit log. The analyst is the model. All the rest is the harness."
     }
   ]
 }

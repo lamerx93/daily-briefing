@@ -18,12 +18,11 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="paydown" id="paydown" role="progressbar" aria-label="How far through today's edition you are" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+<div class="paydown" id="paydown" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
 <nav class="dock" id="dock" aria-label="Move around the briefing">
-  <button type="button" data-open="sections">Sections</button>
-  <button type="button" data-open="editions">Editions</button>
-  <button type="button" data-open="search">Search</button>
-  <button type="button" id="readToggle" aria-pressed="false">Mark read</button>
+  <button type="button" id="navUp">Daily Briefing</button>
+  <button type="button" id="navSearch">Search</button>
+  <button type="button" id="readToggle" aria-pressed="false" hidden>Mark read</button>
 </nav>
 <p class="notice" id="notice" role="status" hidden></p>
 <main id="app">
