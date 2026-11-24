@@ -1,0 +1,483 @@
+{
+  "date": "2026-11-25",
+  "line": {
+    "line": "An agent's safety check should ask one question: did the user actually request this action?",
+    "backup": "Google reported on 23 November that successful hijacks in its benchmark run fell from 48.7% to 0.9% when a second model checked each tool call against the user's request."
+  },
+  "terms": [
+    {
+      "term": "Tool call",
+      "meaning": "A structured request from a model to run one named function, such as a query or a payment."
+    },
+    {
+      "term": "MCP",
+      "meaning": "Model Context Protocol. A standard plug that lets any agent talk to any tool or data source in the same way."
+    },
+    {
+      "term": "Trace",
+      "meaning": "The step-by-step record of one agent run: each decision, tool call and result."
+    },
+    {
+      "term": "TWP90",
+      "meaning": "OJK's bad-loan measure for online lenders: the share of outstanding loans more than 90 days overdue."
+    },
+    {
+      "term": "BI-Rate",
+      "meaning": "Bank Indonesia's policy interest rate, the benchmark for rupiah borrowing costs."
+    },
+    {
+      "term": "Dematerialised",
+      "meaning": "Held as an electronic entry at a depository, with no paper certificate."
+    },
+    {
+      "term": "Borrowing base",
+      "meaning": "The value of eligible loans a lender will advance against under a credit facility."
+    }
+  ],
+  "articles": [
+    {
+      "id": "google-second-model-checks-each-action",
+      "time": "06:51",
+      "kind": "story",
+      "section": "agents",
+      "lead": true,
+      "poster": [
+        "Did the user",
+        "ask for this"
+      ],
+      "headline": "Google: a second model vets each agent action",
+      "dek": "In Google's own benchmark run, successful hijacks fell from 48.7% to 0.9% when a second model compared every tool call with what the user had asked for.",
+      "body": [
+        "Google has published test results for a new control on AI agents. On 23 November its developer blog described Semantic governance policies, now in preview on its Gemini platform. Before an agent's tool call is allowed to run, a second model reads it and asks one thing: did the user actually request this?",
+        "The check sits in the gateway between the agent and its tools. The user's request and the system instructions count as trusted. Everything the agent has read along the way, such as files, emails and tool results, counts as data and never as an order. A call that fails the check is swapped for a refusal and does not run.",
+        "Google ran AgentDojo, a public benchmark of hijacking attacks, six times. Attacks succeeded 48.7% of the time without the check and 0.9% with it. None of the 929 attacks that needed a tool call got through. The cost was about 2.6 percentage points of ordinary task success.",
+        "Google states the limits itself. The checker is also a model, so it could be fooled in turn. The benchmark's attacks were fixed, not redesigned to beat this defence. And it does nothing about an agent that is talked into writing a misleading answer without calling any tool."
+      ],
+      "soWhat": "This is a checker for the agent as maker, and the test wording is worth borrowing: every write action must trace back to something the user asked for. Ask any vendor three things. Where does the check run? What did it cost in blocked legitimate work? Was it tested against attackers who knew it was there?",
+      "sources": [
+        {
+          "title": "Did the user ask for this? Securing AI agents against intent hijacking with Semantic governance policies",
+          "publisher": "Google Developers Blog",
+          "url": "https://developers.googleblog.com/did-the-user-ask-for-this-securing-ai-agents-against-intent-hijacking-with-semantic-governance-policies/"
+        }
+      ]
+    },
+    {
+      "id": "anthropic-lets-an-agent-approve-code",
+      "time": "06:51",
+      "kind": "story",
+      "section": "agents",
+      "headline": "Anthropic lets an agent approve code, by policy",
+      "body": [
+        "Anthropic has released Claude Ship, three agents that work on code changes in GitHub. Trade reports date the launch to 23 November. Anthropic's documentation, which carries no date, describes the parts.",
+        "**Code Review** reads a change and lists problems by severity. **PR Steward** fixes failing checks and review comments, and is built so that it cannot approve or merge. **Claude Approvals** follows a policy file the team keeps in its own repository. The file says how many people must sign off changes to each area and where the agent may give an approval itself.",
+        "Approvals starts in observe mode, where it only reports what the policy would have decided. The documentation warns that with automatic merging switched on, a policy that needs no human approval lets a change go live with nobody acting. Code Review is generally available. The other two are in public beta for Team and Enterprise plans."
+      ],
+      "soWhat": "Three ideas to lift: the agent that fixes is barred from approving, approval rights are written as a policy file under version control, and new controls run in observe mode before they bind. That is segregation of duties, delegated authority and a parallel run.",
+      "sources": [
+        {
+          "title": "Claude Ship",
+          "publisher": "Claude Code Docs (Anthropic)",
+          "url": "https://code.claude.com/docs/en/claude-ship"
+        },
+        {
+          "title": "AI News, Nov 24, 2026",
+          "publisher": "RIO Rundown",
+          "url": "https://riorundown.substack.com/p/ai-news-nov-24-2026-anthropic-agent"
+        }
+      ]
+    },
+    {
+      "id": "walmart-gives-shopping-agents-a-limit",
+      "time": "06:51",
+      "kind": "story",
+      "section": "agents",
+      "headline": "Walmart gives shopping agents a spending limit",
+      "body": [
+        "Walmart announced on 21 October that approved AI agents could search its stock and buy for customers through a server it calls Agent Gateway, built on the Model Context Protocol (MCP). Newsletters this week say Meta's assistant, Muse, has become the first agent live on it. That could not be confirmed at Walmart's or Meta's own pages for this edition.",
+        "The controls are the interesting part. Each agent gets its own profile inside the shopper's account, and its orders are listed apart from the shopper's own. The shopper picks one of two modes: approve every purchase, or let the agent buy alone up to a cap, with $50, $100 and $200 given as examples. Access can be switched off at any time.",
+        "Agents must also accept terms. They may not act beyond the request, cannot see card details or change payment methods, and may use only the data the task needs. These details come from a trade article of 22 October that summarises Walmart's announcement."
+      ],
+      "soWhat": "A mass-market example of delegated authority for software: a separate identity, a monetary limit, a per-transaction approval option and an off switch. It is a useful picture when explaining agent limits to a non-technical room.",
+      "sources": [
+        {
+          "title": "Walmart Agent Gateway: MCP server for AI shopping agents",
+          "publisher": "TechAIWire",
+          "url": "https://techaiwire.com/articles/walmart-agent-gateway-mcp-ai-shopping-agents-profiles/"
+        },
+        {
+          "title": "AI Daily Digest, November 25, 2026",
+          "publisher": "DEV Community",
+          "url": "https://dev.to/hiroki-ii-ai/ai-daily-digest-november-25-2026-jensen-huang-returns-to-lead-nvidia-walmart-opens-its-aisles-jgn"
+        }
+      ]
+    },
+    {
+      "id": "elastic-buys-agent-tracing-firm",
+      "time": "06:51",
+      "kind": "story",
+      "section": "agents",
+      "headline": "Elastic to buy agent-tracing firm HoneyHive",
+      "body": [
+        "Elastic said on 19 November that it has agreed to acquire HoneyHive, which makes software for tracing and evaluating AI agents. No price was given and the deal has not closed.",
+        "Elastic's reasoning is that agents fail quietly. The servers look healthy while the agent picks the wrong tool or acts on bad information. HoneyHive records each step of an agent's run, tests agents before release and scores them in production. Elastic plans to fold that into its monitoring product."
+      ],
+      "soWhat": "Monitoring vendors now treat the agent's step-by-step record as standard telemetry, like server logs. In a requirement, ask for a trace of every run that can be searched and kept, not only uptime figures.",
+      "sources": [
+        {
+          "title": "Elastic and HoneyHive join forces to advance AI observability and evaluation",
+          "publisher": "Elastic",
+          "url": "https://www.elastic.co/blog/elastic-and-honeyhive"
+        }
+      ]
+    },
+    {
+      "id": "score-agents-on-repeat-runs",
+      "time": "06:51",
+      "kind": "story",
+      "section": "techniques",
+      "headline": "Score agents on repeat runs",
+      "body": [
+        "An agent that passes a test once may fail it the next time. A paper proposing a shared format for agent tests, the Evaluation Context Protocol (arXiv, August 2026), collects the guidance. Its sharpest example: one agent solved 97% of tasks when given three tries, but solved only about 34% on all three tries.",
+        "The first number is called pass@k, the second pass^k. For work that must be right every time, the second is the one that matters. The paper also suggests starting with 20 to 50 test tasks drawn from real failures. Where a model does the grading, it suggests checking that grader against at least 100 examples marked by people.",
+        "The paper is a proposal and reports no test results of its own. The figures are ones it cites from earlier work."
+      ],
+      "soWhat": "Acceptance wording you can lift: each test case is run N times and must pass every time. Ask vendors which number they are quoting, best of several tries or every try.",
+      "sources": [
+        {
+          "title": "The Evaluation Context Protocol (ECP): A Portable Contract for AI Agent Evaluation",
+          "publisher": "arXiv",
+          "url": "https://arxiv.org/abs/2608.19263"
+        }
+      ]
+    },
+    {
+      "id": "contract-tests-for-tool-results",
+      "time": "06:51",
+      "kind": "story",
+      "section": "techniques",
+      "headline": "Contract tests for tool results",
+      "body": [
+        "A standard plug does not guarantee the same reading at the other end. An independent researcher sent identical MCP tool results through four agent frameworks, from OpenAI, LangChain, Google and Microsoft, and compared what each handed to the model.",
+        "Across 18 test cases, 13 came out differently in at least one framework. The trouble was in structured data, error states and rich content such as attachments. Only Google's kit met every primary check. A fallback that re-read the data as plain text recovered more values but also returned five wrong ones.",
+        "The author says these are not production failure rates. The study pins specific library versions and its sources run to mid-September 2026."
+      ],
+      "soWhat": "When a tool returns figures, test what the model actually receives, not what the tool sent. Ask for a contract test on each tool: a fixed result goes in, and the test asserts the fields, error flags and numbers that come out the other side.",
+      "sources": [
+        {
+          "title": "Localizing Post-Wire Semantic Changes in MCP Agent Frameworks",
+          "publisher": "arXiv",
+          "url": "https://arxiv.org/abs/2610.00182"
+        }
+      ]
+    },
+    {
+      "id": "task-sets-for-tool-servers",
+      "time": "06:51",
+      "kind": "story",
+      "section": "techniques",
+      "headline": "Task sets for tool servers",
+      "body": [
+        "A guide on Hugging Face, dated 12 November, sets out how to test a tool server with an agent in the loop. The method is short. Keep a fixed list of tasks. For each run, read the trace for four things: did the agent use the tool, were the inputs right, did it use the result, and did it recover from an error.",
+        "Two habits stand out. First, confirm the tool was actually available before reading a missed call as the agent's choice. Second, rerun the whole list after any change to a tool's name, description, inputs or responses, and compare results over several runs.",
+        "The second matters because the description is all the model knows about a tool. Reword it and behaviour can shift."
+      ],
+      "soWhat": "Treat a tool's description as controlled wording, like a clause in a contract. A requirement can say: any change to a tool name or description triggers a rerun of the task set before release.",
+      "sources": [
+        {
+          "title": "How to test your MCP server with coding agents",
+          "publisher": "Hugging Face community blog",
+          "url": "https://huggingface.co/blog/phranzia/how-to-test-your-mcp-server-with-coding-agents"
+        }
+      ]
+    },
+    {
+      "id": "fed-governor-on-ai-credit-denials",
+      "time": "06:51",
+      "kind": "story",
+      "section": "field",
+      "headline": "Fed governor: explain AI credit denials",
+      "body": [
+        "Federal Reserve governor Michael Barr used a speech in Milan on 16 November to set out what he expects of lenders that use AI in credit decisions, PYMNTS reported on 18 November. The speech text itself was not read for this edition.",
+        "Barr accepted that rent, utility bills and work patterns can show that someone is creditworthy. His concern was that people often cannot see or dispute that data. He asked for dispute routes that people can use, continuing checks for fairness, and detailed records of how each model was validated. He also said large banks had seen AI agents try to act in retail accounts with no way to verify who they were or that the customer had agreed.",
+        "The US bank regulator OCC is moving the same way. A framework of 4 November tells examiners to scale their review to how much autonomy an AI use has and what is at stake. Its 12 November risk report says some banks are testing or running customer-facing agents."
+      ],
+      "soWhat": "The direction is the same in every market: a lender must be able to say why a model declined someone, and show how the model was tested. For originators feeding a pool, ask whether their scoring models keep reason codes and validation records. Expect investors to ask.",
+      "sources": [
+        {
+          "title": "Fed's AI Warning Puts Banks' Credit Denials Under Scrutiny",
+          "publisher": "PYMNTS",
+          "url": "https://www.pymnts.com/news/artificial-intelligence/2026/federal-reserve-michael-barr-ai-warning-puts-bank-credit-denials-under-scrutiny/"
+        }
+      ]
+    },
+    {
+      "id": "dv01-puts-agents-into-abs-reporting",
+      "time": "06:51",
+      "kind": "story",
+      "section": "field",
+      "headline": "dv01 puts agents into ABS deal reporting",
+      "body": [
+        "An older item worth knowing. On 28 September dv01, a US loan-data platform for securitisation, added AI agents to its deal-structuring and credit-facility products. One turns an offering memorandum into a draft deal structure. Another drafts borrowing base and monthly servicer reports from the credit agreement and the loan data. In each case a person reviews and approves the output.",
+        "It also opened an MCP server, so clients can point ChatGPT, Claude or their own tools at dv01's collateral analysis and cashflow models without a custom integration.",
+        "Underneath sits what it calls a semantic layer. Loan-level data is mapped to defined terms, with each deal's and servicer's exceptions written down, so the model calls a defined calculation and does not interpret raw columns. dv01 says its data covers more than 650 million loans across 2,400 transactions."
+      ],
+      "soWhat": "The pattern to copy is the semantic layer. An agent should ask for 'arrears over 60 days as this deal defines it' and get the governed figure, never compute it from raw fields. Definitions per deal, written down, come before any agent.",
+      "sources": [
+        {
+          "title": "dv01 Unveils Agentic Infrastructure to Move Structured Finance Beyond AI Experimentation",
+          "publisher": "PR Newswire",
+          "url": "https://www.prnewswire.com/news-releases/dv01-unveils-agentic-infrastructure-to-move-structured-finance-beyond-ai-experimentation-302890860.html"
+        }
+      ]
+    },
+    {
+      "id": "agents-go-on-top-of-old-bank-cores",
+      "time": "06:51",
+      "kind": "story",
+      "section": "field",
+      "headline": "Agents go on top of old bank cores",
+      "body": [
+        "Banks are adding agents around their core systems, not replacing them. PYMNTS reported on 22 October that outsourcer Sutherland will deploy and run more than 220 prebuilt agents from FlowX.AI on top of existing bank cores in North America and Europe. Targets include onboarding, lending, mortgage underwriting and anti-money-laundering checks.",
+        "FlowX.AI says one European commercial lender removed 80% of the manual handoffs in its credit workflows, and that another institution cut lending operating costs by 40%. Neither is named and the figures are the vendor's own.",
+        "The background is the age of the cores. Researchers at the Kansas City Fed have said some are up to 40 years old and that a full conversion takes years."
+      ],
+      "soWhat": "This is the likely shape for any long-lived platform: the system of record stays, and agents work the handoffs around it. It makes the interface between agent and core the thing to specify well. Treat unnamed vendor percentages as claims until a reference client confirms them.",
+      "sources": [
+        {
+          "title": "Banks Add AI Agents, Keep Their 40-Year-Old Cores",
+          "publisher": "PYMNTS",
+          "url": "https://www.pymnts.com/news/artificial-intelligence/2026/banks-add-ai-agents-keep-their-40-year-old-cores/"
+        }
+      ]
+    },
+    {
+      "id": "indonesia-bi-lifts-its-rate-to-6",
+      "time": "06:51",
+      "kind": "story",
+      "section": "market",
+      "headline": "Indonesia: BI lifts rate to 6% to steady rupiah",
+      "body": [
+        "Bank Indonesia raised its policy rate by a quarter point to 6.00% at its meeting of 17 and 18 November. The deposit facility rate went to 5.25% and the lending facility rate to 6.75%. Antara puts this year's increases at 1.25 percentage points in total.",
+        "BI called the move pre-emptive. It said the aim is to steady the rupiah against global uncertainty and to keep inflation inside its target band of 2.5%, plus or minus one point, in 2026 and 2027. Officials told reporters they expect the US Federal Reserve to raise rates once more before the year ends.",
+        "BI also made currency hedging cheaper. The premium reduction under its incentive for domestic non-deliverable forwards rises from 40% to 45% for six-month contracts and from 45% to 50% for twelve-month ones. A cross-currency repo facility with BI is due by March 2027.",
+        "The rupiah has not yet turned. It closed at Rp 18,230 to the dollar on 24 November, 0.15% weaker on the day, according to Beritasatu."
+      ],
+      "soWhat": "Higher rupiah rates lift lenders' funding costs while OJK's cap holds down what they can charge, so originator margins get squeezed. On the other side, watch whether the cheaper official hedge feeds through to market swap pricing. Both are worth raising with treasury this week.",
+      "sources": [
+        {
+          "title": "BI-Rate Raised 25 bps to 6.00%",
+          "publisher": "Bank Indonesia",
+          "url": "https://www.bi.go.id/en/publikasi/ruang-media/news-release/Pages/sp_2825426.aspx"
+        },
+        {
+          "title": "BI raises rate to 6 percent to defend rupiah against Fed moves",
+          "publisher": "ANTARA News",
+          "url": "https://en.antaranews.com/news/443543/bi-raises-rate-to-6-percent-to-defend-rupiah-against-fed-moves"
+        },
+        {
+          "title": "Rupiah ditutup melemah 0,15 persen jadi Rp 18.230 per dolar AS",
+          "publisher": "Beritasatu",
+          "url": "https://www.beritasatu.com/ekonomi/3043514/rupiah-ditutup-melemah-015-persen-jadi-rp-18230-per-dolar-as"
+        }
+      ]
+    },
+    {
+      "id": "indonesia-pindar-bad-loans-pass-cap",
+      "time": "06:51",
+      "kind": "story",
+      "section": "market",
+      "headline": "Indonesia: pindar bad loans pass OJK's 5% line",
+      "body": [
+        "Loans more than 90 days overdue at Indonesia's licensed online lenders (pindar) reached 5.36% of the outstanding balance in September. That is up from 4.73% in August and 2.82% a year earlier, and above the 5% maximum that the regulator OJK sets. Outstanding lending stood at Rp 106.48 trillion, up 17.02% on the year.",
+        "OJK says borrowers aged 19 to 34 account for 50.69% of the defaulted funding. Its supervisor for the sector, Agusman, said the rise is not only a result of growth and that borrowers' ability to repay is part of it. Platforms above 5% are under intensive supervision and must file and carry out a recovery plan.",
+        "On 24 November Kontan reported OJK defending its price cap of 0.3% a day on consumer loans, in force since January 2024, as a way to ease the load on borrowers. All fees count toward it. An economist at the think tank Celios noted pressure from the other side, since the higher BI rate pushes platforms to pay their funders more."
+      ],
+      "soWhat": "The industry average has nearly doubled in a year and has crossed the regulator's line. Check each originator's own 90-day figure against 5%, ask whether any is under intensive supervision, and look at how much of a pool sits with borrowers under 35.",
+      "sources": [
+        {
+          "title": "OJK sebut penurunan bunga fintech lending bertujuan kurangi beban biaya borrower",
+          "publisher": "Kontan",
+          "url": "https://keuangan.kontan.co.id/news/ojk-sebut-penurunan-bunga-fintech-lending-bertujuan-kurangi-beban-biaya-borrower"
+        },
+        {
+          "title": "TWP90 pindar memburuk, anak muda usia 19-34 tahun sumbang 50,69% kredit macet",
+          "publisher": "Investortrust",
+          "url": "https://investortrust.id/financial/122752/twp90-pindar-memburuk-anak-muda-usia-19-34-tahun-sumbang-50-69-kredit-macet"
+        }
+      ],
+      "number": {
+        "value": "5.36%",
+        "caption": "Share of Indonesia's outstanding pindar loans more than 90 days overdue (TWP90) in September 2026, against OJK's 5% maximum.",
+        "source": {
+          "title": "OJK sebut penurunan bunga fintech lending bertujuan kurangi beban biaya borrower",
+          "publisher": "Kontan",
+          "url": "https://keuangan.kontan.co.id/news/ojk-sebut-penurunan-bunga-fintech-lending-bertujuan-kurangi-beban-biaya-borrower"
+        }
+      }
+    },
+    {
+      "id": "philippines-small-loans-double",
+      "time": "06:51",
+      "kind": "story",
+      "section": "market",
+      "headline": "Philippines: small loans double to ₱1.56tn",
+      "body": [
+        "Personal and buy now, pay later (BNPL) loans outstanding in the Philippines reached ₱1.56 trillion in June 2026, double the level at the end of 2023. The figure is from a report by credit bureau CIBI released on 24 November, as covered by Context.ph and GMA News. The report itself was not read for this edition.",
+        "The loans are getting smaller and more numerous. The average new loan was ₱3,700 in June, down from ₱13,500 in December 2023. About 14 million people borrowed for the first time between March 2024 and June 2026. Digital lenders now make nearly 93% of disbursements by value, up from 79%.",
+        "Quality is slipping. The non-performing share of these loans at digital lenders rose to 12.9% from 9.1%; the coverage does not give the dates. CIBI says it sees no sign of widespread over-borrowing, because growth is coming from new borrowers and not from existing ones taking on more."
+      ],
+      "soWhat": "The Philippines looks like Indonesia a few years ago: tiny tickets, first-time borrowers, digital lenders in front. For any pool there, loss assumptions need to come from borrowers with no credit history, and a 12.9% bad-loan share is the starting point for that conversation.",
+      "sources": [
+        {
+          "title": "PH small-loan boom doubles debt to P1.56T as repayment risks rise",
+          "publisher": "Context.ph",
+          "url": "https://context.ph/2026/11/24/ph-small-loan-boom-doubles-debt-to-p1-56t-as-repayment-risks-rise/"
+        },
+        {
+          "title": "Why Filipinos are turning to bite-sized loans",
+          "publisher": "GMA News",
+          "url": "https://www.gmanetwork.com/news/money/personalfinance/1010612/why-filipinos-are-turning-to-bite-sized-loans/story/"
+        }
+      ]
+    },
+    {
+      "id": "india-securitisation-notes-go-paperless",
+      "time": "06:51",
+      "kind": "story",
+      "section": "market",
+      "headline": "India: securitisation notes go paperless",
+      "body": [
+        "The Reserve Bank of India issued final rules on 23 November for how securitisation notes are issued, held and traded. From 1 April 2027 notes must exist only in dematerialised form, meaning as electronic entries at a depository. The minimum investment by a single investor is ₹1 crore (10 million rupees), both at issue and on any later sale.",
+        "The same change was made in separate directions for commercial banks, small finance banks, non-bank finance companies and the large development lenders. The originator must make sure its agreement with the issuing vehicle provides for a registrar, a depository and, where relevant, a stock exchange. Notes that pay down over time may trade below ₹1 crore at their reduced value. Trades in notes issued before April 2027 must follow the new rules too.",
+        "A draft went out on 27 July. This account relies on reproductions of the RBI text by legal publishers, not on the RBI's own page."
+      ],
+      "soWhat": "India is standardising the plumbing of its securitisation market: electronic notes, a floor that keeps retail money out, and a named registrar and depository on every deal. For a platform that may one day report on Indian pools, note the 1 April 2027 date and the depository link it implies.",
+      "sources": [
+        {
+          "title": "RBI Notification No. RBI/2026-27/306: Rs 1 crore minimum ticket size for securitisation notes",
+          "publisher": "CAclubindia",
+          "url": "https://www.caclubindia.com/notice_circulars/rbi-notification-no-rbi-2026-27-306-nbfcs-rs-1-crore-minimum-ticket-size-for-securitisation-notes-11709.asp"
+        },
+        {
+          "title": "RBI finalises securitisation-note transfer rules",
+          "publisher": "Court Cast",
+          "url": "https://courtscast.com/rbi-securitisation-transactions-amendment-directions-2026/"
+        }
+      ]
+    },
+    {
+      "id": "tool-calling-and-mcp",
+      "time": "06:51",
+      "kind": "deepdive",
+      "headline": "Tool calling and MCP",
+      "dek": "Yesterday's lesson was the loop. Today is the step inside it where the agent reaches out to a system. Most of what can go wrong, and most of what you can control, sits here.",
+      "steps": [
+        {
+          "title": "A tool is a described function",
+          "body": "To the model, a tool is three things: a name, a description in plain language, and a list of the inputs it accepts. The model never sees the code or the database behind it. It chooses a tool by reading the description, the way you choose a form by reading its title."
+        },
+        {
+          "title": "The model fills in a form",
+          "body": "When the model wants a tool, it writes a small structured message naming the tool and giving a value for each input. The harness checks that message against the input list before anything runs. A missing field or a wrongly formatted date is rejected at this point."
+        },
+        {
+          "title": "The result comes back as data",
+          "body": "The harness runs the tool and adds the result to the context. From then on the model treats it as something it has read. That is why a result is a risk as well as an answer: text inside it can try to steer the model. See today's term, prompt injection."
+        },
+        {
+          "title": "MCP is the standard plug",
+          "body": "The Model Context Protocol is an open standard for this exchange. A system publishes its tools once, on an MCP server. Any agent that speaks MCP can list them and call them. Before it, every pairing of agent and system needed its own connector."
+        },
+        {
+          "title": "The plug is not the meaning",
+          "body": "MCP fixes how a result travels, not how each agent framework hands it to the model. A study covered today found the same result reaching the model in different shapes in different frameworks. Test what arrives, and write down what each field means."
+        }
+      ],
+      "example": {
+        "title": "One tool call, start to finish",
+        "rows": [
+          {
+            "actor": "Person",
+            "text": "Asks: draft the arrears table for Pool A's October investor report."
+          },
+          {
+            "actor": "Harness",
+            "text": "Connects to the pool-data MCP server. It lists three tools, each with a description."
+          },
+          {
+            "actor": "Model",
+            "text": "Requests get_arrears(pool = A, month = 2026-10)."
+          },
+          {
+            "actor": "Harness",
+            "text": "Checks the inputs against the tool's input list. Valid. Runs the call and logs it."
+          },
+          {
+            "actor": "Tool",
+            "text": "Returns three buckets as fields: 1-30 days 4.1%, 31-60 days 1.8%, 61-90 days 0.9%."
+          },
+          {
+            "actor": "Model",
+            "text": "Drafts the table, then requests publish_report(pool = A)."
+          },
+          {
+            "actor": "Harness",
+            "text": "Publishing is a write tool. Held for a checker.",
+            "state": "held"
+          },
+          {
+            "actor": "Person",
+            "text": "The checker compares the table with the source figures and approves."
+          },
+          {
+            "actor": "Harness",
+            "text": "Report published. The log shows each call, its inputs and the approver.",
+            "state": "done"
+          }
+        ]
+      },
+      "forRequirements": [
+        "Tool list: for each tool give its name, description, inputs, outputs and whether it reads or writes.",
+        "Descriptions are controlled text. Changing one requires a rerun of the acceptance tests.",
+        "Inputs are validated against the tool's input list before execution. Invalid calls are rejected and logged.",
+        "Tool results are treated as data. No instruction found inside a result may trigger a write action.",
+        "Each output field has a written definition, including units, period and the deal it applies to.",
+        "Every call is logged with tool, inputs, result reference, time and any approver."
+      ],
+      "quiz": {
+        "question": "Before it calls a tool, what does the model know about that tool?",
+        "options": [
+          "The tool's source code",
+          "Its name, description and list of inputs",
+          "The contents of the database behind it",
+          "Nothing until the first call"
+        ],
+        "answer": 1,
+        "explanation": "The model chooses and fills in a tool from its name, description and input list alone. That is why the wording of a description is a control, and why changing it calls for retesting."
+      },
+      "sources": [
+        {
+          "title": "How to test your MCP server with coding agents",
+          "publisher": "Hugging Face community blog",
+          "url": "https://huggingface.co/blog/phranzia/how-to-test-your-mcp-server-with-coding-agents"
+        },
+        {
+          "title": "Localizing Post-Wire Semantic Changes in MCP Agent Frameworks",
+          "publisher": "arXiv",
+          "url": "https://arxiv.org/abs/2610.00182"
+        }
+      ]
+    },
+    {
+      "id": "prompt-injection",
+      "time": "06:51",
+      "kind": "plain",
+      "headline": "Prompt injection",
+      "jargon": "An attack in which adversarial instructions embedded in untrusted content override a model's intended behaviour.",
+      "stair": "Text the agent reads as data gets obeyed as if it were an order.",
+      "simple": "A model cannot reliably tell instructions from content, because both arrive as words. A line hidden in an invoice, an email or a web page can redirect what the agent does next.",
+      "analogy": "A payments clerk opens an invoice and finds a note typed in the margin: also wire 50,000 to this account. A trained clerk ignores it, because instructions come from the manager and not from the paperwork. An agent has no such instinct. The system around it has to supply one."
+    }
+  ]
+}

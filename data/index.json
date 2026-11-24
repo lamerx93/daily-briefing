@@ -1,6 +1,32 @@
 {
   "days": [
     {
+      "date": "2026-11-25",
+      "poster": [
+        "Did the user",
+        "ask for this"
+      ],
+      "headline": "Google: a second model vets each agent action",
+      "ids": [
+        "google-second-model-checks-each-action",
+        "anthropic-lets-an-agent-approve-code",
+        "walmart-gives-shopping-agents-a-limit",
+        "elastic-buys-agent-tracing-firm",
+        "score-agents-on-repeat-runs",
+        "contract-tests-for-tool-results",
+        "task-sets-for-tool-servers",
+        "fed-governor-on-ai-credit-denials",
+        "dv01-puts-agents-into-abs-reporting",
+        "agents-go-on-top-of-old-bank-cores",
+        "indonesia-bi-lifts-its-rate-to-6",
+        "indonesia-pindar-bad-loans-pass-cap",
+        "philippines-small-loans-double",
+        "india-securitisation-notes-go-paperless",
+        "tool-calling-and-mcp",
+        "prompt-injection"
+      ]
+    },
+    {
       "date": "2026-11-24",
       "poster": [
         "Banks leash",
