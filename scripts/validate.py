@@ -54,7 +54,11 @@ def main():
 
     lead = ed.get("lead") or {}
     head = text(lead, "headline", "lead")
-    need(len(head) <= 70, "lead headline is over 70 characters; it wraps badly on a phone")
+    need(len(head) <= 60, "lead headline is over 60 characters")
+    need(not head.endswith("."), "lead headline must not end with a full stop; the app adds one")
+    poster = lead.get("poster")
+    need(isinstance(poster, list) and len(poster) == 2 and all(isinstance(x, str) and 3 <= len(x) <= 12 for x in poster),
+         "lead.poster must be two lines of 3 to 12 characters each; it is set at poster size on the first screen")
     text(lead, "dek", "lead")
     need(isinstance(lead.get("body"), list) and 1 <= len(lead["body"]) <= 4, "lead body should be 1 to 4 paragraphs")
     text(lead, "whyItMatters", "lead")
@@ -72,30 +76,58 @@ def main():
         for n, it in enumerate(items or [], 1):
             w = f"{where} item {n}"
             h = text(it, "headline", w)
-            need(len(h) <= 70, f"{w}: headline over 70 characters")
+            limit = 36 if s.get("id") == "techniques" else 52
+            need(len(h) <= limit, f"{w}: headline over {limit} characters; it must fit two lines at its display size")
             body = text(it, "body", w)
             need(len(body.split()) <= 95, f"{w}: body over 95 words")
             text(it, "soWhat", w)
             check_sources(it, w)
 
     dd = ed.get("deepDive") or {}
-    text(dd, "title", "deepDive")
+    need(len(text(dd, "title", "deepDive")) <= 34, "deepDive: title over 34 characters")
     text(dd, "intro", "deepDive")
+    ex = dd.get("example")
+    if ex is not None:
+        rows = ex.get("rows") if isinstance(ex, dict) else None
+        need(isinstance(rows, list) and 4 <= len(rows) <= 9, "deepDive.example: 4 to 9 rows")
+        for n, r in enumerate(rows or [], 1):
+            need(isinstance(r, dict) and 0 < len(r.get("actor", "")) <= 8, f"deepDive.example row {n}: 'actor' is one short word")
+            need(isinstance(r, dict) and 0 < len(r.get("text", "")) <= 110, f"deepDive.example row {n}: 'text' up to 110 characters")
+            need(isinstance(r, dict) and r.get("state") in (None, "held", "done"), f"deepDive.example row {n}: 'state' is held, done or absent")
     need(isinstance(dd.get("steps"), list) and 3 <= len(dd["steps"]) <= 6, "deepDive: 3 to 6 steps")
     for n, st in enumerate(dd.get("steps") or [], 1):
-        text(st, "title", f"deepDive step {n}")
+        need(len(text(st, "title", f"deepDive step {n}")) <= 34, f"deepDive step {n}: title over 34 characters")
         text(st, "body", f"deepDive step {n}")
     need(isinstance(dd.get("forRequirements"), list) and 3 <= len(dd["forRequirements"]) <= 6, "deepDive: 3 to 6 'forRequirements' lines")
     check_sources(dd, "deepDive", required=False)
 
     plain = ed.get("plain") or {}
-    for k in ("term", "jargon", "simple", "analogy"):
+    for k in ("term", "jargon", "simple", "analogy", "stair"):
         text(plain, k, "plain")
+    stair = plain.get("stair") or ""
+    need(10 <= len(stair.split()) <= 18, "plain.stair: one sentence or two, 10 to 18 words in all")
+    need(" ".join(stair.split()[:4]) != " ".join((plain.get("simple") or "").split()[:4]), "plain.simple must carry on from plain.stair, not repeat it")
 
     room = ed.get("roomLine") or {}
     line = text(room, "line", "roomLine")
-    need(len(line.split()) <= 40, "roomLine: keep the line to 40 words")
-    text(room, "backup", "roomLine")
+    need(len(line.split()) <= 18, "roomLine: keep the line to 18 words")
+    need(not text(room, "backup", "roomLine").lower().startswith("if challenged"), "roomLine.backup: start with the fact; the app adds 'If challenged'")
+
+    num = ed.get("number")
+    if num is not None:
+        need(isinstance(num, dict) and 0 < len(str(num.get("value", ""))) <= 8, "number.value: a figure of 8 characters at most, such as $19.8bn")
+        text(num, "caption", "number")
+        src = num.get("source") if isinstance(num, dict) else None
+        need(isinstance(src, dict) and re.match(r"^https?://\S+$", src.get("url", "") or ""), "number.source needs a url")
+        rows = num.get("rows") if isinstance(num, dict) else None
+        if rows:
+            need(isinstance(rows, list) and 2 <= len(rows) <= 8, "number.rows: 2 to 8 rows")
+            try:
+                total = float(str(num.get("total", "")).replace(",", ""))
+                parts = sum(float(str(r.get("value", "")).replace(",", "")) for r in rows)
+                need(abs(total - parts) < 0.051, f"number.rows add up to {parts:g}, not the total {total:g}; add a remainder row or drop the rows")
+            except (ValueError, AttributeError):
+                problems.append("number.rows and number.total must be plain numbers so the slip can be checked")
 
     quiz = ed.get("quiz") or {}
     text(quiz, "question", "quiz")
@@ -120,7 +152,7 @@ def main():
         return 0
 
     words = prose(ed)
-    need(1100 <= words <= 2000, f"edition should be 1,100 to 2,000 words of prose (it is {words})")
+    need(1100 <= words <= 2200, f"edition should be 1,100 to 2,200 words of prose (it is {words})")
 
     try:
         index = json.loads((ROOT / "data" / "index.json").read_text(encoding="utf-8"))

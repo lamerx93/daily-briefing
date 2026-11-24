@@ -22,6 +22,10 @@
         "publisher": "Gizmodo",
         "url": "https://gizmodo.com/banks-are-getting-scared-of-ai-agents-including-their-own-2000844134"
       }
+    ],
+    "poster": [
+      "Banks leash",
+      "their agents"
     ]
   },
   "sections": [
@@ -77,7 +81,7 @@
       "title": "For your requirements",
       "items": [
         {
-          "headline": "Replay tests: rerun yesterday's agent without paying for it",
+          "headline": "Replay tests for agents",
           "body": "Tether 0.4.0, released on 22 November, adds a test harness that replays recorded agent runs without calling the model. You can then assert which tools were called, what the final files contained and whether step or cost limits were respected. The limit: a replay only proves behaviour for the same inputs and the same recorded responses.",
           "soWhat": "Requirement wording you can lift: every release must pass a replay of a fixed set of recorded production runs before it is deployed. It is regression testing, for agents.",
           "sources": [
@@ -89,7 +93,7 @@
           ]
         },
         {
-          "headline": "Rules that live only in a prompt tend to get lost",
+          "headline": "Prompt-only rules get lost",
           "body": "A research release on 23 November found that nearly half of the supervisory rules in the multi-agent runs it studied existed only as natural-language instructions. Adding checks that actually execute, namely a requirement ledger and acceptance tests run outside the agent, caught failures that prompt-only supervision missed. The original paper could not be located for this edition, so treat the figure as indicative.",
           "soWhat": "For each rule in a spec, mark one of two things: enforced by code, or only requested in a prompt. The second kind is a wish.",
           "sources": [
@@ -101,7 +105,7 @@
           ]
         },
         {
-          "headline": "Context engineering has five standard moves",
+          "headline": "Five moves of context engineering",
           "body": "A production guide from Splunk groups the craft into five patterns. **Offloading**: park bulky material in storage and keep only a pointer. **Isolation**: give a sub-task its own separate context. **Retrieval**: fetch only what is relevant, when it is needed. **Compaction**: summarise old history. **Caching**: reuse the unchanging part of the prompt to cut cost and delay.",
           "soWhat": "When a vendor says their agent handles long tasks, ask which of the five it uses and how each is tested.",
           "sources": [
@@ -119,7 +123,7 @@
       "title": "In our field",
       "items": [
         {
-          "headline": "In securitisation, AI capability is ahead of adoption",
+          "headline": "Securitisation: AI capability outruns adoption",
           "body": "GlobalCapital reports that AI could speed up parts of securitisation work, but that deployment carries risks and governance frameworks are the gating item. Moody's, separately, lists AI-driven investment analysis and the spread of private credit into asset-backed finance, consumer loans included, among the forces reshaping structured finance.",
           "soWhat": "Investors will increasingly arrive with AI-assisted analysis of the loan tape. Clean, well-documented, machine-readable reporting becomes a selling point for a servicer.",
           "sources": [
@@ -136,7 +140,7 @@
           ]
         },
         {
-          "headline": "Private credit lenders already use AI in diligence and monitoring",
+          "headline": "Private credit already uses AI in diligence",
           "body": "A June note from law firm Katten describes funds using AI analytics to track borrower performance and spot covenant risk across datasets that used to need manual review. It names two hazards: models are only as good as the data fed to them, and confidential information can leak when third-party platforms retain what they are given.",
           "soWhat": "Those two hazards map to two sections every AI requirement needs: what data the model may see, and how its output is checked against the source.",
           "sources": [
@@ -148,7 +152,7 @@
           ]
         },
         {
-          "headline": "A banking platform builds maker-checker into its agents",
+          "headline": "Maker-checker built into banking agents",
           "body": "Stitch has embedded assistants and operational agents in its banking system with scoped permissions, maker-checker approvals, audit trails and masking of personal data before anything reaches a model, according to the weekly tracker.",
           "soWhat": "A working example of agent actions inside a four-eyes workflow: the agent is the maker, a person is the checker.",
           "sources": [
@@ -166,7 +170,7 @@
       "title": "Asia market",
       "items": [
         {
-          "headline": "Southeast Asia's digital loan book reaches $19.8 billion",
+          "headline": "Southeast Asia's digital loan book: $19.8bn",
           "body": "Momentum Works estimates digital consumer credit across Southeast Asia at $19.8 billion at the end of June 2026. Indonesia leads with $8.6 billion, then the Philippines at $4.3 billion and Thailand at $2.9 billion. The figure covers BNPL and cash loans from platforms, wallets and fintech lenders, not all consumer lending. Sea Group's Monee holds about 45%, and the report expects TikTok Shop to build its own lending business.",
           "soWhat": "Origination is concentrating in a few platforms that lend in-house. For anyone funding or securitising these loans, that means fewer, larger originators with more bargaining power, and loan data that sits inside their systems.",
           "sources": [
@@ -227,7 +231,7 @@
           ]
         },
         {
-          "headline": "Indonesia: slower borrowing and organised non-payment",
+          "headline": "Indonesia: slower borrowing, organised default",
           "body": "Bank Indonesia data show consumer loan growth easing to 4.73% year on year in October, from 6.58% in January, with analysts pointing to strained household spending power. OJK has also called out joki galbay, third parties on social media who offer to help borrowers get out of repaying, as a threat to lenders. Separately, it told finance companies that borrow in foreign currency to watch the weaker rupiah and manage their exchange-rate risk.",
           "soWhat": "Three things to raise before someone else does: weaker household finances testing default assumptions, organised non-payment as a new driver of defaults, and currency mismatch for anything funded offshore.",
           "sources": [
@@ -251,8 +255,37 @@
       ]
     }
   ],
+  "number": {
+    "value": "$19.8bn",
+    "caption": "Southeast Asia's digital consumer loan book at the end of June 2026, as estimated by Momentum Works.",
+    "unit": "US$ billion, by market",
+    "rows": [
+      {
+        "label": "Indonesia",
+        "value": "8.6"
+      },
+      {
+        "label": "Philippines",
+        "value": "4.3"
+      },
+      {
+        "label": "Thailand",
+        "value": "2.9"
+      },
+      {
+        "label": "Rest of the region",
+        "value": "4.0"
+      }
+    ],
+    "total": "19.8",
+    "source": {
+      "title": "SEA's digital consumer credit loan book reaches estimated $19.8 billion",
+      "publisher": "TNGlobal",
+      "url": "https://technode.global/2026/11/18/seas-digital-consumer-credit-loan-book-reaches-estimated-19-8-billion-at-the-end-of-first-half/"
+    }
+  },
   "deepDive": {
-    "title": "How an agent actually works: the loop",
+    "title": "How an agent works: the loop",
     "intro": "Strip away the branding and every agent is the same few parts running in a circle. Knowing the circle is what lets you write requirements that bite.",
     "steps": [
       {
@@ -290,17 +323,57 @@
         "publisher": "Splunk",
         "url": "https://www.splunk.com/en_us/blog/artificial-intelligence/context-engineering-production-agents.html"
       }
-    ]
+    ],
+    "example": {
+      "title": "One run, step by step",
+      "rows": [
+        {
+          "actor": "Person",
+          "text": "Asks: which loans in the pool are more than 90 days overdue, and should any be written off?"
+        },
+        {
+          "actor": "Model",
+          "text": "Requests a tool: list_loans(status = overdue_90)."
+        },
+        {
+          "actor": "Harness",
+          "text": "Checks the rules. Read-only tool, allowed. Runs it and logs the call."
+        },
+        {
+          "actor": "Tool",
+          "text": "Returns 214 loans."
+        },
+        {
+          "actor": "Model",
+          "text": "Requests a tool: write_off(loan = 88213)."
+        },
+        {
+          "actor": "Harness",
+          "text": "Write action. Held for a checker's approval.",
+          "state": "held"
+        },
+        {
+          "actor": "Person",
+          "text": "The checker reviews the loan and declines."
+        },
+        {
+          "actor": "Model",
+          "text": "Final answer: 214 loans listed, one write-off proposed and declined, nothing changed.",
+          "state": "done"
+        }
+      ]
+    }
   },
   "plain": {
     "term": "Agent harness",
     "jargon": "The orchestration runtime that mediates tool invocation, context policy and guardrails around a language model.",
-    "simple": "The model is the brain. The harness is everything else: the hands, the rulebook and the supervisor. It decides what the brain is allowed to touch, and it keeps the record of what was done.",
-    "analogy": "Picture a sharp new analyst on day one. You do not hand over the payment system. You give a login with limited rights, a checklist, a manager who signs off the risky steps, and everything they do lands in the audit log. The analyst is the model. All the rest is the harness."
+    "simple": "The harness decides what the brain is allowed to touch, and it keeps the record of what was done. Controls live there, not in the model.",
+    "analogy": "Picture a sharp new analyst on day one. You do not hand over the payment system. You give a login with limited rights, a checklist, a manager who signs off the risky steps, and everything they do lands in the audit log. The analyst is the model. All the rest is the harness.",
+    "stair": "The model is the brain. The harness is the hands, the rulebook and the supervisor."
   },
   "roomLine": {
-    "line": "We should stop asking how smart the model is. Ask what it is allowed to touch, who approves it, and where the log is kept.",
-    "backup": "If challenged: US banks are converging on exactly these controls this week, with access limits, run-time caps and kill switches, according to Reuters."
+    "line": "Stop asking how smart the model is. Ask what it can touch, who approves, where the log lives.",
+    "backup": "US banks are converging on exactly these controls this week, with access limits, run-time caps and kill switches, according to Reuters."
   },
   "quiz": {
     "question": "In an agent, which part actually executes a database query?",

@@ -47,28 +47,46 @@ a bug in them. If you do change any of them, bump `VERSION` in `sw.js` so phones
 
 ## Shape of an edition
 
-- `lead`: the one story that matters most today. `headline` (70 characters at most), `dek`,
-  `body` (1 to 4 short paragraphs), `whyItMatters` (addressed to the reader, concrete), `sources`.
+- `lead`: the one story that matters most today. `poster` is the first screen: exactly two
+  lines of 3 to 12 characters each, set in capitals at poster size, so make them a blunt
+  four-word summary ("Banks leash" / "their agents"). `headline` is the full sentence under it
+  (60 characters at most, no full stop). Then `dek`, `body` (1 to 4 short paragraphs),
+  `whyItMatters` (addressed to the reader, concrete), `sources`.
 - `sections`: exactly four, in this order, with these ids: `agents` ("AI and agents"),
   `techniques` ("For your requirements"), `field` ("In our field"), `market` ("Asia market").
   The market section should not be all one country: aim for at least one item from outside
   Indonesia whenever there is real news, and start each headline with the country when the
   item is about a single market.
   Each has 2 to 4 `items`: `headline`, `body` (95 words at most), `soWhat`, `sources`.
+  Item headlines are 52 characters at most. In `techniques` they are set at poster size, so
+  36 characters at most there: name the technique ("Replay tests for agents").
+- `number`: the figure of the day for the market section, shown very large. `value` is 8
+  characters at most ("$19.8bn"), with a `caption` saying exactly what it measures and a
+  `source`. Add `rows` (label and value), a `unit` and a `total` only when the rows are the
+  real parts of that figure and add up to it; use a "Rest of ..." row for a remainder you have
+  calculated. If no honest breakdown exists, leave `rows` out. If there is no good figure
+  today, leave `number` out.
 - `deepDive`: one concept explained properly, as 3 to 6 ordered `steps`, plus `forRequirements`
-  (3 to 6 lines the reader could lift into a requirements document). Work through a curriculum
+  (3 to 6 lines the reader could lift into a requirements document). `title` and step titles
+  are 34 characters at most. `example` is a worked run that makes the concept concrete: 4 to 9
+  rows, each with an `actor` (one word: Person, Model, Harness, Tool) and a `text` of 110
+  characters at most; mark a row `"state": "held"` where a control stops something and
+  `"state": "done"` on the outcome. Set the example in the reader's world (loan pools,
+  servicing, investor reports) and keep every number in it plainly illustrative. Work through a curriculum
   over time rather than chasing the news: the agent loop, tool calling and MCP, context windows
   and context engineering, memory, retrieval (RAG), planning and sub-agents, evaluation and
   test sets, guardrails and prompt injection, human approval patterns, observability and
   tracing, cost and latency, model selection, fine-tuning versus prompting, structured outputs,
   document extraction, agent identity and permissions, audit and model risk management.
-- `plain`: one term. `jargon` is how an insider would say it, `simple` is how to say it to a
-  board member, `analogy` is a picture from everyday working life (finance analogies land well).
-- `roomLine`: one sentence the reader could say in a meeting today, and a `backup` fact for it.
+- `plain`: one term. `jargon` is how an insider would say it. `stair` is the line to remember,
+  10 to 18 words, set large. `simple` carries on from it in one or two sentences without
+  repeating it. `analogy` is a picture from everyday working life (finance analogies land well).
+- `roomLine`: `line` is what the reader could say in a meeting today, 18 words at most.
+  `backup` is the fact behind it, starting with the fact itself.
 - `quiz`: one question that tests the deep dive or the lead. 3 or 4 `options`, `answer` is the
   zero-based index, `explanation` says why.
 - `glossary`: 2 to 5 terms that appeared today.
-- `readMinutes`: prose words divided by 220, rounded. Aim for 6 to 8.
+- `readMinutes`: prose words divided by 220, rounded. Aim for 7 to 9.
 
 Text is plain. The only markup the app understands is `**bold**`.
 
