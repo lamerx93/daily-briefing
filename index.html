@@ -19,14 +19,26 @@
 </head>
 <body>
 <div class="paydown" id="paydown" role="progressbar" aria-label="How far through today's edition you are" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+<nav class="dock" id="dock" aria-label="Move around the briefing">
+  <button type="button" data-open="sections">Sections</button>
+  <button type="button" data-open="editions">Editions</button>
+  <button type="button" data-open="search">Search</button>
+  <button type="button" id="readToggle" aria-pressed="false">Mark read</button>
+</nav>
 <p class="notice" id="notice" role="status" hidden></p>
 <main id="app">
   <header class="hero">
-    <div class="hero-top"><span class="mark">Daily Briefing</span></div>
     <h1 class="poster"><span>Daily</span><span>Briefing</span></h1>
     <p class="hero-sub">Loading today's edition.</p>
   </header>
 </main>
+<dialog class="sheet" id="sheet" aria-labelledby="sheetTitle">
+  <div class="sheet-top">
+    <h2 class="head" id="sheetTitle">Sections</h2>
+    <button type="button" class="btn" id="sheetClose">Close</button>
+  </div>
+  <div id="sheetBody"></div>
+</dialog>
 <noscript><p class="notice">The briefing needs JavaScript to load each day's edition.</p></noscript>
 <script src="app.js" defer></script>
 </body>

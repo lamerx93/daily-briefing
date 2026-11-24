@@ -110,10 +110,10 @@
         return [];
       }
     },
-    add(date) {
+    set(date, read) {
       try {
         const set = new Set(this.get());
-        set.add(date);
+        if (read) set.add(date); else set.delete(date);
         localStorage.setItem("briefing.read", JSON.stringify([...set].sort()));
       } catch (e) { /* private mode: the button still works for this visit */ }
     }
@@ -134,6 +134,29 @@
   function streakText(n) {
     if (n <= 0) return "";
     return n === 1 ? "1 day read." : n + " days in a row.";
+  }
+
+  /* ---------- pictures: Hokusai's eight waterfalls, four a day, in rotation ---------- */
+
+  const FALLS = [
+    ["amida", "The Amida Falls in the far reaches of the Kisokaid\u014d road", 1432],
+    ["kirifuri", "Kirifuri Waterfall at Kurokami Mountain in Shimotsuke", 1425],
+    ["yoshitsune", "The waterfall where Yoshitsune washed his horse, at Yoshino", 1432],
+    ["yoro", "Y\u014dr\u014d Waterfall in Mino Province", 1407],
+    ["ono", "Ono Waterfall on the Kisokaid\u014d", 1400],
+    ["aoigaoka", "The falls at Aoigaoka in Edo", 1442],
+    ["roben", "R\u014dben Waterfall at \u014cyama in Sagami Province", 1417],
+    ["kiyotaki", "Kiyotaki Kannon Waterfall at Sakanoshita on the T\u014dkaid\u014d", 1427]
+  ];
+
+  function plate(ed, k) {
+    const day = Math.round(parseDate(ed.date).getTime() / 86400000);
+    const f = FALLS[(((day % 2) * 4 + k) % 8 + 8) % 8];
+    const img = el("img", { src: "pictures/" + f[0] + ".webp", width: 1000, height: f[2], alt: f[1] + ", a colour woodblock print by Katsushika Hokusai", loading: "lazy", decoding: "async" });
+    img.addEventListener("error", () => { const fig = img.closest(".plate"); if (fig) fig.hidden = true; });
+    return el("figure", { class: "plate", "data-ink": "light" },
+      el("div", { class: "frame" }, img),
+      el("figcaption", null, el("span", { text: f[1] }), el("span", { text: "Katsushika Hokusai, about 1832" })));
   }
 
   /* ---------- sections ---------- */
@@ -288,13 +311,7 @@
     const isRead = read.includes(ed.date);
     const streakLine = el("p", { class: "streak", text: isRead ? streakText(streak(read)) : "" });
     const done = el("button", { class: "btn done", type: "button", "aria-pressed": String(isRead), text: isRead ? "Read" : "Mark as read" });
-    done.addEventListener("click", () => {
-      store.add(ed.date);
-      done.setAttribute("aria-pressed", "true");
-      done.textContent = "Read";
-      const now = store.get();
-      streakLine.textContent = streakText(streak(now.length ? now : [ed.date]));
-    });
+    done.addEventListener("click", () => setRead(ed.date, done.getAttribute("aria-pressed") !== "true"));
     const editions = (index && index.editions) || [];
     return el("footer", { class: "foot", id: "end", "data-ink": "light" },
       el("div", { class: "top" },
@@ -312,7 +329,7 @@
       el("div"),
       el("div", null,
         el("p", { class: "wordmark fit", text: "Briefing" }),
-        el("p", { class: "legal", text: "Written from public sources. Each item links to where it came from." })));
+        el("p", { class: "legal", text: "Written from public sources. Each item links to where it came from. Prints: Katsushika Hokusai, A Tour of Waterfalls in Various Provinces, about 1832, The Metropolitan Museum of Art, public domain." })));
   }
 
   function render(ed, index) {
@@ -321,15 +338,13 @@
     const out = [];
 
     out.push(el("header", { class: "hero", id: "top", "data-ink": "light" },
-      el("div", { class: "hero-top" },
-        el("span", { class: "mark", text: "Daily Briefing" }),
-        el("a", { class: "btn", href: "#lead", text: "Start reading" })),
       el("h1", { class: "poster fit", "aria-label": poster.join(" ") }, poster.map((l) => el("span", { text: l }))),
       el("p", { class: "hero-sub", text: lead.headline + "." }),
+      el("a", { class: "btn", href: "#lead", text: "Start reading" }),
       el("div", { class: "hero-foot" },
         el("ul", { class: "inside" }, (ed.sections || []).filter((s) => s.items && s.items[0]).slice(0, 4).map((s) =>
           el("li", null, el("a", { href: "#" + s.id }, el("span", { text: s.title }), el("span", { text: s.items[0].headline }))))),
-        el("p", { class: "hero-meta", text: longDate(ed.date) + (ed.readMinutes ? ". A " + ed.readMinutes + " minute read." : ".") }))));
+        el("p", { class: "hero-meta", text: "Daily Briefing, " + longDate(ed.date) + (ed.readMinutes ? ". A " + ed.readMinutes + " minute read." : ".") }))));
 
     out.push(el("section", { class: "sec lead", id: "lead", "data-ink": "dark" },
       el("div", { class: "grid" },
@@ -343,30 +358,35 @@
           el("h2", { class: "head", text: "Why it matters to you" }),
           el("p", null, rich(lead.whyItMatters)))));
     }
+    out.push(plate(ed, 0));
 
     const byId = {};
     (ed.sections || []).forEach((s) => { byId[s.id] = s; });
     if (byId.agents) out.push(lineup(byId.agents));
     if (byId.techniques) out.push(posterList(byId.techniques));
+    out.push(plate(ed, 1));
     if (ed.deepDive) out.push(deepDive(ed.deepDive));
     if (byId.field) out.push(ended(byId.field));
+    out.push(plate(ed, 2));
     if (byId.market) out.push(market(byId.market, ed.number));
     (ed.sections || []).filter((s) => !["agents", "techniques", "field", "market"].includes(s.id)).forEach((s) => out.push(lineup(s)));
     if (ed.plain) out.push(plainSection(ed.plain));
     if (ed.roomLine) out.push(roomSection(ed.roomLine));
+    out.push(plate(ed, 3));
     if (ed.quiz && Array.isArray(ed.quiz.options)) out.push(quizSection(ed.quiz));
     if (ed.glossary && ed.glossary.length) out.push(termsSection(ed.glossary));
     out.push(footer(ed, index));
 
     app.replaceChildren(...out);
     shown = ed.date;
+    current = ed;
+    syncRead();
     document.title = "Briefing, " + shortDate(ed.date);
 
     app.querySelector(".hero .btn").addEventListener("click", (ev) => {
       ev.preventDefault();
       document.getElementById("lead").scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" });
     });
-    app.querySelectorAll(".foot .cols a").forEach((a) => a.addEventListener("click", () => window.scrollTo(0, 0)));
     app.querySelectorAll(".inside a").forEach((a) => a.addEventListener("click", (ev) => {
       const target = document.getElementById(a.getAttribute("href").slice(1));
       if (!target) return;
@@ -404,17 +424,24 @@
 
   /* ---------- the paydown bar ---------- */
 
+  const dock = document.getElementById("dock");
+  let dockOn = null;
   let chapters = [];
+  let segs = [];
+  let plates = [];
   let ticking = false;
 
   function buildBar() {
+    dockOn = null;
     chapters = [...app.querySelectorAll("[data-ink]")];
-    paydown.replaceChildren(...chapters.map(() => el("i")));
+    segs = chapters.filter((c) => !c.classList.contains("plate"));
+    plates = [...app.querySelectorAll(".plate img")];
+    paydown.replaceChildren(...segs.map(() => el("i")));
     sizeBar();
     paintBar();
   }
   function sizeBar() {
-    chapters.forEach((c, i) => {
+    segs.forEach((c, i) => {
       if (paydown.children[i]) paydown.children[i].style.flexGrow = Math.max(1, Math.round(c.offsetHeight));
     });
   }
@@ -425,12 +452,34 @@
     const doc = document.documentElement;
     const atEnd = window.innerHeight + window.scrollY >= doc.scrollHeight - 2;
     let ink = "dark";
-    chapters.forEach((c, i) => {
+    segs.forEach((c, i) => {
       const r = c.getBoundingClientRect();
       const done = atEnd ? 1 : Math.min(1, Math.max(0, (line - r.top) / Math.max(1, r.height)));
       if (paydown.children[i]) paydown.children[i].style.setProperty("--read", done.toFixed(3));
-      if (r.top <= 8 && r.bottom > 8) ink = c.dataset.ink;
     });
+    let under = chapters[0];
+    chapters.forEach((c) => {
+      const r = c.getBoundingClientRect();
+      if (r.top <= 50 && r.bottom > 50) { ink = c.dataset.ink; under = c; }
+    });
+    // The bar takes the ground and ink of the chapter beneath it, changing exactly at the edge.
+    if (under && dock && under !== dockOn) {
+      dockOn = under;
+      let cs = getComputedStyle(under);
+      if (/rgba\(0, 0, 0, 0\)|transparent/.test(cs.backgroundColor) && under.firstElementChild) cs = getComputedStyle(under.firstElementChild);
+      dock.style.backgroundColor = cs.backgroundColor;
+      dock.style.color = cs.color;
+    }
+    // The prints drift a little against the scroll: the page's one moving picture.
+    if (!reduced.matches) {
+      const H = window.innerHeight;
+      plates.forEach((img) => {
+        const r = img.parentElement.getBoundingClientRect();
+        if (r.bottom < -50 || r.top > H + 50) return;
+        const t = Math.min(1, Math.max(0, (H - r.top) / (H + r.height)));
+        img.style.transform = "scale(1.14) translateY(" + ((t - 0.5) * -9).toFixed(2) + "%)";
+      });
+    }
     if (paydown.dataset.ink !== ink) paydown.dataset.ink = ink;
     const total = Math.max(1, doc.scrollHeight - window.innerHeight);
     paydown.setAttribute("aria-valuenow", String(Math.round((Math.min(total, window.scrollY) / total) * 100)));
@@ -480,7 +529,7 @@
     if (reduced.matches) return;
     document.documentElement.classList.add("motion");
     const groups = [
-      [".hero", ".poster span, .hero-sub, .inside li, .hero-meta"],
+      [".hero", ".poster span, .hero-sub, .btn, .inside li, .hero-meta"],
       [".lead", ".head, .dek, .body"],
       [".matters", ".head, p"],
       [".lineup", ".head, .row"],
@@ -490,6 +539,7 @@
       [".figure", ".head, .note, .total, .caption, .slip, .market-rows .row"],
       [".stair", ".head, .intro, .steps-stmt span, .more"],
       [".room", ".head, blockquote, .who p"],
+      [".plate", "figcaption"],
       [".quiz", ".head, .question, .options button"],
       [".terms", ".head, details"],
       [".foot", ".head, .done, .cols > div, .wordmark"]
@@ -507,6 +557,186 @@
     requestAnimationFrame(() => requestAnimationFrame(() => stage(false)));
   }
 
+  /* ---------- reading record shown in two places ---------- */
+
+  const readBtn = document.getElementById("readToggle");
+
+  function syncRead() {
+    if (!shown) return;
+    const read = store.get();
+    const isRead = read.includes(shown);
+    if (readBtn) {
+      readBtn.setAttribute("aria-pressed", String(isRead));
+      readBtn.textContent = isRead ? "Read" : "Mark read";
+    }
+    const done = app.querySelector(".foot .done");
+    if (done) {
+      done.setAttribute("aria-pressed", String(isRead));
+      done.textContent = isRead ? "Read" : "Mark as read";
+    }
+    const line = app.querySelector(".foot .streak");
+    if (line) line.textContent = isRead ? streakText(streak(read)) : "";
+  }
+  function setRead(date, read) {
+    store.set(date, read);
+    syncRead();
+  }
+  if (readBtn) readBtn.addEventListener("click", () => { if (shown) setRead(shown, readBtn.getAttribute("aria-pressed") !== "true"); });
+
+  /* ---------- the sheet: sections, editions, search ---------- */
+
+  const sheet = document.getElementById("sheet");
+  const sheetTitle = document.getElementById("sheetTitle");
+  const sheetBody = document.getElementById("sheetBody");
+
+  function closeSheet() { if (sheet.open) sheet.close(); }
+  function openSheet(title, body) {
+    sheetTitle.textContent = title;
+    sheetBody.replaceChildren(...[body].flat());
+    if (!sheet.open) sheet.showModal();
+    sheet.scrollTop = 0;
+  }
+  function jump(id) {
+    closeSheet();
+    const target = document.getElementById(id);
+    if (target) target.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" });
+  }
+  function openEdition(date, sectionId) {
+    closeSheet();
+    if (date === shown) { if (sectionId) jump(sectionId); else window.scrollTo(0, 0); return; }
+    pending = sectionId || null;
+    location.hash = date;
+  }
+
+  // What each part of an edition is called, and where it sits on the page.
+  function outline(ed) {
+    const rows = [["top", "Front page", ed.lead.headline], ["lead", "Top story", ed.lead.dek], ["matters", "Why it matters to you", ""]];
+    const byId = {};
+    (ed.sections || []).forEach((s) => { byId[s.id] = s; });
+    const sec = (id) => { if (byId[id]) rows.push([id, byId[id].title, (byId[id].items || []).map((i) => i.headline).join(". ")]); };
+    sec("agents"); sec("techniques");
+    if (ed.deepDive) rows.push(["deep", "Deep dive", ed.deepDive.title]);
+    sec("field"); sec("market");
+    if (ed.plain) rows.push(["plain", "Say it simply", ed.plain.term]);
+    if (ed.roomLine) rows.push(["room", "A line for the room", ""]);
+    if (ed.quiz) rows.push(["quiz", "Check yourself", ""]);
+    if (ed.glossary) rows.push(["glossary", "Terms used today", ed.glossary.map((g) => g.term).join(", ")]);
+    return rows;
+  }
+
+  function showSections() {
+    if (!current) return;
+    openSheet("Sections", el("ul", { class: "jump" }, outline(current).map(([id, title, sub]) => {
+      const b = el("button", { type: "button" }, el("span", { class: "big", text: title }), sub ? el("span", { class: "small", text: sub }) : null);
+      b.addEventListener("click", () => jump(id));
+      return el("li", null, b);
+    })));
+  }
+
+  function showEditions() {
+    const editions = (index && index.editions) || [];
+    const read = store.get();
+    const at = editions.findIndex((e) => e.date === shown);
+    const step = (label, to) => {
+      const b = el("button", { class: "btn", type: "button", text: label, disabled: !editions[to] });
+      b.addEventListener("click", () => editions[to] && openEdition(editions[to].date));
+      return b;
+    };
+    openSheet("Editions", [
+      el("div", { class: "pair" }, step("Older day", at + 1), step("Newer day", at - 1)),
+      el("ul", { class: "days" }, editions.map((e) => {
+        const b = el("button", { type: "button", "aria-current": e.date === shown ? "true" : null },
+          el("span", { class: "when", text: shortDate(e.date) }),
+          el("span", { class: "what", text: e.headline }),
+          el("span", { class: "small", text: read.includes(e.date) ? "Read" : "Unread" }));
+        b.addEventListener("click", () => openEdition(e.date));
+        return el("li", null, b);
+      }))
+    ]);
+  }
+
+  // Search reads every edition once, then keeps them in memory.
+  let corpus = null;
+  async function loadCorpus() {
+    if (corpus) return corpus;
+    const editions = ((index && index.editions) || []).slice(0, 120);
+    const loaded = await Promise.all(editions.map((e) => getJson("data/" + e.date + ".json").then((g) => g.data).catch(() => null)));
+    const docs = [];
+    loaded.filter(Boolean).forEach((ed) => {
+      const add = (id, where, title, ...texts) => docs.push({ date: ed.date, id, where, title: title || where, text: texts.flat().filter(Boolean).join(" ") });
+      const lead = ed.lead || {};
+      add("lead", "Top story", lead.headline, lead.dek, lead.body, lead.whyItMatters);
+      (ed.sections || []).forEach((s) => (s.items || []).forEach((it) => add(s.id, s.title, it.headline, it.body, it.soWhat)));
+      const dd = ed.deepDive;
+      if (dd) add("deep", "Deep dive", dd.title, dd.intro, (dd.steps || []).map((s) => s.title + ". " + s.body), dd.forRequirements, ((dd.example || {}).rows || []).map((r) => r.text));
+      if (ed.plain) add("plain", "Say it simply", ed.plain.term, ed.plain.jargon, ed.plain.stair, ed.plain.simple, ed.plain.analogy);
+      if (ed.roomLine) add("room", "A line for the room", ed.roomLine.line, ed.roomLine.backup);
+      (ed.glossary || []).forEach((g) => add("glossary", "Terms", g.term, g.meaning));
+    });
+    corpus = docs;
+    return docs;
+  }
+
+  function snippet(doc, terms) {
+    const hay = doc.text;
+    const low = hay.toLowerCase();
+    let at = -1;
+    terms.forEach((t) => { const i = low.indexOf(t); if (i >= 0 && (at < 0 || i < at)) at = i; });
+    if (at < 0) return rich(hay.slice(0, 120) + (hay.length > 120 ? "…" : ""));
+    const from = Math.max(0, hay.lastIndexOf(" ", Math.max(0, at - 50)));
+    const cut = hay.slice(from, from + 150).trim();
+    const frag = document.createDocumentFragment();
+    const re = new RegExp("(" + terms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")", "ig");
+    cut.split(re).forEach((part, i) => frag.append(i % 2 ? el("strong", { text: part }) : part));
+    if (from > 0) frag.prepend("…");
+    if (from + 150 < hay.length) frag.append("…");
+    return frag;
+  }
+
+  function showSearch() {
+    const input = el("input", { type: "search", id: "q", placeholder: "Search every edition", autocomplete: "off", enterkeyhint: "search", "aria-label": "Search every edition" });
+    const status = el("p", { class: "small", role: "status", text: "Type a word, a company or a term." });
+    const list = el("ul", { class: "hits" });
+    let run = 0;
+    async function search() {
+      const terms = input.value.toLowerCase().split(/\s+/).filter((t) => t.length > 1);
+      const mine = ++run;
+      if (!terms.length) { list.replaceChildren(); status.textContent = "Type a word, a company or a term."; return; }
+      const docs = await loadCorpus();
+      if (mine !== run) return;
+      const hits = docs
+        .map((d) => {
+          const title = d.title.toLowerCase();
+          const body = d.text.toLowerCase();
+          if (!terms.every((t) => title.includes(t) || body.includes(t))) return null;
+          return { d, score: terms.filter((t) => title.includes(t)).length };
+        })
+        .filter(Boolean)
+        .sort((a, b) => b.score - a.score || (a.d.date < b.d.date ? 1 : -1))
+        .slice(0, 40);
+      status.textContent = hits.length ? hits.length + (hits.length === 1 ? " result" : " results") : "Nothing found for that. Try one word.";
+      list.replaceChildren(...hits.map(({ d }) => {
+        const b = el("button", { type: "button" },
+          el("span", { class: "small", text: shortDate(d.date) + ", " + d.where }),
+          el("span", { class: "what", text: d.title }),
+          el("span", { class: "snip" }, snippet(d, terms)));
+        b.addEventListener("click", () => openEdition(d.date, d.id));
+        return el("li", null, b);
+      }));
+    }
+    input.addEventListener("input", search);
+    openSheet("Search", [input, status, list]);
+    input.focus();
+  }
+
+  document.querySelectorAll("#dock [data-open]").forEach((b) => b.addEventListener("click", () => {
+    const what = b.dataset.open;
+    if (what === "sections") showSections();
+    else if (what === "editions") showEditions();
+    else showSearch();
+  }));
+  document.getElementById("sheetClose").addEventListener("click", closeSheet);
+
   /* ---------- loading ---------- */
 
   async function getJson(path) {
@@ -522,6 +752,8 @@
 
   let index = null;
   let shown = null;
+  let current = null;
+  let pending = null;
 
   // Reopening the app the next morning should pick up the new edition,
   // without disturbing an edition that is being read.
@@ -546,6 +778,12 @@
       const pick = editions.find((e) => e.date === wanted) || editions[0];
       const got = await getJson("data/" + pick.date + ".json");
       render(got.data, index);
+      if (pending && document.getElementById(pending)) {
+        document.getElementById(pending).scrollIntoView({ block: "start" });
+      } else if (wanted === pick.date) {
+        window.scrollTo(0, 0);
+      }
+      pending = null;
       say(got.cached || navigator.onLine === false ? "You're offline. This is the edition saved on this phone." : "");
       // Keep the last week available offline.
       editions.slice(0, 7).forEach((e) => { if (e.date !== pick.date) fetch("data/" + e.date + ".json").catch(() => {}); });
@@ -559,7 +797,7 @@
 
   window.addEventListener("hashchange", () => {
     const h = location.hash.slice(1);
-    if (/^\d{4}-\d{2}-\d{2}$/.test(h)) show();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(h)) { closeSheet(); show(); }
   });
   window.addEventListener("online", () => { say(""); checkForNew(); });
   document.addEventListener("visibilitychange", () => {

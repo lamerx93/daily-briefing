@@ -2,7 +2,7 @@
    Shell files: served from the saved copy at once, refreshed in the background.
    Edition data: fetched fresh when online, served from the saved copy when not. */
 
-const VERSION = "v3";
+const VERSION = "v4";
 const SHELL = "briefing-shell-" + VERSION;
 const DATA = "briefing-data";
 
@@ -15,6 +15,14 @@ const SHELL_FILES = [
   "fonts/barlow-condensed-700.woff2",
   "fonts/barlow-400.woff2",
   "fonts/barlow-500.woff2",
+  "pictures/amida.webp",
+  "pictures/kirifuri.webp",
+  "pictures/yoshitsune.webp",
+  "pictures/yoro.webp",
+  "pictures/ono.webp",
+  "pictures/aoigaoka.webp",
+  "pictures/roben.webp",
+  "pictures/kiyotaki.webp",
   "icons/icon-192.png",
   "icons/apple-touch-icon.png"
 ];
