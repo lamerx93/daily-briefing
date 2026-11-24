@@ -2,7 +2,7 @@
    Shell files: served from the saved copy at once, refreshed in the background.
    Edition data: fetched fresh when online, served from the saved copy when not. */
 
-const VERSION = "v5";
+const VERSION = "v6";
 const SHELL = "briefing-shell-" + VERSION;
 const DATA = "briefing-data";
 
@@ -87,6 +87,36 @@ async function shellFirstCache(request) {
     throw err;
   }
 }
+
+/* Notifications. Each push carries { title, body, url } and must always show something. */
+
+self.addEventListener("push", (event) => {
+  let data = {};
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch (err) {
+    data = { title: "Daily Briefing", body: event.data ? event.data.text() : "" };
+  }
+  event.waitUntil(self.registration.showNotification(data.title || "Daily Briefing", {
+    body: data.body || "",
+    icon: "icons/icon-192.png",
+    data: { url: data.url || "#/" }
+  }));
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const hash = String((event.notification.data && event.notification.data.url) || "#/");
+  const target = new URL("./" + (hash.startsWith("#") ? hash : "#/"), self.registration.scope).href;
+  event.waitUntil(self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
+    const open = list.find((c) => c.url.startsWith(self.registration.scope));
+    if (open) {
+      open.postMessage({ type: "open", hash });
+      return open.focus();
+    }
+    return self.clients.openWindow(target);
+  }));
+});
 
 self.addEventListener("fetch", (event) => {
   const request = event.request;

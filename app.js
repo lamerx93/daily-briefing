@@ -243,9 +243,16 @@
         if (mine !== rendering) return;
         if (next.view === "day") nodes = front(day);
         else {
-          const art = (day.articles || []).find((a) => a.id === next.id);
-          if (!art) { location.replace("#/" + next.date); return; }
-          nodes = article(day, art);
+          let art = (day.articles || []).find((a) => a.id === next.id);
+          if (!art) {
+            // It may have been published since this day was last loaded.
+            const fresh = await loadDay(next.date, true).catch(() => day);
+            if (mine !== rendering) return;
+            art = (fresh.articles || []).find((a) => a.id === next.id);
+            if (!art) { location.replace("#/" + next.date); return; }
+            await loadIndex(true).catch(() => {});
+          }
+          nodes = article(days[next.date] || day, art);
         }
       }
       if (mine !== rendering) return;
@@ -369,10 +376,80 @@
             el("span", { class: "small", text: countLine(d.ids.length, u) }));
         })))));
     out.push(plate(dayNumber(today.date)));
-    out.push(footer(el("div", { class: "finish" },
+    out.push(footer([el("div", { class: "finish" },
       el("h2", { class: "head", text: "How it works" }),
-      el("p", { text: "New articles are added through the day, Singapore time. Anything you have opened stays on this phone and reads without a connection." }))));
+      el("p", { text: "New articles are added through the day, Singapore time. Anything you have opened stays on this phone and reads without a connection." })),
+      el("div", { class: "cols" }, notifyBlock())]));
     return out;
+  }
+
+  /* ---------- notifications from the app itself ---------- */
+
+  // The public half of the signing key. The private half never leaves the publisher.
+  const PUSH_KEY = "BPI6fuQU1S1JhjG-7kLawU8UBAdnICZ0UDrvM3hly0lpmaKS7f4Cv_zHDC7iKkMJQbnJ2-Y9W_jDlxlZGS0Ys1k";
+
+  function keyBytes(b64) {
+    const pad = "=".repeat((4 - (b64.length % 4)) % 4);
+    const raw = atob((b64 + pad).replace(/-/g, "+").replace(/_/g, "/"));
+    return Uint8Array.from(raw, (c) => c.charCodeAt(0));
+  }
+
+  function notifyBlock() {
+    const box = el("div", { class: "notify" }, el("h3", { text: "Notifications" }));
+    const status = el("p", { role: "status" });
+    const actions = el("div", { class: "notify-actions" });
+    box.append(status, actions);
+    const supported = "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
+
+    function showCode(sub) {
+      const code = JSON.stringify(sub.toJSON());
+      const area = el("textarea", { class: "code", readonly: true, rows: 4, "aria-label": "Setup code" });
+      area.value = code;
+      const copy = el("button", { class: "btn", type: "button", text: "Copy setup code" });
+      copy.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(code);
+          copy.textContent = "Copied";
+        } catch (e) {
+          area.focus();
+          area.select();
+          copy.textContent = "Select all, then copy";
+        }
+      });
+      status.textContent = "Notifications are on for this phone. The setup code below is needed once, by whoever publishes the briefing.";
+      actions.replaceChildren(copy, area);
+    }
+
+    async function refresh() {
+      if (!supported) {
+        status.textContent = "Notifications work when the briefing is opened from its Home Screen icon.";
+        return;
+      }
+      if (Notification.permission === "denied") {
+        status.textContent = "Notifications are blocked for this app. Allow them in the iPhone's Settings, under Notifications.";
+        return;
+      }
+      const reg = await navigator.serviceWorker.ready;
+      const sub = await reg.pushManager.getSubscription();
+      if (sub) { showCode(sub); return; }
+      status.textContent = "Get a notification when a new article is published.";
+      const on = el("button", { class: "btn", type: "button", text: "Turn on notifications" });
+      on.addEventListener("click", async () => {
+        on.disabled = true;
+        try {
+          const perm = await Notification.requestPermission();
+          if (perm !== "granted") { refresh(); return; }
+          const made = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: keyBytes(PUSH_KEY) });
+          showCode(made);
+        } catch (err) {
+          on.disabled = false;
+          status.textContent = "That didn't work: " + (err && err.message ? err.message : "unknown error") + ". Close the app fully, open it again and retry.";
+        }
+      });
+      actions.replaceChildren(on);
+    }
+    refresh().catch(() => { status.textContent = "Notifications aren't available right now."; });
+    return box;
   }
 
   /* ---------- the front page for one day ---------- */
@@ -848,7 +925,20 @@
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") checkForNew();
   });
-  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+    // A tapped notification asks the open app to go to its article.
+    navigator.serviceWorker.addEventListener("message", async (event) => {
+      if (!event.data || event.data.type !== "open") return;
+      const hash = String(event.data.hash || "#/");
+      const m = hash.match(/^#\/(\d{4}-\d{2}-\d{2})/);
+      try {
+        await loadIndex(true);
+        if (m) delete days[m[1]];
+      } catch (e) { /* offline: open what is saved */ }
+      go(hash.replace(/^#/, ""));
+    });
+  }
 
   show();
 })();

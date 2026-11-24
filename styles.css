@@ -569,6 +569,26 @@ a.row .text, a.row .rt p, a.row .tease {
 .day-row .small { color: var(--ink); }
 .foot .legal, .foot .finish p { max-width: 62ch; }
 
+/* ---------- Notifications ---------- */
+
+.notify p { color: var(--muted); max-width: 40ch; }
+.notify-actions { display: grid; gap: 8px; margin-top: 14px; }
+.notify .btn { background: var(--paper); color: var(--paper-ink); justify-self: start; }
+.notify .btn:disabled { opacity: 0.6; }
+.notify .code {
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 0;
+  background: #3b3b36;
+  color: var(--night-ink);
+  font: inherit;
+  font-size: var(--step-small);
+  line-height: 1.4;
+  word-break: break-all;
+  resize: none;
+}
+
 /* ---------- One article ---------- */
 
 .art-head { padding-top: calc(env(safe-area-inset-top, 0px) + 54px + 44px); padding-bottom: 56px; }
