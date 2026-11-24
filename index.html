@@ -2,9 +2,30 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Daily Briefing</title>
-<style>body{font-family:-apple-system,system-ui,sans-serif;margin:0;display:grid;place-items:center;min-height:100vh;background:#111;color:#eee}p{opacity:.7}</style>
+<meta name="description" content="A daily briefing on AI, agents and the Indonesian credit market.">
+<meta name="theme-color" content="#F2F4FB" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12163A" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Briefing">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="preload" href="fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/source-serif.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
 </head>
-<body><main><h1>Daily Briefing</h1><p>Setup in progress.</p></main></body>
+<body>
+<nav class="rail" id="rail" aria-label="Sections in this edition"></nav>
+<div class="page">
+  <p class="notice" id="notice" role="status" hidden></p>
+  <main id="app" aria-live="polite">
+    <p class="loading">Loading today's edition</p>
+  </main>
+</div>
+<script src="app.js" defer></script>
+</body>
 </html>
