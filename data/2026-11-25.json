@@ -478,6 +478,28 @@
       "stair": "Text the agent reads as data gets obeyed as if it were an order.",
       "simple": "A model cannot reliably tell instructions from content, because both arrive as words. A line hidden in an invoice, an email or a web page can redirect what the agent does next.",
       "analogy": "A payments clerk opens an invoice and finds a note typed in the margin: also wire 50,000 to this account. A trained clerk ignores it, because instructions come from the manager and not from the paperwork. An agent has no such instinct. The system around it has to supply one."
+    },
+    {
+      "id": "indonesia-pindar-profit-falls-stress-tests",
+      "time": "15:40",
+      "kind": "story",
+      "section": "market",
+      "headline": "Indonesia: pindar profit falls 14% as costs bite",
+      "dek": "The regulator says it stress-tests online lenders as their earnings shrink and nine-tenths of income goes on running costs.",
+      "body": [
+        "Indonesia's licensed online lenders (pindar) earned less in September. Infobanknews reports that the industry's comprehensive profit fell 14.14% on the year to Rp 1.65 trillion. Operating costs took 90.05% of operating income, a ratio known locally as BOPO.",
+        "In a statement on 25 November, Agusman, who supervises the sector at the regulator OJK, said the industry's growth and funding quality are monitored regularly and that stress tests are part of that supervision. The report gives no scenarios, results or dates for the tests.",
+        "On household debt, he pointed to three existing controls: stronger checks on a borrower's ability to repay before money goes out, the cap on what platforms may charge, and a limit that holds a borrower's total loan repayments to at most 30% of income, set in an OJK circular from 2025.",
+        "This follows this morning's story that loans more than 90 days overdue reached 5.36% in September, above OJK's 5% line."
+      ],
+      "soWhat": "Bad loans are up and margins are down at the same time, which is when an originator's ability to keep servicing matters most. Ask each originator for its own profit trend and cost-to-income ratio, and how it evidences the 30% repayment-to-income check on loans it sells into a pool.",
+      "sources": [
+        {
+          "title": "OJK stress test industri fintech lending, antisipasi risiko utang rumah tangga",
+          "publisher": "Infobanknews",
+          "url": "https://infobanknews.com/ojk-stress-test-industri-fintech-lending-antisipasi-risiko-utang-rumah-tangga"
+        }
+      ]
     }
   ]
 }
