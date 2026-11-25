@@ -100,6 +100,11 @@ most, never changed once published), `time` ("HH:MM") and `kind`.
 - `soWhat`: 70 words at most, addressed to the reader. What to do, ask or watch. No generic
   "this shows AI is growing" lines.
 - `sources`: at least one `{ "title", "publisher", "url" }`.
+- `background`: required, 1 to 6 entries of `{ "name", "about", "source" }`, shown under the
+  body as "Background". `name` is 40 characters at most. `source` is `{ "publisher", "url" }`
+  for the page behind any figure in the entry, and may be left out when there is no figure. `about` is 15 to 70 words and says three things:
+  what it is, why it matters to the reader's field, and how big or important it is (see
+  "Never assume the reader knows a name" below). Deep dives and plain terms may carry one too.
 - The lead also has `"lead": true` and `poster`: exactly two lines of 3 to 12 characters each,
   set in capitals at poster size, so make them a blunt four-word summary ("Banks leash" /
   "their agents").
@@ -148,6 +153,20 @@ Text is plain. The only markup the app understands is `**bold**`.
 - Short sentences, plain verbs, active voice. Write for someone reading on a phone.
 - Lead with what happened, then what it means.
 - Explain every acronym the first time, or put it in `terms`.
+- **Never assume the reader knows a name.** Every company, person, regulator, institution,
+  product, paper, benchmark and piece of jargon gets explained, however well known it seems.
+  Do it twice over:
+  - In the body, give each a few words on first mention: "dv01, a US loan-data platform for
+    securitisation", not "dv01".
+  - In `background`, give each one that the story turns on its own entry: what it is, why it
+    is relevant to consumer credit, securitisation or the reader's AI work, and how important
+    it is in the field. Use a figure with its year where a reliable one exists (market share,
+    loan book, users, assets supervised, funding raised). Say plainly when something is small,
+    new, niche or unproven. For a person, give their role, their record and why their words
+    carry weight. Cover at least everything named in the headline and dek.
+  - Check every background fact at a source; never guess a size. Put the page behind a figure
+    in the entry's `source`. An entry may repeat one from an earlier day, since each article
+    must stand on its own.
 - Put everything in your own words. Never copy sentences from a source. At most one short
   quotation in a whole day, and usually none.
 - Go to original sources (company posts, regulators, papers, wire services) over aggregators,

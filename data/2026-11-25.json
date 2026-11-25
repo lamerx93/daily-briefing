@@ -60,6 +60,24 @@
           "publisher": "Google Developers Blog",
           "url": "https://developers.googleblog.com/did-the-user-ask-for-this-securing-ai-agents-against-intent-hijacking-with-semantic-governance-policies/"
         }
+      ],
+      "background": [
+        {
+          "name": "Google and Gemini",
+          "about": "Gemini is Google's family of AI models, sold to companies through Google Cloud along with tools for building agents. Google is one of the three labs at the front of AI, with OpenAI and Anthropic. When it publishes a security control with test numbers, other vendors and bank risk teams tend to treat it as a reference point."
+        },
+        {
+          "name": "AgentDojo",
+          "about": "A public test bench for agent security, built by researchers at ETH Zurich and published in 2024. Agents work through realistic tasks in four settings, one of them e-banking, while planted text tries to hijack them. It is a common yardstick: the US government's AI standards centre used it for its own hijacking tests.",
+          "source": {
+            "publisher": "NIST",
+            "url": "https://www.nist.gov/node/1872381"
+          }
+        },
+        {
+          "name": "Intent hijacking",
+          "about": "Also called prompt injection. An attacker hides instructions in something the agent reads, such as an email, a web page or a loan document, and the agent follows them as if the user had asked. It is the main security risk for any agent that reads outside documents and can act."
+        }
       ]
     },
     {
@@ -84,6 +102,20 @@
           "title": "AI News, Nov 24, 2026",
           "publisher": "RIO Rundown",
           "url": "https://riorundown.substack.com/p/ai-news-nov-24-2026-anthropic-agent"
+        }
+      ],
+      "background": [
+        {
+          "name": "Anthropic",
+          "about": "The San Francisco AI company, founded in 2021, that makes the Claude models. It is one of the three leading labs, with OpenAI and Google, and Claude is heavily used for writing software. How far Anthropic lets its agents act alone tends to shape what other vendors offer and what customers ask for."
+        },
+        {
+          "name": "GitHub",
+          "about": "The service most software teams use to store code and review changes, owned by Microsoft. A proposed change, called a pull request, waits there until reviewers approve it and it is merged into the live code. Where an agent sits in that flow decides who is accountable for what ships."
+        },
+        {
+          "name": "Policy-based approval",
+          "about": "Rules kept in a file that say which changes need how many human sign-offs. It is maker-checker for software: the agent can be the maker, and the policy decides when a person must be the checker. The pattern carries over to any agent that touches money or investor data."
         }
       ]
     },
@@ -110,6 +142,24 @@
           "publisher": "DEV Community",
           "url": "https://dev.to/hiroki-ii-ai/ai-daily-digest-november-25-2026-jensen-huang-returns-to-lead-nvidia-walmart-opens-its-aisles-jgn"
         }
+      ],
+      "background": [
+        {
+          "name": "Walmart",
+          "about": "The world's largest retailer by revenue, with $713.2bn in the year to January 2026, of which over $150bn came from online sales. When a company that size sets rules for AI agents spending customers' money, those rules become a template for payment firms, card networks and lenders.",
+          "source": {
+            "publisher": "Retail Dive",
+            "url": "https://www.retaildive.com/news/walmart-continues-gains-with-higher-income-shoppers/812573/"
+          }
+        },
+        {
+          "name": "Model Context Protocol (MCP)",
+          "about": "An open standard for plugging AI models into tools and data, launched by Anthropic in November 2024. In December 2025 it moved to the Agentic AI Foundation under the Linux Foundation, with OpenAI, Google, Microsoft and AWS among the backers. By then there were more than 10,000 public MCP servers, making it the default way agents connect.",
+          "source": {
+            "publisher": "Linux Foundation",
+            "url": "https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation"
+          }
+        }
       ]
     },
     {
@@ -128,6 +178,28 @@
           "title": "Elastic and HoneyHive join forces to advance AI observability and evaluation",
           "publisher": "Elastic",
           "url": "https://www.elastic.co/blog/elastic-and-honeyhive"
+        }
+      ],
+      "background": [
+        {
+          "name": "Elastic",
+          "about": "A software company listed in New York, behind Elasticsearch, a search engine many firms use to store and query their system logs. It also sells security and monitoring tools. Revenue was $1.739bn in the year to April 2026, up 17%. Buying HoneyHive puts agent monitoring into tools many IT teams already run.",
+          "source": {
+            "publisher": "Business Wire",
+            "url": "https://www.businesswire.com/news/home/20260527847546/en"
+          }
+        },
+        {
+          "name": "HoneyHive",
+          "about": "A small New York start-up, founded in 2022, that records and scores what AI agents do. It had raised $7.4m in total by April 2025, with Insight Partners leading its seed round. Small, but one of a handful of firms building the step-by-step recorder that auditors and model risk teams will expect agents to have.",
+          "source": {
+            "publisher": "PR Newswire",
+            "url": "https://www.prnewswire.com/news-releases/honeyhive-a-leadingai-agent-observability-and-evaluation-platform-announces-launch-and-7-4m-in-total-funding-led-by-insight-partners-302419249.html"
+          }
+        },
+        {
+          "name": "Observability",
+          "about": "Being able to see what a system is doing from the records it leaves. For agents that means a trace of every step: what it read, which tool it called, with what inputs, and what came back. Without it, nobody can explain afterwards why an agent made a decision."
         }
       ]
     },
@@ -149,6 +221,20 @@
           "publisher": "arXiv",
           "url": "https://arxiv.org/abs/2608.19263"
         }
+      ],
+      "background": [
+        {
+          "name": "pass@k and pass^k",
+          "about": "Two ways to score an agent that gets k attempts at each task. pass@k counts a task as solved if any attempt succeeds; pass^k only if every attempt does. The first flatters, the second measures reliability. For servicing work that must be right every time, ask vendors for pass^k."
+        },
+        {
+          "name": "arXiv",
+          "about": "A free online library where researchers post papers before, or instead of, peer review. Most AI research appears there first, so it is fast but unchecked. Read an arXiv paper as a serious draft, not a settled finding, and look for whether others have repeated its results."
+        },
+        {
+          "name": "Evaluation Context Protocol",
+          "about": "A proposal, posted on arXiv in August 2026, for a shared format to describe agent tests so they can move between tools. It is one paper's idea, not an adopted standard. Its value today is as a tidy summary of current advice on testing agents."
+        }
       ]
     },
     {
@@ -168,6 +254,24 @@
           "title": "Localizing Post-Wire Semantic Changes in MCP Agent Frameworks",
           "publisher": "arXiv",
           "url": "https://arxiv.org/abs/2610.00182"
+        }
+      ],
+      "background": [
+        {
+          "name": "Agent framework",
+          "about": "A software kit that runs the agent loop for developers: it calls the model, passes tool results back and keeps track of the steps. The main ones come from OpenAI, Google, Microsoft and LangChain. Choosing one is a real decision, because each hands data to the model slightly differently."
+        },
+        {
+          "name": "LangChain",
+          "about": "A San Francisco start-up whose open-source tools are among the most widely used for building AI agents. In October 2025 it raised $125m at a $1.25bn valuation. It also sells LangSmith, a product for testing and monitoring agents, so it sits on both the building and the checking side.",
+          "source": {
+            "publisher": "LangChain",
+            "url": "https://langchain.com/blog/series-b"
+          }
+        },
+        {
+          "name": "Contract test",
+          "about": "A check that two systems agree on the exact shape of what passes between them, rerun whenever either side changes. It is the software cousin of validating a data tape against the agreed template before a pool cut. For agents, it catches a tool result that arrives altered or garbled."
         }
       ]
     },
@@ -189,6 +293,24 @@
           "publisher": "Hugging Face community blog",
           "url": "https://huggingface.co/blog/phranzia/how-to-test-your-mcp-server-with-coding-agents"
         }
+      ],
+      "background": [
+        {
+          "name": "Hugging Face",
+          "about": "The main public hub for open AI models and datasets, often called the GitHub of AI; it passed one million public models in 2024. Its blog also carries community posts like this one, written by users and not checked by the company.",
+          "source": {
+            "publisher": "The Decoder",
+            "url": "https://the-decoder.com/hugging-face-is-growing-fast-with-users-creating-new-ai-repositories-every-10-seconds/"
+          }
+        },
+        {
+          "name": "Tool server (MCP server)",
+          "about": "A small program that opens a system, such as a loan database or a reporting tool, to AI agents through MCP. It lists the tools on offer, describes each in plain text and returns results. The agent knows only what those descriptions say, so their wording is part of the specification."
+        },
+        {
+          "name": "Trace",
+          "about": "The step-by-step record of one agent run: each model call, each tool call with its inputs, and each result. Reading traces is how you learn why an agent failed, and keeping them is what lets you show an auditor what happened."
+        }
       ]
     },
     {
@@ -208,6 +330,32 @@
           "title": "Fed's AI Warning Puts Banks' Credit Denials Under Scrutiny",
           "publisher": "PYMNTS",
           "url": "https://www.pymnts.com/news/artificial-intelligence/2026/federal-reserve-michael-barr-ai-warning-puts-bank-credit-denials-under-scrutiny/"
+        }
+      ],
+      "background": [
+        {
+          "name": "Michael Barr",
+          "about": "A member of the US Federal Reserve Board since July 2022, with a term to 2032. He ran the Fed's bank supervision as Vice Chair for Supervision until February 2025, and has since dissented from several moves to loosen bank rules. His speeches show where a stricter future regulator might go.",
+          "source": {
+            "publisher": "Federal Reserve",
+            "url": "https://www.federalreserve.gov/aboutthefed/bios/board/barr.htm"
+          }
+        },
+        {
+          "name": "Federal Reserve",
+          "about": "The US central bank. Besides setting interest rates, which move the dollar and Asian currencies with it, it supervises the largest US banks. Its guidance on managing model risk has long been copied by banks and regulators well beyond the US."
+        },
+        {
+          "name": "OCC",
+          "about": "The Office of the Comptroller of the Currency, a bureau of the US Treasury that charters and supervises national banks. It oversees about $16.7 trillion of bank assets, including most of the largest US banks, so the way its examiners judge AI shapes practice across the industry.",
+          "source": {
+            "publisher": "US Treasury",
+            "url": "https://home.treasury.gov/system/files/266/21.-OCC-FY-2027-BIB.pdf"
+          }
+        },
+        {
+          "name": "Alternative data",
+          "about": "Information beyond a credit bureau file, such as rent, utility bills, phone top-ups or gig income, used to judge whether someone will repay. It is central to digital lending in Asia, where many borrowers have thin or no bureau history, so the US debate on disputes and fairness is a preview."
         }
       ]
     },
@@ -229,6 +377,20 @@
           "publisher": "PR Newswire",
           "url": "https://www.prnewswire.com/news-releases/dv01-unveils-agentic-infrastructure-to-move-structured-finance-beyond-ai-experimentation-302890860.html"
         }
+      ],
+      "background": [
+        {
+          "name": "dv01",
+          "about": "A New York data company, founded in 2014, that gathers loan-level data and runs analytics for securitisations and credit facilities. Fitch Group, owner of Fitch Ratings, bought it in 2022. It says its data now covers more than 650 million loans, and many ABS investors and issuers work on its platform.",
+          "source": {
+            "publisher": "dv01",
+            "url": "https://www.dv01.co/resources/blog/dv01-acquired-by-fitch-group"
+          }
+        },
+        {
+          "name": "Semantic layer",
+          "about": "A translation table between raw data columns and agreed business terms, so that delinquent balance means one defined calculation everywhere. For agents it matters a great deal: the model calls the defined measure instead of guessing what a column means. It is the same discipline as a deal's defined terms."
+        }
       ]
     },
     {
@@ -248,6 +410,32 @@
           "title": "Banks Add AI Agents, Keep Their 40-Year-Old Cores",
           "publisher": "PYMNTS",
           "url": "https://www.pymnts.com/news/artificial-intelligence/2026/banks-add-ai-agents-keep-their-40-year-old-cores/"
+        }
+      ],
+      "background": [
+        {
+          "name": "Core banking system",
+          "about": "The central ledger software that holds a bank's accounts, loans and balances. Many banks still run cores written decades ago, and replacing one is slow and risky. That is why new tools, agents included, are usually wrapped around the core instead of replacing it."
+        },
+        {
+          "name": "Sutherland",
+          "about": "An outsourcing firm founded in 1986 near Rochester, New York, that runs back-office and customer operations for banks and other large companies. It has more than 40,000 staff, with large centres in India and the Philippines. Firms like it are often the ones that actually put agents to work inside bank operations.",
+          "source": {
+            "publisher": "Dun & Bradstreet",
+            "url": "https://www.dnb.com/business-directory/company-profiles.sutherland_global_services_inc.b40129f8332d0f79a995c0748f46177e.html"
+          }
+        },
+        {
+          "name": "FlowX.AI",
+          "about": "A software company with roots in Romania, founded in 2020, that builds AI workflow tools for banks. It raised $35m in 2023 in a round led by Dawn Capital, and lists large Central and Eastern European banks such as OTP and Banca Transilvania as clients. It is a vendor, and its performance figures are its own.",
+          "source": {
+            "publisher": "Verdict",
+            "url": "https://www.verdict.co.uk/flowx-ai-raises-35m/"
+          }
+        },
+        {
+          "name": "Kansas City Fed",
+          "about": "One of the 12 regional banks that make up the US Federal Reserve system. Its researchers study bank technology and payments, which is why their view on the age of bank cores carries weight."
         }
       ]
     },
@@ -279,6 +467,20 @@
           "title": "Rupiah ditutup melemah 0,15 persen jadi Rp 18.230 per dolar AS",
           "publisher": "Beritasatu",
           "url": "https://www.beritasatu.com/ekonomi/3043514/rupiah-ditutup-melemah-015-persen-jadi-rp-18230-per-dolar-as"
+        }
+      ],
+      "background": [
+        {
+          "name": "Bank Indonesia (BI)",
+          "about": "Indonesia's central bank. Its legal goal is a stable rupiah, and it sets the BI-Rate, which feeds into what banks and lenders pay for funding. Its rate and currency moves change both the cost of funding consumer loans and the cost of hedging rupiah assets back into dollars."
+        },
+        {
+          "name": "Domestic NDF (DNDF)",
+          "about": "A rupiah-settled forward contract for hedging dollar exposure, which BI introduced in 2018. No dollars change hands: at maturity the two sides settle the difference against BI's reference rate, JISDOR. Cheaper DNDF hedging matters to anyone funding rupiah loans with dollars or euros.",
+          "source": {
+            "publisher": "Bank Indonesia",
+            "url": "https://www.bi.go.id/id/publikasi/peraturan/Pages/pbi_201018.aspx"
+          }
         }
       ]
     },
@@ -314,7 +516,37 @@
           "publisher": "Kontan",
           "url": "https://keuangan.kontan.co.id/news/ojk-sebut-penurunan-bunga-fintech-lending-bertujuan-kurangi-beban-biaya-borrower"
         }
-      }
+      },
+      "background": [
+        {
+          "name": "OJK",
+          "about": "Otoritas Jasa Keuangan, Indonesia's Financial Services Authority. It licenses and supervises banks, finance companies, pindar platforms and the capital markets. Its price caps and bad-loan limits set the economics of every consumer loan book in Indonesia, and so of any pool built from one."
+        },
+        {
+          "name": "Pindar",
+          "about": "Short for pinjaman daring, online lending: OJK's name for its licensed peer-to-peer platforms, which match borrowers with funders who carry the credit risk. There were 94 licensed platforms at the end of July 2026. The name sets them apart from illegal online lenders, known as pinjol.",
+          "source": {
+            "publisher": "OJK",
+            "url": "https://ojk.go.id/id/kanal/iknb/data-dan-statistik/direktori/fintech/Pages/Direktori-Layanan-Pendanaan-Bersama-Berbasis-Teknologi-Informasi-Juli-2026.aspx"
+          }
+        },
+        {
+          "name": "TWP90",
+          "about": "Tingkat wanprestasi 90 hari: the share of a pindar platform's outstanding loans that are more than 90 days overdue. It is OJK's main measure of credit quality in the sector, and 5% is the line above which a platform faces closer supervision."
+        },
+        {
+          "name": "Agusman",
+          "about": "The OJK board member who heads supervision of finance companies, venture capital, microfinance and pindar platforms, in the post since August 2023. When he speaks about pindar risk, it is the regulator's own view of the sector.",
+          "source": {
+            "publisher": "Bisnis.com",
+            "url": "https://finansial.bisnis.com/read/20230818/563/1685976/jadi-anggota-dk-ojk-baru-agusman-jelaskan-tugas-dan-wewenangnya"
+          }
+        },
+        {
+          "name": "Celios",
+          "about": "The Center of Economic and Law Studies, an independent Jakarta think tank working on economic and fiscal policy. Its economists are often quoted in Indonesian business news; they speak for themselves, not for the industry or the regulator."
+        }
+      ]
     },
     {
       "id": "philippines-small-loans-double",
@@ -338,6 +570,20 @@
           "title": "Why Filipinos are turning to bite-sized loans",
           "publisher": "GMA News",
           "url": "https://www.gmanetwork.com/news/money/personalfinance/1010612/why-filipinos-are-turning-to-bite-sized-loans/story/"
+        }
+      ],
+      "background": [
+        {
+          "name": "CIBI",
+          "about": "CIBI Information, the Philippines' only locally owned credit bureau, which began in 1982 as a unit of the central bank. The state Credit Information Corporation accredits it to sell credit reports and scores. Its reports are one of the few public windows on how Philippine consumer borrowers are paying.",
+          "source": {
+            "publisher": "Credit Information Corporation",
+            "url": "https://creditinfo.gov.ph/node/1766"
+          }
+        },
+        {
+          "name": "Credit Information Corporation",
+          "about": "The Philippine government's central credit registry, created by a 2008 law. It collects borrower data from lenders and accredits private bureaus, such as CIBI, to turn that data into reports and scores for lenders."
         }
       ]
     },
@@ -363,6 +609,28 @@
           "title": "RBI finalises securitisation-note transfer rules",
           "publisher": "Court Cast",
           "url": "https://courtscast.com/rbi-securitisation-transactions-amendment-directions-2026/"
+        }
+      ],
+      "background": [
+        {
+          "name": "Reserve Bank of India (RBI)",
+          "about": "India's central bank and the regulator of its banks and non-bank lenders. It writes the securitisation rules, from what may be pooled to who may invest. India's market hit a record of about ₹2.5 lakh crore (₹2.5 trillion) in the year to March 2026, by ICRA's estimate.",
+          "source": {
+            "publisher": "ICRA",
+            "url": "https://icra.in/Research/ViewResearchReport/6954"
+          }
+        },
+        {
+          "name": "NBFC",
+          "about": "Non-bank finance company: India's licensed lenders that are not banks, from vehicle and gold-loan financiers to digital lenders. With housing finance companies they sold about ₹2.2 lakh crore of loans through securitisation in the year to March 2026, up about 30%, making them the market's main sellers.",
+          "source": {
+            "publisher": "ICRA",
+            "url": "https://www.icra.in/Research/ViewResearchReport/6891"
+          }
+        },
+        {
+          "name": "Depository",
+          "about": "An institution that holds securities as electronic records instead of paper certificates; India has two, NSDL and CDSL. With notes held there, every owner and every transfer is on record, which is what makes a minimum ticket size enforceable on later sales."
         }
       ]
     },
@@ -498,6 +766,24 @@
           "title": "OJK stress test industri fintech lending, antisipasi risiko utang rumah tangga",
           "publisher": "Infobanknews",
           "url": "https://infobanknews.com/ojk-stress-test-industri-fintech-lending-antisipasi-risiko-utang-rumah-tangga"
+        }
+      ],
+      "background": [
+        {
+          "name": "BOPO",
+          "about": "Beban operasional terhadap pendapatan operasional: operating costs as a share of operating income. At 90.05%, platforms keep only about a tenth of their operating income. A high BOPO leaves little room to absorb more bad loans or higher funding costs."
+        },
+        {
+          "name": "Stress test",
+          "about": "A what-if exercise: a supervisor or firm runs the books through a bad scenario, such as defaults doubling or funding drying up, to see whether capital holds. The results matter more than the fact that a test was run, and OJK gave none here."
+        },
+        {
+          "name": "Agusman",
+          "about": "The OJK board member who heads supervision of finance companies, venture capital, microfinance and pindar platforms, in the post since August 2023. When he speaks about pindar risk, it is the regulator's own view of the sector.",
+          "source": {
+            "publisher": "Bisnis.com",
+            "url": "https://finansial.bisnis.com/read/20230818/563/1685976/jadi-anggota-dk-ojk-baru-agusman-jelaskan-tugas-dan-wewenangnya"
+          }
         }
       ]
     }

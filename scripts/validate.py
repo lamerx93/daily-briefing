@@ -62,7 +62,27 @@ def check_number(num, where):
             problems.append(f"{where}: number.rows and number.total must be plain numbers so the slip can be checked")
 
 
-def check_story(a, where):
+BACKGROUND_FROM = "2026-11-25"  # stories from this day on must explain the names and terms they use
+
+
+def check_background(a, where, required):
+    bg = a.get("background")
+    if bg is None:
+        need(not required, f"{where}: needs 'background': explain every company, person, institution and term the story names")
+        return
+    need(isinstance(bg, list) and 1 <= len(bg) <= 6, f"{where}: background has 1 to 6 entries")
+    for n, b in enumerate(bg if isinstance(bg, list) else [], 1):
+        name = text(b, "name", f"{where} background {n}")
+        need(len(name) <= 40, f"{where} background {n}: name is 40 characters at most")
+        about = text(b, "about", f"{where} background {n}")
+        src = b.get("source") if isinstance(b, dict) else None
+        if src is not None:
+            need(isinstance(src, dict) and re.match(r"^https?://\S+$", src.get("url", "") or "") and (src.get("publisher") or src.get("title")),
+                 f"{where} background {n}: source needs a publisher and an http(s) url")
+        need(15 <= words(about) <= 70, f"{where} background {n}: about is 15 to 70 words (it is {words(about)}): what it is, why it matters to the reader, how big or important it is")
+
+
+def check_story(a, where, date=""):
     need(a.get("section") in SECTIONS, f"{where}: 'section' must be one of {', '.join(SECTIONS)}")
     limit = 36 if a.get("section") == "techniques" else 48
     head = text(a, "headline", where)
@@ -75,6 +95,7 @@ def check_story(a, where):
     need(30 <= words(body) <= 320, f"{where}: body should be 30 to 320 words (it is {words(body)})")
     need(0 < words(text(a, "soWhat", where)) <= 70, f"{where}: soWhat is 70 words at most")
     check_sources(a, where)
+    check_background(a, where, required=date >= BACKGROUND_FROM)
     if a.get("lead"):
         poster = a.get("poster")
         need(isinstance(poster, list) and len(poster) == 2 and all(isinstance(x, str) and 3 <= len(x) <= 12 for x in poster),
@@ -147,11 +168,13 @@ def main():
         need(isinstance(a.get("time"), str) and re.match(r"^([01]\d|2[0-3]):[0-5]\d$", a.get("time", "")), f"{where}: 'time' is HH:MM, Singapore time")
         kind = a.get("kind")
         if kind == "story":
-            check_story(a, where)
+            check_story(a, where, date)
         elif kind == "deepdive":
             check_deepdive(a, where)
+            check_background(a, where, required=False)
         elif kind == "plain":
             check_plain(a, where)
+            check_background(a, where, required=False)
         else:
             problems.append(f"{where}: 'kind' must be story, deepdive or plain")
 

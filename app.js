@@ -120,7 +120,7 @@
     return cut ? cut[0] : first.slice(0, 160);
   }
   function minutes(a) {
-    const words = JSON.stringify([a.headline, a.dek, a.body, a.soWhat, a.steps, a.forRequirements, a.example, a.stair, a.simple, a.analogy]).split(/\s+/).length;
+    const words = JSON.stringify([a.headline, a.dek, a.body, a.soWhat, a.steps, a.forRequirements, a.example, a.stair, a.simple, a.analogy, a.background]).split(/\s+/).length;
     return Math.max(1, Math.round(words / 220));
   }
   function whereOf(a) { return a.kind === "story" ? SECTION_NAME[a.section] || "News" : KIND_NAME[a.kind] || "Article"; }
@@ -613,6 +613,17 @@
         el("div", { class: "answers", "data-ui": true }, el("div", { class: "options" }, buttons), explain)));
   }
 
+  function backgroundBlock(a) {
+    const list = (Array.isArray(a.background) ? a.background : []).filter((b) => b && b.name && b.about);
+    if (!list.length) return null;
+    return el("section", { class: "sec on-night background", id: "background", "data-ink": "light" },
+      el("div", { class: "grid" },
+        el("h2", { class: "head", text: "Background" }),
+        el("dl", { class: "bg-list" }, list.map((b) =>
+          el("div", null, el("dt", { class: "title", text: b.name }),
+            el("dd", null, rich(b.about), b.source && sourceLinks([b.source]).length ? [" ", el("span", { class: "src" }, "From ", sourceLinks([b.source]), ".")] : null))))));
+  }
+
   function article(day, a) {
     const date = day.date;
     const arts = day.articles || [];
@@ -631,6 +642,7 @@
         story ? el("div", { class: "body" }, paras.map((p, i) => i === paras.length - 1 ? withSources(p, a.sources) : el("p", null, rich(p)))) : null)));
 
     if (story) {
+      out.push(backgroundBlock(a));
       if (a.soWhat) {
         out.push(el("section", { class: "sec on-surface matters", id: "matters", "data-ink": "dark" },
           el("div", { class: "grid" }, el("h2", { class: "head", text: "So what" }), el("p", null, rich(a.soWhat)))));
@@ -666,6 +678,7 @@
           a.analogy ? el("p", { class: "more" }, rich(a.analogy)) : null)));
     }
 
+    if (!story) out.push(backgroundBlock(a));
     out.push(plate(dayNumber(date) + 2 + arts.indexOf(a)));
 
     const next = arts.find((x) => x.id !== a.id && !store.has(date, x.id));
@@ -796,7 +809,7 @@
   // Each part waits just below the fold, hidden only while it is about to be scrolled into view,
   // then rises as it crosses the line. Nothing far down the page is ever hidden.
   let parts = [];
-  const PARTS = ".poster span, .hero-sub, .hero .btn, .hero-meta, .art-h1, .dek, .meta, .head, .body, .row, .day-row, .bar li, .run .title, .trace li, .reqs .title, .reqs li, .note, .total, .caption, .slip, .steps-stmt span, .more, blockquote, .who p, .question, .options button, details, figcaption, .matters p, .done, .next, .pair .btn, .wordmark";
+  const PARTS = ".poster span, .hero-sub, .hero .btn, .hero-meta, .art-h1, .dek, .meta, .head, .body, .row, .day-row, .bar li, .run .title, .trace li, .reqs .title, .reqs li, .note, .total, .caption, .slip, .steps-stmt span, .more, blockquote, .who p, .question, .options button, details, figcaption, .matters p, .bg-list > div, .done, .next, .pair .btn, .wordmark";
 
   function stage(first) {
     if (!parts.length) return;
@@ -858,7 +871,7 @@
       docs.push({
         date: day.date, id: a.id, where: whereOf(a), title: a.headline,
         text: [a.dek, bodyOf(a), a.soWhat, (a.steps || []).map((s) => s.title + ". " + s.body), a.forRequirements,
-          ((a.example || {}).rows || []).map((r) => r.text), a.jargon, a.stair, a.simple, a.analogy].flat().filter(Boolean).join(" ")
+          ((a.example || {}).rows || []).map((r) => r.text), a.jargon, a.stair, a.simple, a.analogy, (a.background || []).map((b) => b.name + ". " + b.about)].flat().filter(Boolean).join(" ")
       });
     }));
     corpus = docs;
