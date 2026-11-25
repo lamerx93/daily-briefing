@@ -1,6 +1,31 @@
 {
   "days": [
     {
+      "date": "2026-11-26",
+      "poster": [
+        "Your agent,",
+        "your duty"
+      ],
+      "headline": "UK regulator: the firm answers for its agent",
+      "ids": [
+        "uk-regulator-firm-answers-for-its-agent",
+        "attackers-agents-command-every-1-4-seconds",
+        "mcp-servers-can-ship-their-own-instructions",
+        "anthropic-study-review-is-the-bottleneck",
+        "delegation-tokens-for-agents",
+        "cap-tool-outputs-before-compacting",
+        "paired-runs-to-test-a-skill",
+        "wells-fargo-your-ai-agent-your-risk",
+        "hong-kong-asks-banks-how-to-govern-agents",
+        "indonesia-rupiah-record-low-past-18300",
+        "indonesia-paylater-income-floor-takes-hold",
+        "malaysia-bnpl-licence-deadline-30-november",
+        "india-non-banks-lean-harder-on-bank-loans",
+        "the-context-window",
+        "token"
+      ]
+    },
+    {
       "date": "2026-11-25",
       "poster": [
         "Did the user",

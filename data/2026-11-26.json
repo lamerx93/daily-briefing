@@ -1,0 +1,765 @@
+{
+  "date": "2026-11-26",
+  "line": {
+    "line": "Regulators are converging on one point: the agent is yours, whoever built it.",
+    "backup": "The UK's Financial Conduct Authority said on 24 November that responsibility stays with the regulated firm and its senior managers, including where a third party supplies the AI system. Hong Kong's banking regulator says the same in a paper open for comment."
+  },
+  "terms": [
+    {
+      "term": "Agentic AI",
+      "meaning": "AI that plans and takes actions through tools with limited human involvement, instead of only answering."
+    },
+    {
+      "term": "Token",
+      "meaning": "A small piece of text. Models measure their input, their working memory and their price in tokens."
+    },
+    {
+      "term": "Context window",
+      "meaning": "Everything the model can see at one step: instructions, conversation and tool results. Fixed in size."
+    },
+    {
+      "term": "Compaction",
+      "meaning": "Replacing older conversation with a summary so it fits in the context window."
+    },
+    {
+      "term": "Token exchange",
+      "meaning": "Swapping a user's access pass for a narrower one that also names the agent acting for them."
+    },
+    {
+      "term": "JISDOR",
+      "meaning": "Bank Indonesia's official daily reference rate for the rupiah against the US dollar."
+    },
+    {
+      "term": "NPF",
+      "meaning": "Non-performing financing: the share of a finance company's lending that is seriously overdue."
+    },
+    {
+      "term": "NBFC",
+      "meaning": "Non-banking financial company: an Indian lender without a banking licence."
+    }
+  ],
+  "articles": [
+    {
+      "id": "uk-regulator-firm-answers-for-its-agent",
+      "time": "06:54",
+      "kind": "story",
+      "section": "field",
+      "lead": true,
+      "poster": [
+        "Your agent,",
+        "your duty"
+      ],
+      "headline": "UK regulator: the firm answers for its agent",
+      "dek": "Britain's Financial Conduct Authority says its existing rules already cover AI agents, and that responsibility stays with the firm and its senior managers even when a vendor built the system.",
+      "body": [
+        "Britain's Financial Conduct Authority (FCA), which polices how financial firms behave, published a statement on 24 November called \"Our approach to Agentic AI\". Agentic AI means software that plans and takes actions with some independence. The statement makes no new rules. It says how the rules firms already follow apply when an agent is doing the work.",
+        "The central point is accountability. Responsibility for meeting regulatory obligations stays with the regulated firm and its senior managers, including where a third party supplies the system. Firms must be able to show that they understand the systems they use, how much autonomy those systems have, the risks they create, and the controls needed to manage those risks in real time and under stress.",
+        "A second part covers agents that act for customers. Firms should work out how they know they are dealing with an agent, what consent is in place and what the agent is allowed to do. They should decide whether it is appropriate to accept a payment instructed by an agent at all. Technology companies are warned that calling themselves a technology provider does not remove the need for a licence if they are in fact broking credit, giving advice or handling payments.",
+        "The FCA says it will keep the page updated and plans an \"Agentic Policy Sprint\" with industry, with no date given. A caution on sourcing: the FCA's own page could not be opened for this briefing. This account rests on a full-text reprint by the market news service Mondo Visione and a summary by the law firm Norton Rose Fulbright."
+      ],
+      "soWhat": "The FCA is not your regulator, but its test travels, and Hong Kong is asking similar questions. Write requirements so the answer already exists on paper: each agent's authority and limits, a named owner, and evidence that its controls were tested under stress. In procurement documents, state that buying a vendor's agent moves none of the accountability.",
+      "sources": [
+        {
+          "title": "UK Financial Conduct Authority Statement: Our Approach To Agentic AI",
+          "publisher": "Mondo Visione",
+          "url": "https://mondovisione.com/media-and-resources/news/uk-financial-conduct-authority-statement-our-approach-to-agentic-ai-20261124/"
+        },
+        {
+          "title": "New FCA webpage: Our approach to Agentic AI",
+          "publisher": "Norton Rose Fulbright, Regulation Tomorrow",
+          "url": "https://www.regulationtomorrow.com/2026/11/new-fca-webpage-our-approach-to-agentic-ai/"
+        }
+      ],
+      "background": [
+        {
+          "name": "Financial Conduct Authority (FCA)",
+          "about": "The UK regulator for the conduct of banks, lenders, insurers, investment firms and payment companies. London is one of the main centres for international finance, so the FCA's reading of how rules apply to new technology is widely studied by other regulators and by firms that sell to institutional investors."
+        },
+        {
+          "name": "Agentic AI",
+          "about": "AI systems that do more than answer: they plan steps, call tools and take actions, such as sending a payment instruction, with limited human involvement. This is the kind of AI that raises questions of authority and approval, which is why financial regulators are now writing about it separately."
+        },
+        {
+          "name": "Senior managers' responsibility",
+          "about": "UK financial rules make named senior individuals personally answerable for the areas they run. The FCA statement applies that to AI: a senior manager is responsible for the models used in their area whether built in house or bought, and must understand the risks and oversee deployment."
+        },
+        {
+          "name": "Mondo Visione",
+          "about": "A UK publisher that covers exchanges and financial markets and reprints regulators' announcements in full. It is a convenient mirror, not the original. Where its text and a regulator's own page differ, the regulator's page governs."
+        },
+        {
+          "name": "Norton Rose Fulbright",
+          "about": "A large international law firm with a financial regulation practice. Its Regulation Tomorrow blog summarises new regulatory publications for clients. Its summary here is a lawyer's reading of the FCA statement, not the FCA's own words."
+        }
+      ]
+    },
+    {
+      "id": "attackers-agents-command-every-1-4-seconds",
+      "time": "06:54",
+      "kind": "story",
+      "section": "agents",
+      "headline": "Attackers' agents: a command every 1.4 seconds",
+      "dek": "A security firm's study of more than 10 break-ins finds humans still pick the target and open the door, then hand over to an AI agent that works far faster.",
+      "body": [
+        "Unit 42, the threat research team of the US security company Palo Alto Networks, published a report on 24 November on break-ins where an AI agent did much of the work. It covers more than 10 campaigns seen between July and September 2026, in government, logistics, hospitality, manufacturing, agriculture and education. Financial services is not on the list.",
+        "The way in was ordinary. In every case a person first planted a web shell, a small backdoor file, on an unpatched web application facing the internet. Then the agent took over. The median gap between commands was 23.9 seconds while a human was exploring and 1.4 seconds once the agent was running. In one attack the agent was active for 140 minutes over two days and ran about 800 distinct commands.",
+        "The agents adapted. One tried five ways to gain higher privileges in turn and wrote its own code on the machine when ready-made tools failed. Another checked for 16 security scanners. In one case an agent used passwords found on a supplier's server to try to get into that supplier's code repository.",
+        "The researchers knew agents were involved because of what was left behind, such as scripts containing the model's own step-by-step reasoning as comments. They could not tell which AI model was used. This is research from a vendor that sells defences, and the speed figures come from a handful of cases."
+      ],
+      "soWhat": "Nothing here needs a new kind of defence. It needs the old ones done faster: patch what faces the internet and keep passwords out of files on servers. Ask your security team how long it takes to contain an intruder once detected, and ask each supplier that hosts your code or data the same question.",
+      "sources": [
+        {
+          "title": "Recent Trends and Tactics of Agentic AI Attacks",
+          "publisher": "Palo Alto Networks Unit 42",
+          "url": "https://unit42.paloaltonetworks.com/autonomous-ai-agent-threat-campaigns/"
+        }
+      ],
+      "background": [
+        {
+          "name": "Unit 42",
+          "about": "The threat research and incident response team of Palo Alto Networks, a large US cybersecurity company. It investigates real intrusions at client organisations, so its reports describe attacks that happened. It also has products to sell, so its framing of the threat deserves some caution."
+        },
+        {
+          "name": "Web shell",
+          "about": "A small script that an attacker uploads to a web server through a flaw in a web application. It lets them run commands on that server from a browser. It is one of the most common first footholds, and the reason unpatched internet-facing systems such as portals are the first thing auditors ask about."
+        },
+        {
+          "name": "Privilege escalation",
+          "about": "The step in an attack where an intruder with a low-level account gains administrator rights. It matters because data stores, credentials and other systems only become reachable after it. Controls that limit what any single account can do exist to slow this step."
+        }
+      ]
+    },
+    {
+      "id": "mcp-servers-can-ship-their-own-instructions",
+      "time": "06:54",
+      "kind": "story",
+      "section": "agents",
+      "headline": "MCP servers can now ship their own instructions",
+      "dek": "Anthropic has added four features to the way its Claude products talk to outside tools, including a built-in pause that asks a person to confirm before a risky action.",
+      "body": [
+        "Anthropic, the US lab behind the Claude models, announced four additions to its tool connections on 24 November, two years after it launched the Model Context Protocol (MCP), the standard plug between agents and tools. The original post could not be opened for this briefing, so this account relies on four secondary write-ups that agree with each other.",
+        "**Skills** let a tool server send the model its own instructions for using the tools well, loaded only when relevant. It is in public beta. **Tasks** let a tool start long-running work in the background and hand back a ticket to collect the result later. **Elicitation** lets a server stop mid-task and ask the user for input or approval through a form, then carry on. Both are generally available on paid individual plans and rolling out to business plans. **File uploads**, which send a document straight to a server without passing through the model's working memory, are not live yet.",
+        "The write-ups report that these are extensions to the open standard, so other MCP-compatible agents could support them, though how they behave across products is not yet clear. The technology site XenoSpectrum sets out the main risk. Skills are instructions written by an outside party, and they change whenever that party updates its server. In Claude Code, approval is tied to a fingerprint of the files, so any change needs fresh approval. That proves the files are the ones approved. It does not prove the instructions are safe."
+      ],
+      "soWhat": "Elicitation is a ready-made slot for a checker: the tool itself can refuse to proceed until a person confirms. Skills raise a change-control question for requirements. If a vendor can alter the instructions your agent follows, state who approves each new version and require that an unapproved version cannot load.",
+      "sources": [
+        {
+          "title": "Anthropic Expands MCP With Skills, Tasks, Elicitation and File Uploads for Agent Workflows",
+          "publisher": "XenoSpectrum",
+          "url": "https://xenospectrum.com/en/mcp-skills-tasks-elicitation-file-uploads-trust-boundary/"
+        },
+        {
+          "title": "Claude: Skills over MCP Public Beta, Tasks and Elicitation GA on November 24",
+          "publisher": "SmartScope",
+          "url": "https://smartscope.blog/en/blog/claude-skills-over-mcp-public-beta-tasks-elicitation-2026/"
+        },
+        {
+          "title": "Anthropic Lets MCP Servers Ship Skills as the Protocol Turns Two",
+          "publisher": "SimpMusic Blog",
+          "url": "https://www.simpmusic.org/blogs/anthropic-mcp-skills-tasks-protocol-turns-two"
+        }
+      ],
+      "background": [
+        {
+          "name": "Anthropic",
+          "about": "The US company that makes the Claude family of AI models, and one of the three labs at the front of the field with OpenAI and Google. It created the Model Context Protocol. Its product changes shape how many companies, banks among them, build and control agents."
+        },
+        {
+          "name": "Model Context Protocol (MCP)",
+          "about": "An open standard, introduced by Anthropic in November 2024, for connecting AI agents to tools and data. A system publishes its tools once on an MCP server and any compatible agent can use them. It has become the common way to wire agents into business systems, which makes changes to it relevant to anyone specifying agent integrations."
+        },
+        {
+          "name": "Elicitation",
+          "about": "The MCP feature that lets a tool server pause and ask the human user a question, or for approval, in the middle of a task. The published rules say it must not be used to collect passwords or payment details through a form. It is the protocol's nearest equivalent to a sign-off step."
+        },
+        {
+          "name": "XenoSpectrum",
+          "about": "A Japanese technology news site that also publishes in English. It is a secondary source here: it read Anthropic's post and the protocol documents and reported on them. Its detail on approvals and file fingerprints has not been checked against the originals for this briefing."
+        }
+      ]
+    },
+    {
+      "id": "anthropic-study-review-is-the-bottleneck",
+      "time": "06:54",
+      "kind": "story",
+      "section": "agents",
+      "headline": "Anthropic study: review is the bottleneck",
+      "dek": "Interviews at 58 US companies found AI mostly raised output instead of cutting cost, and that the scarce resource became the human attention needed to check what the AI produced.",
+      "body": [
+        "Anthropic, the US lab behind the Claude models, published a study on 23 November called \"Working with AI\". Its economics team held 66 face-to-face interviews at 58 US companies that are adopting AI, from startups to hundred-year-old firms, and catalogued nearly 300 separate uses.",
+        "Most uses created value by producing more, not by spending less. About half of the output gains came from doing existing work faster and half from better quality or new products. Of 100 pieces of software built with AI, 80% automated work that had been manual.",
+        "The main brake was checking. The study says the difficulty of reviewing AI output swamped scarce human attention. One company expected its expert reviewers to double their throughput and met resistance: some spent two minutes on each item and others more than ten. Customer scepticism and regulation were rarely named as obstacles.",
+        "On jobs, the study found very few layoffs caused by AI, but people at two-thirds of the companies reported less hiring. A finance company cut well over 100 offshore data and developer contractors.",
+        "The limits are stated. Every company is an Anthropic customer, the sample is not representative, and the findings are interviewees' own accounts, not measured tests."
+      ],
+      "soWhat": "A checker is a capacity limit, and requirements rarely say so. For each AI step, write down how many items one reviewer can properly check in a day, what is checked in full and what is sampled, and what happens when the queue outgrows the people. Otherwise review turns into rubber-stamping.",
+      "sources": [
+        {
+          "title": "Working with AI",
+          "publisher": "Anthropic",
+          "url": "https://www.anthropic.com/research/working-with-ai"
+        }
+      ],
+      "background": [
+        {
+          "name": "Anthropic",
+          "about": "The US company that makes the Claude family of AI models, and one of the three labs at the front of the field with OpenAI and Google. It created the Model Context Protocol. Its product changes shape how many companies, banks among them, build and control agents."
+        },
+        {
+          "name": "Anthropic's economics team",
+          "about": "A research group inside Anthropic that studies how AI is used at work, drawing on the company's own customers and usage. Its reports are among the few with access to real deployments, but the company has a commercial interest in the subject, so read them as informed and not independent."
+        }
+      ]
+    },
+    {
+      "id": "delegation-tokens-for-agents",
+      "time": "06:54",
+      "kind": "story",
+      "section": "techniques",
+      "headline": "Delegation tokens for agents",
+      "dek": "A pass that names both the person and the agent acting for them, can only narrow the person's rights, and expires when the person's own session does.",
+      "body": [
+        "Amazon Web Services (AWS), Amazon's cloud computing arm, published a guide on 24 November for giving an agent a user's access without handing over the user's login. It uses a feature that AWS added on 12 November to Cognito, its sign-in service for applications.",
+        "The method is an internet standard called OAuth 2.0 Token Exchange, numbered RFC 8693. The agent presents two digital passes: the user's and its own. The sign-in service returns a third, valid for one named system only. That pass records the user as the subject and, in a field called **act**, the agent as the actor.",
+        "Three limits are built in. The new pass can carry only permissions that both the user and the agent already hold; the exchange can remove rights but never add them. It cannot outlive the user's original pass. And it cannot be renewed, so the agent has to come back and ask again.",
+        "The gain is in the audit trail. The receiving system can log who the action was for and which agent carried it out, on every request. AWS notes that the receiving system must still check the pass itself, including the actor field."
+      ],
+      "soWhat": "Lift this pattern whatever sign-in product you use. Requirement wording: every agent action carries the identity of both the requesting user and the agent; an agent's rights are never wider than that user's for that system; agent access ends when the user's session ends. Then ask your platform team whether the logs record both names today.",
+      "sources": [
+        {
+          "title": "Delegate user access to AI agents with Amazon Cognito token exchange",
+          "publisher": "AWS Security Blog",
+          "url": "https://aws.amazon.com/blogs/security/delegate-user-access-to-ai-agents-with-amazon-cognito-token-exchange/"
+        }
+      ],
+      "background": [
+        {
+          "name": "Amazon Cognito",
+          "about": "The sign-in and identity service of Amazon Web Services, the largest cloud provider. Applications built on AWS use it to log users in and issue the digital passes, called tokens, that other systems check. A feature here becomes an easy default for the many firms that build on AWS."
+        },
+        {
+          "name": "OAuth 2.0 Token Exchange",
+          "about": "A published internet standard, RFC 8693, for swapping one access token for another with a narrower purpose. It is not an Amazon invention, and other identity products support it. That matters for requirements: you can ask for the behaviour without tying yourself to a vendor."
+        },
+        {
+          "name": "Token (access)",
+          "about": "In security, a short-lived digital pass that says who you are and what you may do, checked by each system you call. This is a different thing from the tokens that measure text for an AI model, which today's plain-language term covers."
+        }
+      ]
+    },
+    {
+      "id": "cap-tool-outputs-before-compacting",
+      "time": "06:54",
+      "kind": "story",
+      "section": "techniques",
+      "headline": "Cap tool outputs before compacting",
+      "dek": "One practitioner's tests found that trimming each tool result cut cost by 38%, while summarising old conversation cost more and made the agent forget.",
+      "body": [
+        "This is an older piece, dated 18 August 2026, and worth knowing. Louis-François Bouchard, an AI educator who writes for the training company Towards AI, tested ways to stop an agent's working memory from filling up. The agent was an AI tutor. He ran 11 configurations on models from Google and the Chinese lab DeepSeek.",
+        "The usual answer is compaction: when the conversation gets long, replace the older part with a summary. In his head-to-head test, the compacting setup sent about 41% fewer tokens, the units models count text in, yet cost roughly twice as much per turn ($0.24 against $0.11). It also remembered a fact planted early in the session 38% of the time, against 92% for simply keeping everything.",
+        "The reason is caching. Model providers charge far less for text they have already seen at the start of a request. Rewriting history changes that text, so the discount is lost. What did work was capping each tool result at a fixed size, which leaves the earlier text untouched. That cut cost per turn from $0.189 to $0.117.",
+        "One more finding matters for testing. A second model asked to grade the answers scored the forgetful setup at 97% to 99%. Bouchard says the numbers are noisy: one or two trials, short sessions and his own workload."
+      ],
+      "soWhat": "Two lines for a requirements document. First, a size limit on every tool result, with a way to fetch the rest on request. Second, an acceptance test that plants a specific fact early in a long session and asks for it at the end. A general quality score will not catch forgetting.",
+      "sources": [
+        {
+          "title": "Context Engineering in 2026: Why We Stopped Compacting Our Agent's Context",
+          "publisher": "Louis-François Bouchard",
+          "url": "https://www.louisbouchard.ai/context-engineering-2026/"
+        }
+      ],
+      "background": [
+        {
+          "name": "Louis-François Bouchard",
+          "about": "An AI educator who publishes under the name What's AI and writes for Towards AI, a company that sells AI courses. This is a practitioner's write-up of his own experiments on his own product. It is not peer-reviewed research, and he says so about its limits."
+        },
+        {
+          "name": "Compaction",
+          "about": "Replacing the older part of an agent's conversation with a shorter summary so that it fits in the model's working memory. Most agent products do it automatically. It matters because whatever the summary drops, such as an instruction or a figure from early in the task, the agent no longer knows."
+        },
+        {
+          "name": "Prompt caching",
+          "about": "A pricing feature from model providers: text at the start of a request that is identical to a recent request is billed at a steep discount. In this test the cached price for one model was about one fiftieth of the normal price, so designs that keep the early text unchanged can cost far less.",
+          "source": {
+            "publisher": "Louis-François Bouchard",
+            "url": "https://www.louisbouchard.ai/context-engineering-2026/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "paired-runs-to-test-a-skill",
+      "time": "06:54",
+      "kind": "story",
+      "section": "techniques",
+      "headline": "Paired runs to test a skill",
+      "dek": "Run the same task with and without an add-on instruction pack and report the difference; a study from NVIDIA found most skills pass a paper review anyway.",
+      "body": [
+        "A skill is a pack of written instructions that an agent loads for a particular job. Today's story on tool servers shipping skills raises a question: how do you know a skill helps? A paper from researchers at NVIDIA, the US chip company, posted to the research archive arXiv in August 2026, proposes a method called ACES.",
+        "The method is a paired trial. Run each test task twice, once with the skill and once without, and hold everything else fixed: the model, the surrounding software, the grader and any other skills. The difference in score is the **skill lift**.",
+        "The team measured 947 paired cases across 58 skills in production use. The average lift was positive, and the skill helped in 72.8% of cases. In 87 cases it made the result worse.",
+        "The more useful finding is about cheap checks done on paper. Of the skills, 94.5% passed a checklist review of their documents. But the checklist score and a model-graded score of the same documents barely agreed: the paper reports a rank correlation of 0.14, where 1 would be perfect agreement. A later section, not read in full for this briefing, reports that neither paper score predicted the lift seen in live runs.",
+        "The authors note the limits: lift depends on the model and setup it was measured with, and a stronger model can shrink it."
+      ],
+      "soWhat": "Before accepting any skill, prompt pack or instruction update, from a vendor or your own team, ask for the with-and-without result on your own test tasks. A document review of the instructions is not evidence. Keep the paired test and rerun it whenever the model changes, since the lift can disappear.",
+      "sources": [
+        {
+          "title": "Evaluating Skills, Not Just Agents: Agentic Continuous Evaluation of Skills",
+          "publisher": "arXiv",
+          "url": "https://arxiv.org/abs/2608.20614"
+        }
+      ],
+      "background": [
+        {
+          "name": "NVIDIA",
+          "about": "The US company whose chips run most AI training and whose software tools are widely used to build AI systems. It also deploys agents internally, and the skills tested in this paper come from that work. Its engineering research is taken seriously, though this paper has not been peer reviewed."
+        },
+        {
+          "name": "Skill",
+          "about": "A reusable pack of written instructions, sometimes with scripts, that an agent loads when a task calls for it, such as how to produce a certain report. Skills change an agent's behaviour without changing the model, so they need the same testing and version control as code."
+        },
+        {
+          "name": "arXiv",
+          "about": "A free online archive where researchers post papers before, or instead of, journal review. Most AI research appears there first. A paper on arXiv is a claim by its authors that nobody has yet independently checked."
+        }
+      ]
+    },
+    {
+      "id": "wells-fargo-your-ai-agent-your-risk",
+      "time": "06:54",
+      "kind": "story",
+      "section": "field",
+      "headline": "Wells Fargo: your AI agent, your risk",
+      "dek": "The US bank's revised online terms make customers responsible for any AI agent that logs in for them and let the bank require agents to be registered.",
+      "body": [
+        "Wells Fargo, one of the largest US banks, updated its online access agreement on 24 November with new terms on AI agents, the payments news site PYMNTS reported the same day. The agreement says use of any AI agent is at the customer's own risk.",
+        "Customers are made solely responsible for monitoring an agent acting for them and for the accuracy of what they tell it to do. They must cancel an agent's authority properly and keep proof that they did, which the bank may ask to see. For its part, the bank may change its security rules for agents, require customers to register their agents, and limit what agents can reach.",
+        "Wells Fargo is not alone. PYMNTS says Citi recently changed its terms in a similar way, and that JPMorgan Chase's chief executive has said outside agents will not be allowed inside the bank. A survey of 70 bankers by the Federal Reserve Bank of Dallas, taken from 27 October to 4 November, found 11.4% had already restricted customers' agents and 22.9% planned to within six months.",
+        "Two cautions. The link to the agreement contains the word \"upcoming\", so the terms may not be in force yet. And the PYMNTS article sits partly behind a sign-up form, so only its visible text was read."
+      ],
+      "soWhat": "Set this beside today's lead: banks hand the customer the risk of the customer's agent, while regulators hold the firm to account for its own. Any portal you run will meet outside agents too. Decide now whether they are allowed, how you would recognise one, and how access is registered, limited and withdrawn.",
+      "sources": [
+        {
+          "title": "Wells Fargo Tells Customers They're Responsible for AI Agents",
+          "publisher": "PYMNTS",
+          "url": "https://www.pymnts.com/news/banking/2026/wells-fargo-tells-customers-they-are-responsible-for-ai-agents/"
+        },
+        {
+          "title": "Banks Draw Lines Around Customers' AI Agents",
+          "publisher": "PYMNTS",
+          "url": "https://www.pymnts.com/news/banking/2026/banks-draw-lines-around-customers-ai-agents/"
+        }
+      ],
+      "background": [
+        {
+          "name": "Wells Fargo",
+          "about": "One of the four largest banks in the United States, with a very large retail customer base. When a bank of this size writes AI agents into its standard customer terms, it signals that the question has moved from innovation teams to legal and risk, and smaller banks tend to copy the wording."
+        },
+        {
+          "name": "PYMNTS",
+          "about": "A US trade news site covering payments, banking and financial technology. It reports quickly on bank announcements and filings. It is a secondary source: here it describes a bank's agreement, and the agreement itself is the authority."
+        },
+        {
+          "name": "Federal Reserve Bank of Dallas",
+          "about": "One of the twelve regional banks of the US central bank system. It surveys bankers in its district regularly. The survey quoted had 70 respondents, so it is a regional snapshot and not a national measure.",
+          "source": {
+            "publisher": "PYMNTS",
+            "url": "https://www.pymnts.com/news/banking/2026/banks-draw-lines-around-customers-ai-agents/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hong-kong-asks-banks-how-to-govern-agents",
+      "time": "06:54",
+      "kind": "story",
+      "section": "field",
+      "headline": "Hong Kong asks banks how to govern agents",
+      "dek": "A discussion paper from Hong Kong's banking regulator sets out seven expectations for AI agents and takes comments until 1 February 2027.",
+      "body": [
+        "This one is from early November, and the comment window makes it current. The Hong Kong Monetary Authority (HKMA), which supervises the city's banks, has published a discussion paper on governing agentic AI in banking. It creates no obligations. It gives the regulator's preliminary views and asks for responses before 1 February 2027.",
+        "The paper is unusually concrete. Before an agent goes live, a bank should define its approved purpose, its delegated authority, the actions it may not take or must escalate, and what would trigger a review or withdrawal. Using an outside model or cloud service does not dilute the bank's accountability.",
+        "Controls should be built into the harness, the software around the model: permissions, tool access, speed limits, fixed validation checks and approval gates. The paper says control should not rely solely on instructions given to the model. There should be a kill switch that brings an agent promptly to a safe state, and a register of material agents, possibly one kept by the HKMA.",
+        "How heavy the governance should be depends on seven factors, among them the agent's autonomy, its access to data and tools, its possible impact on customers, and whether its actions can be reversed. Only part of the long paper was read in full for this briefing."
+      ],
+      "soWhat": "This is the nearest thing yet to a requirements template written by an Asian regulator. Borrow two parts. Use the seven factors to sort your agents into tiers of control. And adopt the test that a rule existing only in a prompt does not count as a control.",
+      "sources": [
+        {
+          "title": "Discussion Paper on Agentic A.I. Governance in the Banking Sector",
+          "publisher": "Hong Kong Monetary Authority",
+          "url": "https://www.hkma.gov.hk/media/eng/doc/key-information/press-release/2026/20261102e3a1.pdf"
+        }
+      ],
+      "background": [
+        {
+          "name": "Hong Kong Monetary Authority (HKMA)",
+          "about": "Hong Kong's central banking institution and the supervisor of its banks. Hong Kong is one of Asia's main banking centres and home to the regional operations of many international banks, so HKMA guidance shapes what those banks expect of their own vendors and counterparties across Asia."
+        },
+        {
+          "name": "Discussion paper",
+          "about": "An early step in rule-making. The regulator sets out its thinking and asks the industry to respond, before deciding whether to issue guidance or binding requirements. Nothing in it is mandatory, but it shows where supervision is heading and what examiners will soon ask about."
+        },
+        {
+          "name": "Agent harness",
+          "about": "The ordinary software wrapped around an AI model that decides which tools it can call, checks its requests, enforces limits and keeps the log. Because the harness is conventional code, its rules hold every time, which is why regulators want controls placed there and not in the model's instructions."
+        }
+      ]
+    },
+    {
+      "id": "indonesia-rupiah-record-low-past-18300",
+      "time": "06:54",
+      "kind": "story",
+      "section": "market",
+      "headline": "Indonesia: rupiah at record low past 18,300",
+      "dek": "The rupiah closed at its weakest level on record on 25 November, a week after Bank Indonesia raised its rate to 6% to steady it.",
+      "body": [
+        "The rupiah closed at Rp18,310 to the US dollar on Wednesday 25 November, down 0.49% on the day and the weakest close on record, CNBC Indonesia reported using Refinitiv data. Other measures differ. The business daily Kontan put the spot close at Rp18,332, down 0.56% from Rp18,230. JISDOR, Bank Indonesia's official daily reference rate, was Rp18,303 according to the newspaper Jawa Pos. The sources use different bases and do not reconcile.",
+        "CNBC Indonesia pointed to a stronger dollar, with markets waiting for US inflation data and pricing a 97% chance that the US Federal Reserve raises rates in December. Lukman Leong, an analyst at the brokerage Doo Financial, told Jawa Pos there was also a domestic cause: Bank Indonesia's 2027 budget proposal to parliament signalled that it expects to hold its rate at 6% next year, not raise it. He also cited foreign selling.",
+        "Destry Damayanti, whom CNBC Indonesia names as Bank Indonesia's governor, told parliament's finance commission on 25 November that the rupiah had lost 9.54% this year as of 23 November. The move was not region-wide. Kontan's table shows the Taiwan dollar down 0.71% and the Thai baht down 0.46% on the day, with the Indian rupee up 0.52%."
+      ],
+      "soWhat": "Last week's rate rise has not held the line. Two checks for anyone funding rupiah loans in dollars or euros. Which rate does each document use for conversion: JISDOR or a market close? They differed by up to 29 rupiah yesterday. And at what level do hedge collateral or trigger clauses start to bite?",
+      "number": {
+        "value": "Rp18,310",
+        "caption": "Rupiah per US dollar at the close on 25 November 2026 on Refinitiv data, a record low. Kontan put the spot close at Rp18,332.",
+        "source": {
+          "title": "Rupiah Ditutup di Rp18.310/US$, Terlemah Sepanjang Masa",
+          "publisher": "CNBC Indonesia",
+          "url": "https://www.cnbcindonesia.com/market/20261125145703-17-788383/rupiah-ditutup-di-rp18310-us--terlemah-sepanjang-masa"
+        }
+      },
+      "sources": [
+        {
+          "title": "Rupiah Ditutup di Rp18.310/US$, Terlemah Sepanjang Masa",
+          "publisher": "CNBC Indonesia",
+          "url": "https://www.cnbcindonesia.com/market/20261125145703-17-788383/rupiah-ditutup-di-rp18310-us--terlemah-sepanjang-masa"
+        },
+        {
+          "title": "Rupiah Ditutup Tembus ke Rp 18.332 Per Dolar AS, Penutupan Terburuk Sepanjang Masa",
+          "publisher": "Kontan",
+          "url": "https://investasi.kontan.co.id/news/rupiah-ditutup-tembus-ke-rp-18332-per-dolar-as-penutupan-terburuk-sepanjang-masa"
+        },
+        {
+          "title": "Rupiah Babak Belur, Tembus Rp 18.303 per Dolar AS dan Cetak Rekor Terlemah",
+          "publisher": "Jawa Pos",
+          "url": "https://www.jawapos.com/finance/2611250413/rupiah-babak-belur-tembus-rp-18303-per-dolar-as-dan-cetak-rekor-terlemah"
+        }
+      ],
+      "background": [
+        {
+          "name": "Bank Indonesia (BI)",
+          "about": "Indonesia's central bank. Its legal goal is a stable rupiah, and it sets the BI-Rate, which it raised to 6.00% at its meeting of 17 and 18 November. Its rate and currency decisions change both the cost of funding consumer loans and the cost of hedging rupiah assets into dollars.",
+          "source": {
+            "publisher": "Bank Indonesia",
+            "url": "https://www.bi.go.id/en/publikasi/ruang-media/news-release/Pages/sp_2825426.aspx"
+          }
+        },
+        {
+          "name": "JISDOR",
+          "about": "The Jakarta Interbank Spot Dollar Rate, Bank Indonesia's official daily reference rate for the rupiah against the dollar, based on actual interbank trades. Many Indonesian contracts and hedges settle against it. It is not the same as a market closing price, so the two can differ on a volatile day."
+        },
+        {
+          "name": "Refinitiv",
+          "about": "A financial market data service owned by the London Stock Exchange Group, one of the two data providers, with Bloomberg, that most traders and news desks rely on for currency prices. Different providers take their closing price at different moments, which is why reported closes rarely match exactly."
+        },
+        {
+          "name": "Lukman Leong, Doo Financial",
+          "about": "A currency analyst at a brokerage, quoted here by Jawa Pos. His reading of why the rupiah fell is one market opinion. It is not an official explanation, and Bank Indonesia's budget document was not read for this briefing."
+        }
+      ]
+    },
+    {
+      "id": "indonesia-paylater-income-floor-takes-hold",
+      "time": "06:54",
+      "kind": "story",
+      "section": "market",
+      "headline": "Indonesia: paylater income floor takes hold",
+      "dek": "OJK says every finance company offering buy now, pay later now applies its minimum age and income rule, as growth slows and bad loans edge up.",
+      "body": [
+        "Indonesia's financial regulator OJK says all finance companies that offer buy now, pay later, known locally as paylater, now apply its eligibility rule, the business daily Kontan reported on 16 November. The statement came from Agusman, the OJK board member who supervises finance companies.",
+        "The rule is in an OJK regulation numbered PADK 2 of 2026 and had to be in place by 1 July 2026. A borrower must be at least 18 or married and have an average gross income of at least Rp3 million a month, shown by payslips or bank statements. It applies to new customers and to renewals. Further limits follow. Repayments may not exceed 40% of income in 2027 and 2028, falling to 30% from 2029, and a borrower may not hold financing from more than three finance companies.",
+        "The numbers suggest the rule is biting. Paylater balances at finance companies were Rp13.54 trillion in September, up 31.35% on a year earlier, against growth of 36.57% in August. The gross bad-loan ratio (NPF) rose from 3.03% to 3.12%.",
+        "Banks are the bigger lenders. Their paylater balances were Rp31.50 trillion in September, up 26.68%, across 34.5 million accounts, Infobank reported on 6 November. The rule as reported covers finance companies; the articles do not say it applies to banks."
+      ],
+      "soWhat": "For any paylater pool, ask how the originator proves income for each borrower and whether renewals were re-checked. The 40% repayment cap from 2027 will narrow who qualifies, so expect slower origination and a different borrower mix in later vintages. Watch whether bad loans keep rising as growth cools.",
+      "sources": [
+        {
+          "title": "OJK Tegaskan Aturan Usia dan Penghasilan Debitur Paylater Sudah Berlaku",
+          "publisher": "Kontan",
+          "url": "https://keuangan.kontan.co.id/news/ojk-tegaskan-aturan-usia-dan-penghasilan-debitur-paylater-sudah-berlaku"
+        },
+        {
+          "title": "Warga RI Makin Doyan Pakai Paylater Bank, Ini Buktinya",
+          "publisher": "Infobank",
+          "url": "https://infobanknews.com/warga-ri-makin-doyan-pakai-paylater-bank-ini-buktinya"
+        },
+        {
+          "title": "Pertumbuhan Paylater Melambat, Pembiayaan dan Kredit Macet Malah Meningkat",
+          "publisher": "Warta Ekonomi",
+          "url": "https://wartaekonomi.co.id/read646155/pertumbuhan-paylater-melambat-pembiayaan-dan-kredit-macet-malah-meningkat"
+        }
+      ],
+      "background": [
+        {
+          "name": "OJK",
+          "about": "Otoritas Jasa Keuangan, Indonesia's Financial Services Authority. It licenses and supervises banks, finance companies, online lenders and the capital markets. Its rules on who may borrow, and how much, decide which loans an Indonesian originator can write and so what can go into a pool."
+        },
+        {
+          "name": "Agusman",
+          "about": "The OJK board member who heads supervision of finance companies, venture capital, microfinance and online lenders, in the post since August 2023. When he speaks about paylater or online lending, it is the regulator's own view of the sector.",
+          "source": {
+            "publisher": "Bisnis.com",
+            "url": "https://finansial.bisnis.com/read/20230818/563/1685976/jadi-anggota-dk-ojk-baru-agusman-jelaskan-tugas-dan-wewenangnya"
+          }
+        },
+        {
+          "name": "Finance companies (multifinance)",
+          "about": "Non-bank lenders licensed by OJK that fund vehicles, equipment and consumer purchases, including paylater. Their paylater balances were Rp13.54 trillion in September 2026, less than half the banks' Rp31.50 trillion, but they grow faster and lend to thinner-file borrowers.",
+          "source": {
+            "publisher": "Kontan",
+            "url": "https://keuangan.kontan.co.id/news/ojk-tegaskan-aturan-usia-dan-penghasilan-debitur-paylater-sudah-berlaku"
+          }
+        },
+        {
+          "name": "NPF",
+          "about": "Non-performing financing: the share of a finance company's lending that is seriously overdue. It is the finance-company counterpart of a bank's non-performing loan ratio, and the first figure to check on the quality of a consumer loan book."
+        }
+      ]
+    },
+    {
+      "id": "malaysia-bnpl-licence-deadline-30-november",
+      "time": "06:54",
+      "kind": "story",
+      "section": "market",
+      "headline": "Malaysia: BNPL licence deadline is 30 November",
+      "dek": "Existing buy now, pay later providers have until Monday to apply under Malaysia's new consumer credit law, while new foreign-funded lenders keep arriving.",
+      "body": [
+        "Malaysia's existing buy now, pay later (BNPL) providers have until 30 November to apply for a licence under the Consumer Credit Act 2025, according to Entrepreneur Asia Pacific in an article dated 30 October. The Act came into force on 1 March 2026 and brings BNPL, leasing and factoring firms under licensing for the first time, through a new Consumer Credit Commission. The deadline comes from that article and was not checked against the Commission's own notice.",
+        "The market is growing quickly. Malaysia's finance ministry told parliament on 19 October that BNPL transactions in the first half of 2026 numbered 173.9 million, worth RM14.7 billion. Outstanding balances were RM6.6 billion at the end of June across 9.2 million active account holders, with 3.3% overdue.",
+        "Money is still coming in. Fingular, a Singapore-based lending group, took a US$20 million credit facility for Malaysia from Silverstreak, a Singapore private credit manager, the same article reports. The rate and term were not disclosed. Skyro, a digital lender with over 7 million registered users in the Philippines, said on 5 November that it had begun offering cash loans in Malaysia of up to RM1,000 over up to four months at 1.5% a month.",
+        "Both lend cash under an older online moneylending licence from the housing and local government ministry, known as KPKT, which the article describes as separate from the new Act."
+      ],
+      "soWhat": "Malaysia now has two licensing routes for near-identical consumer credit: the new Act for BNPL and the KPKT licence for online cash loans. For any Malaysian originator, ask which licence covers each product and whether its BNPL application went in by the deadline. A product on the wrong side of that line is a legal risk to the receivables.",
+      "sources": [
+        {
+          "title": "Fingular Secures $20 Mn Private Credit Line as Malaysia Tightens Lending Rules",
+          "publisher": "Entrepreneur Asia Pacific",
+          "url": "https://apac.entrepreneur.com/business-news/fingular-secures-20-mn-private-credit-line-as-malaysia-tightens-lending-rules"
+        },
+        {
+          "title": "Skyro launches digital cash loans in Malaysia following 7 million Philippine users",
+          "publisher": "Skyro press release, carried by Vietnam Investment Review",
+          "url": "https://vir.com.vn/skyro-launches-digital-cash-loans-in-malaysia-following-7-million-philippine-users-164540.html"
+        }
+      ],
+      "background": [
+        {
+          "name": "Consumer Credit Act 2025",
+          "about": "Malaysia's new law for non-bank consumer credit, in force since 1 March 2026. It created the Consumer Credit Commission to license and police BNPL, leasing and factoring firms that previously sat outside financial regulation. The Commission says BNPL was 0.4% of household debt in June 2026: small, but growing fast.",
+          "source": {
+            "publisher": "Entrepreneur Asia Pacific",
+            "url": "https://apac.entrepreneur.com/business-news/fingular-secures-20-mn-private-credit-line-as-malaysia-tightens-lending-rules"
+          }
+        },
+        {
+          "name": "Fingular",
+          "about": "A lending group founded in 2021 and based in Singapore, with consumer lending in Malaysia, India and Indonesia. Its main Malaysian company reported net loan receivables of RM106.9 million at the end of 2025, up from RM22.0 million a year earlier. It is small and growing fast, and publishes no overdue figures.",
+          "source": {
+            "publisher": "Entrepreneur Asia Pacific",
+            "url": "https://apac.entrepreneur.com/business-news/fingular-secures-20-mn-private-credit-line-as-malaysia-tightens-lending-rules"
+          }
+        },
+        {
+          "name": "Silverstreak",
+          "about": "A private credit manager in Singapore that lends to non-bank lenders in emerging Asia. The article describes it as licensed by Singapore's financial regulator. It is an example of the specialist funds that now supply much of the debt behind Southeast Asia's digital lenders."
+        },
+        {
+          "name": "Skyro",
+          "about": "A digital consumer lender that began in the Philippines, where it claims more than 7 million registered users and an active loan portfolio above US$200 million. These are the company's own figures from a press release. Malaysia is its first market outside the Philippines.",
+          "source": {
+            "publisher": "Vietnam Investment Review",
+            "url": "https://vir.com.vn/skyro-launches-digital-cash-loans-in-malaysia-following-7-million-philippine-users-164540.html"
+          }
+        },
+        {
+          "name": "KPKT moneylending licence",
+          "about": "A licence issued by Malaysia's Ministry of Housing and Local Government, known by its Malay initials KPKT, under the country's older moneylending law. It now covers online cash lenders as well. It is a different regime from the new Consumer Credit Act."
+        }
+      ]
+    },
+    {
+      "id": "india-non-banks-lean-harder-on-bank-loans",
+      "time": "06:54",
+      "kind": "story",
+      "section": "market",
+      "headline": "India: non-banks lean harder on bank loans",
+      "dek": "A study in the Reserve Bank of India's November bulletin finds banks now supply 39.6% of non-bank lenders' borrowing and says that needs watching.",
+      "body": [
+        "India's non-bank lenders, known as NBFCs, are borrowing more from banks, and the central bank wants that watched. A study in the Reserve Bank of India's (RBI) November bulletin, reported by the newspaper Business Standard on 25 November, puts bank loans at 39.6% of NBFCs' total borrowings at the end of March 2026. Four years earlier the share was 35.3%.",
+        "Bond funding moved the other way. Debentures, long the largest source, fell to 34.1% of borrowings from 40%. Borrowing from overseas rose to 11% of funding from 6.9% in March 2022. The newspaper's account does not mention securitisation.",
+        "The sector is large and still growing. NBFC balance sheets reached ₹70.12 trillion, up 15.9% on the year, and loans grew 17.6% to ₹56.92 trillion. NBFCs now provide 20.5% of the combined credit of banks and NBFCs. Bad-loan ratios fell, though the report gives no figures, and profitability eased slightly.",
+        "The study says the growing dependence on banks could raise systemic concerns and makes spreading funding sources imperative. On 23 November the RBI governor, Sanjay Malhotra, met NBFC chief executives in Mumbai and pressed for responsible lending, fair recovery practices and stronger cyber defences. The bulletin itself was not read for this briefing."
+      ],
+      "soWhat": "When a regulator tells non-bank lenders to rely less on banks, the alternatives are bonds, securitisation and offshore lenders. The rise in overseas borrowing shows that door is already opening. If India is on your map, track how the RBI follows this up, and which funding routes it makes easier.",
+      "sources": [
+        {
+          "title": "RBI study urges caution as NBFCs' reliance on bank borrowings rises",
+          "publisher": "Business Standard",
+          "url": "https://www.business-standard.com/finance/news/nbfcs-rising-reliance-on-bank-borrowings-needs-monitoring-rbi-bulletin-126112501212_1.html"
+        },
+        {
+          "title": "RBI Governor urges NBFCs to strengthen cyber defences, responsible lending",
+          "publisher": "Business Standard",
+          "url": "https://www.business-standard.com/finance/news/rbi-governor-urges-nbfcs-to-strengthen-cyber-defences-responsible-lending-126112301240_1.html"
+        }
+      ],
+      "background": [
+        {
+          "name": "Reserve Bank of India (RBI)",
+          "about": "India's central bank and the regulator of its banks and non-bank lenders. It writes the rules on lending, securitisation and funding for the whole sector. Its monthly bulletin carries staff studies that often signal where supervisory attention is heading."
+        },
+        {
+          "name": "NBFC",
+          "about": "Non-banking financial company: an Indian lender that makes loans but does not hold a banking licence, so it must borrow its funding. NBFCs write a large share of India's consumer, vehicle and small-business loans. The sector's balance sheet was ₹70.12 trillion at the end of March 2026.",
+          "source": {
+            "publisher": "Business Standard",
+            "url": "https://www.business-standard.com/finance/news/nbfcs-rising-reliance-on-bank-borrowings-needs-monitoring-rbi-bulletin-126112501212_1.html"
+          }
+        },
+        {
+          "name": "Sanjay Malhotra",
+          "about": "The governor of the Reserve Bank of India, who chaired the 23 November meeting with non-bank lenders alongside his deputy governors. The governor sets the tone of supervision, so the priorities he names in such meetings are what lenders can expect inspectors to ask about.",
+          "source": {
+            "publisher": "Business Standard",
+            "url": "https://www.business-standard.com/finance/news/rbi-governor-urges-nbfcs-to-strengthen-cyber-defences-responsible-lending-126112301240_1.html"
+          }
+        },
+        {
+          "name": "Debenture",
+          "about": "A bond issued by a company. For Indian non-bank lenders, debentures sold to mutual funds, insurers and banks have been the main alternative to bank loans. A falling share means the sector depends more on banks' willingness to keep lending."
+        }
+      ]
+    },
+    {
+      "id": "the-context-window",
+      "time": "06:54",
+      "kind": "deepdive",
+      "headline": "The context window",
+      "dek": "So far: the loop, then tool calls. Today is the space the loop runs in. An agent knows only what is in its context window at that moment, and most agent failures on long tasks trace back to what was, or was not, in it.",
+      "steps": [
+        {
+          "title": "The window is all the model sees",
+          "body": "A model has no memory between calls. Each time the harness asks it for the next step, it sends everything again: the instructions, the tool descriptions, the conversation and every tool result so far. That bundle is the context window. If a fact is not in it, the model does not know it."
+        },
+        {
+          "title": "It is measured in tokens",
+          "body": "The window has a fixed size, counted in tokens, the small pieces of text that models read (today's term). Every model has a limit. The harness must keep the bundle under it, and you pay for every token sent on every step."
+        },
+        {
+          "title": "It fills as the agent works",
+          "body": "Each turn of the loop adds to the window. Tool results are usually the biggest part: one query that returns a full loan tape can outweigh the whole conversation. A long task therefore runs out of room unless something is managing the space."
+        },
+        {
+          "title": "Quality fades before it is full",
+          "body": "Models get worse as the window grows, well before the limit. A Hong Kong university benchmark from February 2026 gave agents the same tasks with more and more material to read. The best model's accuracy fell from 96.0% with 8,000 tokens of material to 14.7% with 256,000."
+        },
+        {
+          "title": "Four ways to manage it",
+          "body": "Keep things out: cap each tool result and fetch detail on request. Select: bring in only the documents the step needs. Compress: summarise old turns, accepting that details are lost. Isolate: give a sub-task to a separate agent with a clean window that returns only its answer."
+        },
+        {
+          "title": "Test what survives",
+          "body": "Whatever the method, something is dropped. The test is simple: plant a specific instruction or figure early, run a long session and ask for it at the end. A general quality score will not show the gap, as one of today's technique stories found."
+        }
+      ],
+      "example": {
+        "title": "A long reconciliation, with the window managed",
+        "rows": [
+          {
+            "actor": "Person",
+            "text": "Asks: reconcile October collections for Pool B. Rule: flag any gap above 0.5%."
+          },
+          {
+            "actor": "Model",
+            "text": "Requests get_collections(pool = B, month = 2026-10)."
+          },
+          {
+            "actor": "Tool",
+            "text": "Has 40,000 rows. Returns totals by week and a reference to the full file, not the rows."
+          },
+          {
+            "actor": "Model",
+            "text": "Week 3 looks off. Requests only week 3, grouped by payment channel."
+          },
+          {
+            "actor": "Harness",
+            "text": "After 30 steps the window is 70% full. It summarises old turns but pins the 0.5% rule.",
+            "state": "held"
+          },
+          {
+            "actor": "Model",
+            "text": "Finds one channel short by 0.8%. Applies the pinned rule and flags it."
+          },
+          {
+            "actor": "Person",
+            "text": "Reviews the flag with the week 3 figures attached and confirms the gap."
+          },
+          {
+            "actor": "Harness",
+            "text": "Reconciliation filed. The log shows what was summarised and what was pinned.",
+            "state": "done"
+          }
+        ]
+      },
+      "forRequirements": [
+        "Every tool result has a size limit. Larger results return a summary and a reference the agent can query.",
+        "Named items are never summarised away: the user's instruction, thresholds, the deal and period in scope.",
+        "State how the window is managed when it fills, and log each time it happens and what was removed.",
+        "Acceptance test: a fact given at the start of a long session is recalled correctly at the end.",
+        "Report window use per run, so cost and quality problems can be traced to oversized inputs."
+      ],
+      "quiz": {
+        "question": "An agent ignores a threshold the user set at the start of a long task. What is the most likely cause?",
+        "options": [
+          "The model was not intelligent enough",
+          "The threshold was summarised away or pushed out of the window",
+          "The tool returned the wrong data",
+          "The user typed it incorrectly"
+        ],
+        "answer": 1,
+        "explanation": "The model only knows what is in its window at that step. On long tasks, early instructions are the first thing lost when old turns are summarised or dropped, which is why key rules should be pinned."
+      },
+      "sources": [
+        {
+          "title": "LOCA-bench: Benchmarking Language Agents Under Controllable and Extreme Context Growth",
+          "publisher": "arXiv",
+          "url": "https://arxiv.org/abs/2602.07962"
+        },
+        {
+          "title": "Context Engineering in 2026: Why We Stopped Compacting Our Agent's Context",
+          "publisher": "Louis-François Bouchard",
+          "url": "https://www.louisbouchard.ai/context-engineering-2026/"
+        }
+      ],
+      "background": [
+        {
+          "name": "LOCA-bench",
+          "about": "A test set published in February 2026 by three researchers at the Hong Kong University of Science and Technology. It has 525 agent tasks in which the amount of material the agent must read can be dialled up from 8,000 to 256,000 tokens. It is a preprint and has not been peer reviewed.",
+          "source": {
+            "publisher": "arXiv",
+            "url": "https://arxiv.org/abs/2602.07962"
+          }
+        }
+      ]
+    },
+    {
+      "id": "token",
+      "time": "06:54",
+      "kind": "plain",
+      "headline": "Token",
+      "jargon": "The sub-word unit produced by a tokenizer; the unit in which model input, output, context limits and pricing are measured.",
+      "stair": "A token is a small piece of a word, and a model counts everything in them.",
+      "simple": "Short common words are one token each, and longer words, numbers and codes break into several. The size of the context window, the speed of a reply and the bill are all measured in tokens, so a long document costs room and money before the model has done any work.",
+      "analogy": "A law firm that bills in six-minute units. You think in meetings and documents, but the invoice arrives in units, and a long contract uses up a block of them just to be read. To forecast the bill, you learn roughly how many units each kind of job takes."
+    }
+  ]
+}
