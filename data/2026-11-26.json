@@ -760,6 +760,57 @@
       "stair": "A token is a small piece of a word, and a model counts everything in them.",
       "simple": "Short common words are one token each, and longer words, numbers and codes break into several. The size of the context window, the speed of a reply and the bill are all measured in tokens, so a long document costs room and money before the model has done any work.",
       "analogy": "A law firm that bills in six-minute units. You think in meetings and documents, but the invoice arrives in units, and a long contract uses up a block of them just to be read. To forecast the bill, you learn roughly how many units each kind of job takes."
+    },
+    {
+      "id": "indonesia-rupiah-18401-bi-intervenes",
+      "time": "15:40",
+      "kind": "story",
+      "section": "market",
+      "headline": "Indonesia: rupiah hits 18,401, BI steps in",
+      "dek": "The rupiah set a new record low at midday on 26 November. Bank Indonesia confirmed it is intervening at home and offshore, and named three causes.",
+      "body": [
+        "The rupiah touched Rp18,401 to the US dollar in spot trading at midday on Thursday 26 November, the business daily Kontan reported at 12:54 Jakarta time. That is 0.38% weaker than Wednesday's spot close of Rp18,332 on Kontan's figures, and a new record low. This is an intraday level. The closing price was not available when this was written.",
+        "Bank Indonesia (BI), the central bank, responded in a written statement from Erwin Gunawan Hutapea, who heads its monetary and securities asset management department. He gave three causes. Abroad, investors are avoiding risk and expect a US rate rise, because US data has stayed firm and inflation persistent, which lifts the dollar. At home, the market worries that a possible reclassification of Indonesian shares could trigger foreign selling. Kontan's report does not say who would reclassify them. And companies are buying more dollars ahead of month-end.",
+        "BI said it is intervening in the offshore market for non-deliverable forwards (NDFs), which are forward contracts settled in cash, not in the currency itself. At home it is acting in the spot market, in domestic NDFs and by trading government bonds in the secondary market. It also said it will keep banks supplied with foreign currency and coordinate with companies and market players. The statement gave no figures for the size of the intervention or for reserves."
+      ],
+      "soWhat": "This morning's story had the rupiah past 18,300. It is now past 18,400, and the central bank is naming equity outflows as a risk, not only the dollar. Watch today's close and JISDOR fixing, and whether month-end dollar demand fades next week. If hedges roll soon, ask what forward pricing has done since Monday.",
+      "sources": [
+        {
+          "title": "Rupiah Terpuruk ke Rp 18.401 Per Dolar AS, BI Ungkap Penyebabnya",
+          "publisher": "Kontan",
+          "url": "https://nasional.kontan.co.id/news/rupiah-terpuruk-ke-rp-18401-per-dolar-as-bi-ungkap-penyebabnya"
+        }
+      ],
+      "background": [
+        {
+          "name": "Bank Indonesia (BI)",
+          "about": "Indonesia's central bank. Its legal goal is a stable rupiah, and it sets the BI-Rate, which it raised to 6.00% at its meeting of 17 and 18 November. Its rate and currency decisions change both the cost of funding consumer loans and the cost of hedging rupiah assets into dollars.",
+          "source": {
+            "publisher": "Bank Indonesia",
+            "url": "https://www.bi.go.id/en/publikasi/ruang-media/news-release/Pages/sp_2825426.aspx"
+          }
+        },
+        {
+          "name": "Erwin Gunawan Hutapea",
+          "about": "Head of Bank Indonesia's monetary and securities asset management department, the unit that carries out its market operations, as Kontan describes him. He is not the governor, but his statements are the bank's official account of what it is doing in the currency market on a given day."
+        },
+        {
+          "name": "Non-deliverable forward (NDF)",
+          "about": "A forward contract on a currency that settles in cash, usually dollars, with no rupiah changing hands. Offshore investors use NDFs to hedge or bet on the rupiah, so the offshore NDF price often leads the onshore rate. Central bank intervention there aims to stop that price dragging the spot rate down."
+        },
+        {
+          "name": "Domestic NDF (DNDF)",
+          "about": "A rupiah-settled forward contract for hedging dollar exposure, which BI introduced in 2018. At maturity the two sides settle the difference against BI's reference rate, JISDOR. BI trades DNDFs to steady forward prices, which matters to anyone funding rupiah loans with dollars or euros.",
+          "source": {
+            "publisher": "Bank Indonesia",
+            "url": "https://www.bi.go.id/id/publikasi/peraturan/Pages/pbi_201018.aspx"
+          }
+        },
+        {
+          "name": "Kontan",
+          "about": "An Indonesian business and markets daily, part of the Kompas Gramedia media group. It is the only source read for this story. Two other outlets ran the same statement with levels of Rp18,399 and Rp18,400, but their pages could not be opened to confirm."
+        }
+      ]
     }
   ]
 }
