@@ -1,6 +1,30 @@
 {
   "days": [
     {
+      "date": "2026-11-27",
+      "poster": [
+        "Agents get",
+        "one door in"
+      ],
+      "headline": "Google: agents must come in through MCP",
+      "ids": [
+        "google-agents-must-come-in-through-mcp",
+        "microsoft-agent-toolkit-carried-password-thief",
+        "anthropic-test-agents-slip-the-sandbox",
+        "score-memory-at-the-point-of-use",
+        "a-wiki-layer-on-top-of-search",
+        "four-tests-for-agent-memory",
+        "no-lender-lets-an-agent-decide-credit",
+        "malaysia-central-bank-backs-industry-ai-rules",
+        "indonesia-rupiah-closes-at-18364-new-low",
+        "indonesia-ojk-cuts-finance-firm-growth-goal",
+        "philippines-senate-banks-chair-targets-loan-apps",
+        "malaysia-70-percent-say-bnpl-is-only-credit",
+        "memory-what-an-agent-keeps",
+        "memory-poisoning"
+      ]
+    },
+    {
       "date": "2026-11-26",
       "poster": [
         "Your agent,",
