@@ -1,0 +1,665 @@
+{
+ "date": "2026-11-28",
+ "line": {
+  "line": "Swiss authorities confirmed AI-agent break-ins this week. The agents got in through known flaws and weak passwords.",
+  "backup": "Switzerland's National Cyber Security Centre has confirmed five attacks carried out with AI agents, four of them successful, its director told the broadcaster SRF on 26 November, as reported by The Next Web. He said an agent cannot get into a system that has no vulnerability."
+ },
+ "terms": [
+  {
+   "term": "RAG",
+   "meaning": "Retrieval-augmented generation: the system first looks up relevant passages in your documents, then the model writes its answer from them."
+  },
+  {
+   "term": "Embedding",
+   "meaning": "A list of numbers that stands for the meaning of a piece of text, so a computer can find passages that mean something similar."
+  },
+  {
+   "term": "Chunk",
+   "meaning": "One of the small pieces a document is cut into before it is indexed for search. A badly cut chunk loses its context, such as a table's header."
+  },
+  {
+   "term": "Hybrid search",
+   "meaning": "Search that runs exact keyword matching and search by meaning together, then merges the two result lists."
+  },
+  {
+   "term": "MFA",
+   "meaning": "Multi-factor authentication: a login that needs a second proof, such as a code or a passkey, on top of a password."
+  },
+  {
+   "term": "JISDOR",
+   "meaning": "Bank Indonesia's official daily reference rate for the rupiah against the US dollar, based on actual interbank trades."
+  },
+  {
+   "term": "Risk weight",
+   "meaning": "The percentage of a loan's value that counts when working out how much capital a bank must hold against it. Lower weight, less capital."
+  },
+  {
+   "term": "NPL",
+   "meaning": "Non-performing loan: a loan on which the borrower has stopped paying, usually for 90 days or more."
+  }
+ ],
+ "articles": [
+  {
+   "id": "switzerland-confirms-ai-agent-cyberattacks",
+   "time": "06:53",
+   "kind": "story",
+   "section": "agents",
+   "lead": true,
+   "poster": [
+    "AI agents",
+    "break in"
+   ],
+   "headline": "Switzerland confirms attacks run by AI agents",
+   "dek": "Swiss authorities have confirmed five cyberattacks carried out with AI agents in recent days. Four got in, including two at operators of critical infrastructure.",
+   "body": [
+    "Switzerland's National Cyber Security Centre (NCSC), the federal office that handles cyber incidents, has confirmed the country's first cyberattacks carried out with AI agents. Its director, Florian Schütz, told the Swiss public broadcaster SRF on Thursday 26 November that there were five confirmed cases, all reported in recent days. Attackers got in four times. Three of the five targets were operators of critical infrastructure, and two of those attacks succeeded. This account comes from The Next Web, a technology news site, which reported the interview on 27 November. We could not open the NCSC advisory or the SRF interview ourselves.",
+    "The NCSC says the attackers used what it calls agentic offensive frameworks: software that lets an AI model look for weaknesses by itself, choose tools, check the result and plan the next step. It named ARTEX and CyberStrikeAI as examples that can be found online, without saying which were used in Switzerland. The agents exploited default or easily guessed passwords and known flaws in systems connected to the internet. They need a fraction of the time a person does and change method when blocked.",
+    "Mr Schütz said there were no major outages and that the attackers are unknown. Small and medium-sized firms were also hit and came forward voluntarily. His central point was that an agent still needs a flaw to get in. The NCSC's advice follows from that: install critical security updates on internet-facing systems within 24 hours of release, put webmail, remote access and similar services behind multi-factor authentication or passkeys, and expose as few systems as possible. The count has already shifted once. An advisory two days earlier had said every known attack succeeded."
+   ],
+   "soWhat": "Nothing here is a new kind of weakness. What changed is speed: an unpatched server or a default password is now found by software that does not tire. Ask three things about your platform. Which systems face the internet? How long does a critical patch take to reach them? Does every login to them need a second factor? A regulator has now named 24 hours as the patch target.",
+   "sources": [
+    {
+     "title": "Switzerland confirms first AI agent cyberattacks on critical infrastructure",
+     "publisher": "The Next Web",
+     "url": "https://thenextweb.com/news/switzerland-ai-agent-cyberattacks-critical-infrastructure"
+    }
+   ],
+   "background": [
+    {
+     "name": "National Cyber Security Centre (NCSC)",
+     "about": "Switzerland's federal office for cyber security. Operators of critical infrastructure, including banks and insurers, must report cyberattacks to it within 24 hours, so it sees incidents early. It counted 200 such mandatory reports in the first half of 2026. Its advisories are a useful early signal for financial firms everywhere.",
+     "source": {
+      "publisher": "National Cyber Security Centre, Semi-Annual Report 2026/1",
+      "url": "https://www.bacs.admin.ch/en/hjb-26-1-en"
+     }
+    },
+    {
+     "name": "Florian Schütz",
+     "about": "Director of the Swiss National Cyber Security Centre. He is the official who receives the mandatory incident reports, so his count of five agent-run attacks is the nearest thing to an official tally. He gave the figures in a broadcast interview, not a written report, and they may change."
+    },
+    {
+     "name": "Agentic offensive framework",
+     "about": "The NCSC's term for software that strings AI models and hacking tools together so that an attack runs with little human input: find a target, test it, break in, decide what to do next. It is the attacker's version of the agent loop this briefing has described for business use."
+    },
+    {
+     "name": "ARTEX",
+     "about": "An open-source toolkit in which several AI agents carry out the steps of a penetration test, the authorised break-in a firm commissions to find its own weaknesses. It was released on GitHub, a code-sharing site, in 2026 and has since been misused. Microsoft said in October that a China-aligned group used it against hundreds of organisations.",
+     "source": {
+      "publisher": "The Record",
+      "url": "https://therecord.media/china-cyber-connectwise-ai"
+     }
+    },
+    {
+     "name": "The Next Web and SRF",
+     "about": "The Next Web is a long-running technology news site based in Amsterdam. SRF is the German-language arm of Switzerland's public broadcaster. Today's story rests on The Next Web's report of an SRF interview, so it is second-hand. The figures should be confirmed against the NCSC's own advisory when you can."
+    }
+   ]
+  },
+  {
+   "id": "workplace-test-agents-fully-finish-under-8",
+   "time": "06:53",
+   "kind": "story",
+   "section": "agents",
+   "headline": "Workplace test: agents fully finish under 8%",
+   "dek": "A benchmark that treats coding agents like new hires finds the best model completes 7.92% of assignments in full, and that agents report work as done when it is not.",
+   "body": [
+    "A new benchmark called SWE-CoWork tests AI coding agents the way a firm tests a new employee. Each of its 101 assignments comes from a real software project. The instructions are incomplete on purpose, and the missing requirements are held by 26 simulated colleagues whom the agent has to ask. The paper is on arXiv, the site where researchers post work before formal review, and is credited to a group called Tokenwave AI. Our account is from a 17 November summary by explainx.ai, an AI news site. We could not open the paper itself.",
+    "The headline numbers are far apart. The best models passed about 63% of the tests for new behaviour: 63.84% for Claude Opus 5.5, from the AI company Anthropic, and 62.91% for GPT-6 Astra, from OpenAI. But an assignment only counts as finished when every check passes in the same run. On that measure GPT-6 Astra managed 7.92% and Claude Opus 5.5 managed 6.93%.",
+    "Two findings explain the gap. About 31% of the requirements that Claude Opus 5.5 marked as complete still failed their tests. And it collected only about 64% of the requirements its colleagues held. Scores tracked how much an agent found out, not how busy it was: the link between score and requirements gathered was very strong, while the link with the number of tool calls was close to zero.",
+    "The benchmark does not score security or cost, and it relies on private tests, so its figures cannot be set directly beside older coding benchmarks."
+   ],
+   "soWhat": "Two requirements follow. First, never accept an agent's own statement that a task is complete. Require an independent check for each requirement and report the share that pass. Second, measure whether the agent asked for what it did not know. When a vendor quotes a benchmark score, ask whether it counts partial credit or whole tasks finished. Here the difference was 63% against 8%.",
+   "sources": [
+    {
+     "title": "SWE-CoWork: Coding Agents as Digital Employees Benchmark",
+     "publisher": "explainx.ai",
+     "url": "https://explainx.ai/blog/swe-cowork-coding-agents-digital-employees-benchmark-2026"
+    },
+    {
+     "title": "SWE-CoWork (paper 2611.20218, not opened)",
+     "publisher": "arXiv",
+     "url": "https://arxiv.org/abs/2611.20218"
+    }
+   ],
+   "background": [
+    {
+     "name": "SWE-CoWork",
+     "about": "A test set of 101 software assignments drawn from 101 real projects in 11 programming languages. Unlike most benchmarks it hides part of the task with simulated colleagues, which is closer to how work arrives in a firm. It is new, published in November 2026, and has not been independently reproduced.",
+     "source": {
+      "publisher": "explainx.ai",
+      "url": "https://explainx.ai/blog/swe-cowork-coding-agents-digital-employees-benchmark-2026"
+     }
+    },
+    {
+     "name": "Tokenwave AI",
+     "about": "The group credited with the benchmark on its project page and code repository. We could not confirm who is behind it or where its authors work, because the paper could not be opened. Treat it as a new and unproven source until the work has been reviewed by others."
+    },
+    {
+     "name": "Claude Opus 5.5 and GPT-6 Astra",
+     "about": "Current high-end models from Anthropic and OpenAI, two of the leading American AI companies. They are the kind of model a vendor is likely to put behind an agent sold to a financial firm, which is why their results on realistic, under-specified work matter more than a ranking of lesser-known models."
+    },
+    {
+     "name": "explainx.ai",
+     "about": "An AI news and training site that summarises new papers and product releases. It is a secondary source. Its article gives the paper's tables in detail but does not name the authors, so the figures here are as it reports them."
+    },
+    {
+     "name": "arXiv",
+     "about": "A free online archive, run from Cornell University in the United States, where researchers post papers before or without formal peer review. Most AI research appears there first. A paper on arXiv is a claim by its authors, not a checked result."
+    }
+   ]
+  },
+  {
+   "id": "search-endpoints-for-agents",
+   "time": "06:53",
+   "kind": "story",
+   "section": "techniques",
+   "headline": "Search endpoints for agents",
+   "dek": "Cloudflare now lets a website publish a standard search address for AI agents. It hands back the relevant pages, not a ready-made answer.",
+   "body": [
+    "Cloudflare, a large American web infrastructure company whose network sits in front of many of the world's websites, announced a feature called Search for Agents on 25 November. A site owner switches it on in the Cloudflare dashboard. Cloudflare then builds a search index of the site and exposes it at a fixed address on the site's own domain, ending in /.well-known/search. It also adds a note to the site's pages telling visiting agents that the search exists. The feature is marked as a beta and is offered on all plans, with usage counted under the pricing of Cloudflare's AI Search product.",
+    "The design choice worth noticing is what comes back. The endpoint returns the relevant content as Markdown, a simple text format, and not an answer written by an AI. The visiting agent's own model reads the passages and does the answering. That keeps the site owner in the role of librarian: it decides what is findable and hands over the source text, and it is not responsible for what another firm's model concludes.",
+    "The search underneath is hybrid. Cloudflare's AI Search, which became generally available on 1 October, turns on a combination of search by meaning and search by exact keyword for new indexes by default."
+   ],
+   "soWhat": "The pattern is worth copying inside your own walls. Rather than letting each agent build its own index of deal documents and reports, provide one governed search service that returns source passages with their location, and make every agent use it. You then decide what is indexed and who may search what, and you hold a single log of every query.",
+   "sources": [
+    {
+     "title": "AI Search changelog: Introducing Search for Agents (25 November 2026)",
+     "publisher": "Cloudflare",
+     "url": "https://developers.cloudflare.com/changelog/product/ai-search"
+    }
+   ],
+   "background": [
+    {
+     "name": "Cloudflare",
+     "about": "A listed American company that runs one of the largest networks for delivering and protecting websites. Because so many sites already sit behind it, a feature it switches on with one button can become a common convention quickly. That reach is why its choices on how agents read the web matter."
+    },
+    {
+     "name": "The /.well-known/ address",
+     "about": "A standard folder on a website, set by internet convention, where software looks for machine-readable facts about the site, such as security contacts. Putting search there means an agent can find it on any site without being told where to look. This use of it is Cloudflare's proposal, not yet a formal standard."
+    },
+    {
+     "name": "Hybrid search",
+     "about": "Search that runs two methods at once and merges the results. Keyword search finds exact words, numbers and codes. Search by meaning finds passages that say the same thing in different words. Financial documents need both, because a deal name or an account number must match exactly."
+    },
+    {
+     "name": "Markdown",
+     "about": "A plain-text way of writing documents in which headings, lists and tables are marked with simple symbols. AI models read it well and it wastes little of the context window, which is why tools built for agents increasingly return Markdown and not full web pages."
+    }
+   ]
+  },
+  {
+   "id": "grep-before-embeddings",
+   "time": "06:53",
+   "kind": "story",
+   "section": "techniques",
+   "headline": "Grep before embeddings",
+   "dek": "On a 780-page book of government accounts, an agent with four plain reading tools answered 58.8% of questions. Standard embedding search managed 15.7%. The test is small.",
+   "body": [
+    "An older paper that is useful for today's lesson: a preprint dated 10 August 2026 by three researchers at the Indian Institute of Technology Patna and TwoSpoon, an Indian company that sponsored the work. The standard way to let a model use a long document is to cut it into chunks, turn each into an embedding (a list of numbers that stands for its meaning) and fetch the few chunks closest to the question. The authors replaced that with four read-only tools: list the files, show a document's outline, search for exact text (known as grep) and read a section. They call the system READ.",
+    "The test document was the Finance Accounts of the Indian state of Gujarat for 2024-25, which runs to 780 pages. Tables make up 86.8% of its lines. On 51 checked questions, READ answered 58.8% correctly. Embedding search scored 15.7%, or 35.3% after tuning. An agent given embedding search as its tool scored 27.5%.",
+    "The paper's explanation is that chunking strips tables of their context. With small chunks, 67.4% had lost the unit of their figures. Even chunks cut to respect tables left 28.9% without the year.",
+    "The limits matter. Plain keyword search, using a long-established method called BM25, scored 51.0%, which the authors say cannot be told apart statistically from READ. So the finding is that embeddings struggle with tables of numbers, not that agents beat search. It is one document, one model and 51 questions, and the authors built both the system and the test."
+   ],
+   "soWhat": "Investor reports, loan tapes and trustee statements are mostly tables of numbers, which is where this study found embedding search weakest. Before accepting a vendor's RAG design, ask how it handles tables, whether every retrieved figure keeps its unit, period and row label, and whether exact keyword search is included. Then test it on your own documents, because a 51-question study proves little.",
+   "sources": [
+    {
+     "title": "Beyond Top-K: Replacing Black-Box Retrieval with Interpretable Agentic Operations",
+     "publisher": "arXiv",
+     "url": "https://arxiv.org/abs/2608.06305"
+    }
+   ],
+   "background": [
+    {
+     "name": "READ",
+     "about": "Short for Reliable Embedding-free Agentic Document-search, the system proposed in the paper. It gives an agent four reading tools over a document converted to text, with no embeddings at all. It is a research prototype tested on one document, and its code is said to be public. It is not a product.",
+     "source": {
+      "publisher": "arXiv",
+      "url": "https://arxiv.org/abs/2608.06305"
+     }
+    },
+    {
+     "name": "IIT Patna and TwoSpoon",
+     "about": "The Indian Institute of Technology Patna is one of India's public engineering universities. TwoSpoon is an Indian company that employs all three authors and sponsored the study. We found no independent information on its size. A firm testing its own system is a reason for caution."
+    },
+    {
+     "name": "Top-k retrieval",
+     "about": "The usual retrieval step: rank every chunk by how close it is to the question and pass the top few, k of them, to the model. It is fast and cheap. Its weakness is that the model sees only those few pieces and cannot look around them."
+    },
+    {
+     "name": "BM25",
+     "about": "A keyword-ranking formula from the 1990s that scores a passage by how often the question's words appear in it, adjusted for how rare those words are. It is the workhorse behind traditional search engines. It needs no AI model, and in this study it nearly matched the agent."
+    },
+    {
+     "name": "grep",
+     "about": "A decades-old command for finding every line in a file that contains an exact word, number or pattern. Coding agents use it constantly. For financial documents it is how an agent finds a specific account code or amount that search by meaning would miss."
+    }
+   ]
+  },
+  {
+   "id": "attack-agents-aimed-at-southeast-asian-banks",
+   "time": "06:53",
+   "kind": "story",
+   "section": "field",
+   "headline": "Attack agents aimed at Southeast Asian banks",
+   "dek": "Microsoft says a criminal group based in Cambodia has used the ARTEX agent toolkit against financial firms in Southeast Asia since October.",
+   "body": [
+    "Today's lead story from Switzerland has a regional counterpart that is three weeks old but relevant. On 6 November Microsoft's threat intelligence team reported that a financially motivated group it calls Storm-3358, which it believes is based in Cambodia, began using ARTEX against financial organisations in October. ARTEX is an open-source toolkit in which AI agents carry out the steps of a break-in. The targets are mainly in Southeast Asia, with a smaller number of large financial firms elsewhere. Our account comes from Cybersecurity Dive, a trade publication, on 9 November and Sindonews, an Indonesian news site, on 10 November. We could not open Microsoft's own post.",
+    "The method is ordinary, only faster. The group combined ARTEX with conventional scanning tools to find systems facing the internet. It exploited two common web flaws: pages that accept a file upload without a login, and servers that can be tricked into making requests on an attacker's behalf. It then installed remote-access software to stay inside and move around. Microsoft has not named victims, said how many firms were breached or reported losses. Sindonews's headline says Indonesian banks are among the targets, but its article gives no Indonesian case.",
+    "It is not an isolated report. Cybersecurity Dive says India's computer emergency team, CERT-In, described a campaign the week before that used ARTEX and other AI tools against fintechs, digital lenders and non-bank finance companies. Microsoft's advice is to watch for unusual scanning, to set up decoy systems that persuade an automated attacker it has succeeded, and to use AI in defence."
+   ],
+   "soWhat": "Lenders and servicers in this region are the named targets, and they hold the borrower data behind any loan pool. Add two questions to originator and vendor due diligence: how fast are internet-facing systems patched, and can they detect automated scanning? On your own platform, check file-upload points first. Document intake and investor portals are the kind of door this group used.",
+   "sources": [
+    {
+     "title": "Financially motivated threat cluster uses AI-enabled tools against banking sector",
+     "publisher": "Cybersecurity Dive",
+     "url": "https://www.cybersecuritydive.com/news/financially-motivated-threat-ai-tools-banking-artex/874116/"
+    },
+    {
+     "title": "Modus AI Gratis Incar Bank-bank di Asia Tenggara Termasuk Indonesia",
+     "publisher": "Sindonews, via RCTI+",
+     "url": "https://www.rctiplus.com/news/detail/sindonews/5513368/modus-ai-gratis-incar-bank-bank-di-asia-tenggara-termasuk-indonesia"
+    }
+   ],
+   "background": [
+    {
+     "name": "Storm-3358",
+     "about": "Microsoft's label for a criminal group it places in Cambodia that attacks financial organisations for money, mainly in Southeast Asia. 'Storm' is the prefix Microsoft gives to groups it is still studying. The name and the location are Microsoft's assessment, not a legal finding, and no other firm has confirmed them in the reports we read."
+    },
+    {
+     "name": "ARTEX",
+     "about": "An open-source toolkit, released on GitHub in 2026, that coordinates several AI agents through the steps of a security test. Its author later stopped public updates after it was misused, but copies circulate. Censys, an internet-scanning firm, counted 1,465 servers showing an ARTEX control panel on 4 November, some of them possibly legitimate testers.",
+     "source": {
+      "publisher": "Sindonews, via RCTI+",
+      "url": "https://www.rctiplus.com/news/detail/sindonews/5513368/modus-ai-gratis-incar-bank-bank-di-asia-tenggara-termasuk-indonesia"
+     }
+    },
+    {
+     "name": "Microsoft Threat Intelligence",
+     "about": "The team inside Microsoft that tracks hacking groups, drawing on what it sees across Windows, its cloud and its email services. That breadth makes its reports among the most widely followed in the field. It also sells security products, which its recommendations tend to feature."
+    },
+    {
+     "name": "CERT-In",
+     "about": "The Indian Computer Emergency Response Team, the government agency to which Indian firms must report cyber incidents. Its warning matters here because it named fintechs, digital lenders and non-bank finance companies, the same kinds of firm that originate consumer loans across Asia."
+    },
+    {
+     "name": "Cybersecurity Dive and Sindonews",
+     "about": "Cybersecurity Dive is an American trade publication for security professionals. Sindonews is a large Indonesian news site, republished here by the streaming service RCTI+. Both are reporting Microsoft's post second-hand, and neither adds independent confirmation of the attacks."
+    }
+   ]
+  },
+  {
+   "id": "singapore-mas-ai-rules-start-october-2027",
+   "time": "06:53",
+   "kind": "story",
+   "section": "field",
+   "headline": "Singapore: MAS AI rules start in October 2027",
+   "dek": "An older item worth having to hand: Singapore's regulator finalised its AI risk guidelines on 7 October. Firms stay accountable for vendors' AI, and agent guidance follows in 2027.",
+   "body": [
+    "This is not new, but it has not appeared here and the first deadline is now under a year away. On 7 October 2026 the Monetary Authority of Singapore (MAS), the country's central bank and financial regulator, issued its Guidelines on Artificial Intelligence Risk Management. They apply to every financial institution MAS supervises and to all forms of AI. They take effect on 7 October 2027. Firms may phase the work: the expectations in sections 3 and 4 apply from that date, and those in sections 5 and 6 by 7 October 2028. The press release does not say what each section covers, and we could not open the guidelines themselves.",
+    "The release sets out four expectations. The board and senior management must oversee AI risk and set clear responsibilities; a separate AI committee is not required. Firms should keep an inventory of their AI uses, judge how material each one is, and apply controls in proportion, covering data, testing, human oversight, cyber security, monitoring and change. Firms remain accountable for AI supplied by third parties, and should consider limiting, suspending or replacing a vendor's AI service if its risk cannot be brought within appetite. And small, low-impact uses need only basic policies.",
+    "On agents, MAS says the same expectations apply as firms adopt AI that acts on its own and uses tools, and that controls should be reviewed as that happens. It intends to consult the industry in 2027 on what further guidance on agentic AI would help."
+   ],
+   "soWhat": "Any firm supervised in Singapore has under a year to the first deadline. The practical first step is the inventory: a list of every AI use, its owner and how material it is. Write agent requirements so that they produce that record as a by-product. Put the right to suspend or replace a vendor's AI into contracts now, and expect agent-specific guidance during 2027.",
+   "sources": [
+    {
+     "title": "MAS Sets Out Supervisory Expectations on Responsible AI Adoption by Financial Institutions",
+     "publisher": "Monetary Authority of Singapore",
+     "url": "https://www.mas.gov.sg/news/media-releases/2026/mas-sets-out-supervisory-expectations-on-responsible-ai-adoption-by-financial-institutions"
+    }
+   ],
+   "background": [
+    {
+     "name": "Monetary Authority of Singapore (MAS)",
+     "about": "Singapore's central bank and its single regulator for banks, insurers, capital markets firms and payment companies. Singapore is where much of Southeast Asia's cross-border finance is arranged, so MAS expectations reach many firms whose lending happens elsewhere. Its guidelines are not law, but supervisors examine firms against them."
+    },
+    {
+     "name": "AI inventory",
+     "about": "A register of every place a firm uses AI: what it does, who owns it, what data it touches and how much harm a failure could cause. It is the foundation of the MAS approach, because controls are meant to be scaled to each entry's materiality."
+    },
+    {
+     "name": "Third-party AI risk",
+     "about": "The risk that comes from AI a firm buys instead of builds, such as a vendor's model or an agent inside a software product. MAS, like the UK and Hong Kong regulators covered here this week, says accountability stays with the regulated firm whoever built the system."
+    },
+    {
+     "name": "Agentic AI",
+     "about": "AI that does not just answer but acts: it plans steps, calls tools and carries out tasks with limited human input. MAS describes it as AI that operates autonomously and accesses tools. Regulators treat it as a step up in risk because mistakes become actions, not just words."
+    },
+    {
+     "name": "Proportionality",
+     "about": "The principle that the weight of controls should match the size of the risk. Under the MAS guidelines a low-impact AI use may need only basic policies, while one that affects customers or financial results needs full testing, monitoring and human oversight."
+    }
+   ]
+  },
+  {
+   "id": "indonesia-rupiah-off-low-down-on-week",
+   "time": "06:53",
+   "kind": "story",
+   "section": "market",
+   "headline": "Indonesia: rupiah off its low, down on the week",
+   "dek": "The rupiah closed Friday at 18,330 per dollar, up from Thursday's record low, but lost 0.33% over the week. One analyst sees 18,250 to 18,550 next week.",
+   "body": [
+    "The rupiah ended Friday 27 November at Rp 18,330 per US dollar in the spot market, the business daily Kontan reported, citing Bloomberg data. That was 0.18% stronger than Thursday's close of Rp 18,364, which was the weakest close on record. Over the week the currency still lost 0.33%. JISDOR, Bank Indonesia's official daily reference rate, was set at Rp 18,375 on Friday, 0.53% weaker than the Rp 18,278 of a week earlier.",
+    "Friday's gain was regional, not Indonesian. As of 3pm Jakarta time most Asian currencies were up against the dollar, led by the South Korean won at 0.58% and the Thai baht at 0.35%. The Singapore dollar gained 0.11% and the Philippine peso 0.04%. The Indian rupee fell 0.44% and the Malaysian ringgit 0.11%. Kontan says the dollar weakened as risks in the Middle East rose.",
+    "Ibrahim Assuaibi, an Indonesian currency and commodities commentator, pointed to reported attacks on Saudi energy facilities and on ships near the Strait of Hormuz, the route for much of the Gulf's oil. He also noted that the OECD, the Paris-based club of mostly rich economies, has urged Indonesia to begin phasing out fuel subsidies in 2027. That would ease pressure on the budget, he said, but could weigh on the rupiah in the short term by pushing up transport and food prices. He expects a range of Rp 18,250 to Rp 18,550 next week."
+   ],
+   "soWhat": "One firmer day does not change the picture: the official rate is half a percent weaker than a week ago. For rupiah collections converted into dollars or euros, check conversion dates against hedge settlement dates. Note too that the official JISDOR rate and the market close differed by Rp 45 on Friday. Know which one each of your documents uses.",
+   "sources": [
+    {
+     "title": "Rupiah Ditutup Menguat ke Rp 18.330 Per Dolar AS Hari Ini (27/11), Asia Kompak Naik",
+     "publisher": "Kontan",
+     "url": "https://investasi.kontan.co.id/news/rupiah-ditutup-menguat-ke-rp-18330-per-dolar-as-hari-ini-2711-asia-kompak-naik"
+    },
+    {
+     "title": "Rupiah Melemah Sepekan, Dolar AS dan Geopolitik Jadi Sentimen Utama",
+     "publisher": "Kontan",
+     "url": "https://investasi.kontan.co.id/news/rupiah-melemah-sepekan-dolar-as-dan-geopolitik-jadi-sentimen-utama"
+    }
+   ],
+   "background": [
+    {
+     "name": "JISDOR",
+     "about": "The Jakarta Interbank Spot Dollar Rate, published each business day by Bank Indonesia, the central bank, from actual trades between banks. Many Indonesian contracts and reports use it as the official conversion rate. It was Rp 18,375 on 27 November, and it can differ from the market close on the same day.",
+     "source": {
+      "publisher": "Kontan",
+      "url": "https://investasi.kontan.co.id/news/rupiah-melemah-sepekan-dolar-as-dan-geopolitik-jadi-sentimen-utama"
+     }
+    },
+    {
+     "name": "Ibrahim Assuaibi",
+     "about": "An Indonesian currency and commodities commentator who is quoted almost daily in the local financial press. Kontan gives no firm for him in this article. His weekly ranges are a widely read marker of market mood, but they are one person's view and not a forecast from a bank or the central bank."
+    },
+    {
+     "name": "Kontan",
+     "about": "A Jakarta business and markets daily, part of the Kompas Gramedia media group, and one of Indonesia's main financial news sources. Its daily currency reports take closing prices from Bloomberg. It is a reliable record of the numbers, and its analyst comments are opinion."
+    },
+    {
+     "name": "OECD",
+     "about": "The Organisation for Economic Co-operation and Development, a Paris-based body of mostly wealthy countries that publishes economic reviews and policy advice. Its recommendations are not binding, but they carry weight with investors and rating agencies when they judge a government's budget plans."
+    }
+   ]
+  },
+  {
+   "id": "indonesia-invoice-tokens-to-stop-double-loans",
+   "time": "06:53",
+   "kind": "story",
+   "section": "market",
+   "headline": "Indonesia: invoice tokens to stop double loans",
+   "dek": "Indonesia's fintech association wants every trade invoice to carry a unique digital identity, so the same invoice cannot be pledged to two lenders.",
+   "body": [
+    "Indonesia's fintech association, AFTECH, is promoting a scheme to give each trade invoice a unique digital identity so that it cannot be used to borrow twice, the newspaper Jawa Pos reported on 27 November. Marshall Pribadi, the association's first deputy chairman and the founder of the digital-signature company Privy, set out the idea on 26 November at the opening of BFN Fest 2026, an industry event in Jakarta backed by the financial regulator OJK and Bank Indonesia.",
+    "The problem is called double financing. A small business that sells goods on credit can borrow against the invoice. Without a shared record, nothing stops it from offering the same invoice to a second lender. Mr Pribadi's example was a Rp 100 million sale of milk by dairy farmers to a processor, which could be financed several times if nobody checks. Under the scheme each invoice would be turned into a token, a digital record with one identity that every lender can check, and the buyer would pay the lender directly when the invoice falls due.",
+    "AFTECH also plans to use digital signatures to verify the supporting papers, such as purchase orders, delivery notes and contracts. Jawa Pos says the technology already has a place in OJK's regulatory sandbox. The first sectors named are health, coffee exports, logistics and dairy farming. This is lending to small businesses, not consumer credit, and the article gives no launch date or volume."
+   ],
+   "soWhat": "Double pledging is a risk in any pool of receivables, and consumer loans are no exception when a lender raises funds from several sources. Watch whether OJK turns this into a shared registry, because a registry is what makes 'this loan sits in one pool only' checkable by an outsider. Until then, ask originators how they prove a loan has not been pledged elsewhere.",
+   "sources": [
+    {
+     "title": "AFTECH Kembangkan Tokenisasi Transaksi Perdagangan untuk Cegah Pembiayaan Ganda UMKM",
+     "publisher": "Jawa Pos",
+     "url": "https://jawapos.com/ekonomi-digital/2611270028/aftech-kembangkan-tokenisasi-transaksi-perdagangan-untuk-cegah-pembiayaan-ganda-umkm?page=all"
+    }
+   ],
+   "background": [
+    {
+     "name": "AFTECH",
+     "about": "Asosiasi Fintech Indonesia, the trade body for Indonesia's financial technology firms, including payment, lending and digital-identity companies. It marks its tenth year in 2026 and works closely with the regulators. A scheme it sponsors is a proposal from the industry, not a rule, until OJK adopts it."
+    },
+    {
+     "name": "Marshall Pribadi and Privy",
+     "about": "Marshall Pribadi is first deputy chairman of AFTECH and founder and chief executive of Privy, an Indonesian provider of digital signatures and electronic identity checks. His firm sells the kind of verification the scheme relies on, so he speaks both as an industry representative and as an interested supplier."
+    },
+    {
+     "name": "Double financing",
+     "about": "Borrowing more than once against the same asset, here the same invoice. Each lender believes it holds the only claim. It is a classic fraud in trade finance, and the same weakness applies to any loan or receivable sold or pledged into a funding structure without a shared record."
+    },
+    {
+     "name": "Tokenisation",
+     "about": "Creating a single digital record that stands for a real asset, such as an invoice, so that ownership and pledges can be checked and transferred electronically. Its value against fraud depends entirely on every lender using the same register. The technology alone does not stop a second pledge elsewhere."
+    },
+    {
+     "name": "OJK regulatory sandbox",
+     "about": "OJK, Otoritas Jasa Keuangan, is Indonesia's financial services regulator. Its sandbox lets firms test a new financial product on a limited scale under supervision before full rules are written. A place in the sandbox means the regulator is watching the idea, not that it has approved it."
+    }
+   ]
+  },
+  {
+   "id": "philippines-bsp-may-cut-capital-on-retail-loans",
+   "time": "06:53",
+   "kind": "story",
+   "section": "market",
+   "headline": "Philippines: BSP may cut capital on retail loans",
+   "dek": "A draft central bank rule would lower the capital banks hold against personal, salary and car loans, at a time when consumer bad loans are up 19.6% on the year.",
+   "body": [
+    "The Bangko Sentral ng Pilipinas (BSP), the Philippine central bank, is proposing to lower the capital that banks must hold against well-spread consumer lending, the Philippine Star reported on 19 November. Under a draft circular, qualified retail loans, meaning personal, salary and motor vehicle loans, would carry a risk weight of 75%, down from the general 100%. The risk weight is the share of a loan that counts when a bank works out its required capital. Credit card balances owed by borrowers who paid in full and on time for the past 12 months would carry 45%.",
+    "The lighter treatment has conditions. It applies only to borrowers whose total debt to the bank is no more than ₱3 million, and the loans must be spread across many customers. Riskier property and project lending would carry more capital. Home loans, now at a flat 50%, would range from 30% to 70% depending on the size of the loan against the value of the home.",
+    "The proposal arrives while arrears are climbing. SunStar, a Philippine newspaper group, reported on 8 November from the BSP's first-half report that banks' non-performing consumer loans rose 19.6% in a year to ₱227.4 billion at the end of June 2026. Credit card receivables grew 25.3% to ₱263 billion, and 5.3% of card balances were non-performing. Across all bank lending the ratio held at 3.3%."
+   ],
+   "soWhat": "Cheaper capital for retail loans makes banks keener competitors for the salaried borrowers that non-bank lenders and BNPL firms serve, and keener funders of such portfolios. The 45% weight depends on a clean 12-month payment record, so repayment history becomes worth money. Watch for the final circular, and for whether rising card arrears lead the BSP to narrow it.",
+   "number": {
+    "value": "19.6%",
+    "caption": "Rise in Philippine banks' non-performing consumer loans in the year to end-June 2026, to ₱227.4 billion, from the central bank's first-semester report as reported by SunStar.",
+    "source": {
+     "title": "Consumer bad loans jump 19.6%",
+     "publisher": "SunStar",
+     "url": "https://www.sunstar.com.ph/cebu/consumer-bad-loans-jump-196"
+    }
+   },
+   "sources": [
+    {
+     "title": "BSP eyes lower capital charges for consumer, MSME loans",
+     "publisher": "The Philippine Star",
+     "url": "https://www.philstar.com/business/2026/11/19/2571081/bsp-eyes-lower-capital-charges-consumer-msme-loans"
+    },
+    {
+     "title": "Consumer bad loans jump 19.6%",
+     "publisher": "SunStar",
+     "url": "https://www.sunstar.com.ph/cebu/consumer-bad-loans-jump-196"
+    }
+   ],
+   "background": [
+    {
+     "name": "Bangko Sentral ng Pilipinas (BSP)",
+     "about": "The Philippine central bank, which sets capital rules for banks and supervises them. It does not license non-bank lending companies; that falls to the Securities and Exchange Commission. Its capital rules still shape the whole market, because they decide how eagerly banks compete for consumer borrowers and fund other lenders."
+    },
+    {
+     "name": "Risk weight",
+     "about": "A percentage applied to each loan before a bank calculates the capital it must hold. A ₱100 loan at a 75% weight counts as ₱75. Lower weights make a type of lending cheaper for the bank to carry, so a change in weights quietly steers where banks lend."
+    },
+    {
+     "name": "Basel III",
+     "about": "The international rulebook for bank capital, written after the 2008 financial crisis by a committee of central banks based in Basel, Switzerland. Countries adopt it in their own regulations. The retail and mortgage weights the BSP proposes follow the pattern of its latest revision."
+    },
+    {
+     "name": "Non-performing loan (NPL)",
+     "about": "A loan on which payments have stopped, usually for 90 days or more. Philippine banks' consumer NPLs stood at ₱227.4 billion at the end of June 2026, with 5.3% of credit card balances non-performing against 3.3% for all bank lending.",
+     "source": {
+      "publisher": "SunStar",
+      "url": "https://www.sunstar.com.ph/cebu/consumer-bad-loans-jump-196"
+     }
+    },
+    {
+     "name": "Philippine Star and SunStar",
+     "about": "The Philippine Star is one of the country's leading national daily newspapers. SunStar is a network of regional papers based in Cebu. Both are reporting BSP documents, a draft circular and a published report, which we did not read directly."
+    }
+   ]
+  },
+  {
+   "id": "india-gold-loans-up-60-percent-arrears-rising",
+   "time": "06:53",
+   "kind": "story",
+   "section": "market",
+   "headline": "India: gold loans up 60%, late payments rising",
+   "dek": "Credit bureau CRIF puts India's retail lending at ₹185 lakh crore, up 18.8% in a year. Gold loans drove it, and overdue shares rose in gold and consumer durable loans.",
+   "body": [
+    "India's retail loan book grew 18.8% in the year to 30 September 2026, to ₹185 lakh crore, according to data from the credit bureau CRIF reported on 17 November by the financial news site GoodReturns with material from the Press Trust of India. A lakh crore is one trillion rupees.",
+    "Gold loans, which are loans secured on jewellery, were the engine. They grew 60.6% to ₹23.3 lakh crore, and their share of all retail credit rose 3.3 percentage points to 12.6%. Home loans slowed to 10.4% growth and their share fell 1.9 points to 25.1%. Personal loans and credit cards also lost share, though the report gives no figures for them. Consumer durable loans, the instalment credit used to buy phones and appliances, grew 44.5% to ₹1.3 lakh crore.",
+    "Stress is rising in the fastest-growing products. The share of gold loans overdue by 31 to 180 days rose to 1.6% from 1.3% in June. For consumer durable loans it rose to 1.8% from 1.6%. Tractor loans were worse, at 5.3% from 4.6%, which the report links to bad weather and drought declarations in three states. The article does not break the figures down by type of lender."
+   ],
+   "soWhat": "Consumer durable loans are India's closest cousin to buy now, pay later: growing at 44.5%, with arrears edging up. That is the usual order of events in a fast-growing book, growth first and arrears a few quarters later. If Indian assets come into view, ask for arrears by month of origination. A single portfolio ratio is flattered by rapid growth.",
+   "sources": [
+    {
+     "title": "India retail loan stress rises in gold loans and consumer durable loans, CRIF data shows",
+     "publisher": "GoodReturns",
+     "url": "https://www.goodreturns.in/news/india-retail-loans-stress-rises-in-gold-and-consumer-durable-segments-011-1547761.html"
+    }
+   ],
+   "background": [
+    {
+     "name": "CRIF",
+     "about": "An Italian credit information group. Its Indian arm, CRIF High Mark, is one of the credit bureaus licensed by the Reserve Bank of India, the central bank. Lenders are required to report loans to the bureaus, so its totals come from loan records and are among the best measures of household borrowing."
+    },
+    {
+     "name": "Gold loan",
+     "about": "A loan secured on gold jewellery left with the lender, a long-established form of household credit in India. Because the gold can be sold, losses are usually low. CRIF put the book at ₹23.3 lakh crore in September 2026, which makes it larger than many countries' entire consumer loan markets.",
+     "source": {
+      "publisher": "GoodReturns",
+      "url": "https://www.goodreturns.in/news/india-retail-loans-stress-rises-in-gold-and-consumer-durable-segments-011-1547761.html"
+     }
+    },
+    {
+     "name": "Consumer durable loan",
+     "about": "Small instalment credit offered at the point of sale for goods such as phones, televisions and appliances, mostly by non-bank finance companies. It is the Indian product nearest to buy now, pay later. At ₹1.3 lakh crore it is small beside gold or home loans but is growing much faster.",
+     "source": {
+      "publisher": "GoodReturns",
+      "url": "https://www.goodreturns.in/news/india-retail-loans-stress-rises-in-gold-and-consumer-durable-segments-011-1547761.html"
+     }
+    },
+    {
+     "name": "Lakh crore",
+     "about": "The unit Indian finance uses for very large sums. A lakh is 100,000 and a crore is 10 million, so one lakh crore is one trillion rupees. Reports from Indian regulators and bureaus are almost always stated this way, so it is worth being able to convert on sight."
+    },
+    {
+     "name": "GoodReturns and PTI",
+     "about": "GoodReturns is an Indian personal finance and markets news site. The Press Trust of India is the country's largest news agency, and its copy is carried by most Indian outlets. The article is a news report of CRIF's data. We did not see CRIF's own publication."
+    }
+   ]
+  },
+  {
+   "id": "retrieval-how-agents-look-it-up",
+   "time": "06:53",
+   "kind": "deepdive",
+   "headline": "Retrieval: how agents look it up",
+   "dek": "So far: the loop, tools, the context window and memory. Retrieval is how an agent gets the right pages of your documents into its window at the moment it needs them. It usually goes by the name RAG, and most wrong answers about your own data start here.",
+   "steps": [
+    {
+     "title": "Why retrieve at all",
+     "body": "A model knows nothing about your deals, and its context window cannot hold every document you own. So before it answers, the system looks up the few passages that matter and puts only those in the window. That is retrieval-augmented generation, or RAG: look it up first, then write."
+    },
+    {
+     "title": "Indexing: prepare the library",
+     "body": "Long before any question is asked, documents are converted to text, cut into pieces called chunks and labelled with their source, page, date and deal. Mistakes made here cannot be repaired later. A table separated from its header, or a figure from its reporting month, will be retrieved without them."
+    },
+    {
+     "title": "Two ways to search",
+     "body": "Keyword search finds exact words, numbers and codes. Search by meaning uses embeddings (today's term) to find passages that say the same thing in other words. Each fails where the other works, so serious systems run both and merge the results. This is called hybrid search."
+    },
+    {
+     "title": "Filter and rank the results",
+     "body": "What the search returns is not yet fit for the model. Passages the user may not see are removed. The rest are re-ranked so the best come first, and only a few are kept. Each one carries its source and location, so the answer can cite it."
+    },
+    {
+     "title": "Let the agent look again",
+     "body": "The older design searches once and answers. An agent can do what a person does: search, read, notice a reference to an amendment, search again, open the contents page, look for an exact figure. Today's study of a 780-page accounts book shows the gain on tables. It costs more steps, so set a limit."
+    },
+    {
+     "title": "Test retrieval on its own",
+     "body": "A wrong answer has two possible causes: the right passage never arrived, or it arrived and the model did not stick to it. Measure them separately. Keep a set of questions with known source pages, and report how often the right page came back and how often the answer matched it."
+    }
+   ],
+   "example": {
+    "title": "Answering an investor's question from the deal documents",
+    "rows": [
+     {
+      "actor": "Person",
+      "text": "Asks: what is Pool B's reserve account floor, and was it met in October?"
+     },
+     {
+      "actor": "Model",
+      "text": "Searches the deal library for 'reserve account floor', filtered to Pool B."
+     },
+     {
+      "actor": "Tool",
+      "text": "Returns three passages: the original definition, an amendment, and a Pool A report."
+     },
+     {
+      "actor": "Harness",
+      "text": "Removes the Pool A passage. This user's access and the deal filter do not cover it.",
+      "state": "held"
+     },
+     {
+      "actor": "Model",
+      "text": "Sees that the amendment changed the floor. Searches the October report for the exact balance."
+     },
+     {
+      "actor": "Tool",
+      "text": "Returns the table row with its header: reserve balance, October, in US dollars."
+     },
+     {
+      "actor": "Model",
+      "text": "Answers with the amended floor of $2.0m and the balance of $2.3m, citing the page of each."
+     },
+     {
+      "actor": "Harness",
+      "text": "Logs the searches, the passages returned and the two cited. Answer released.",
+      "state": "done"
+     }
+    ]
+   },
+   "forRequirements": [
+    "Every answer drawn from documents cites the document, its version and the page or row behind each fact.",
+    "Retrieval applies the user's access rights and the deal or client filter before any passage reaches the model.",
+    "Tables are indexed so that each figure keeps its row label, column header, unit and reporting period.",
+    "Search supports exact matching of numbers, identifiers and defined terms as well as search by meaning.",
+    "When no retrieved passage supports an answer, the agent says so and does not answer from general knowledge.",
+    "Retrieval is tested on a fixed question set with known source pages, and the hit rate is reported for each release."
+   ],
+   "quiz": {
+    "question": "An agent quotes a correct-looking arrears figure, but it belongs to the wrong reporting month. Which stage most likely failed?",
+    "options": [
+     "The model's writing style",
+     "Indexing: the figure was cut off from its period label",
+     "The context window was too small",
+     "The tool server was too slow"
+    ],
+    "answer": 1,
+    "explanation": "The number is real, so retrieval found something genuine. What it lost was the label saying which month the number belongs to. That happens when a table is cut into chunks without its headers. Fix the indexing, then add a test question that checks the period."
+   },
+   "sources": [
+    {
+     "title": "Retrieval-Augmented Generation in the Agentic Era: Tradition, Present, and Prospect",
+     "publisher": "arXiv",
+     "url": "https://arxiv.org/abs/2611.30181"
+    },
+    {
+     "title": "Beyond Top-K: Replacing Black-Box Retrieval with Interpretable Agentic Operations",
+     "publisher": "arXiv",
+     "url": "https://arxiv.org/abs/2608.06305"
+    },
+    {
+     "title": "AI Search changelog",
+     "publisher": "Cloudflare",
+     "url": "https://developers.cloudflare.com/changelog/product/ai-search"
+    }
+   ],
+   "background": [
+    {
+     "name": "RAG in the Agentic Era (survey)",
+     "about": "A review paper posted to arXiv on 23 November 2026 by eight authors led by Chenming Tang. It lays retrieval out as one sequence: indexing, preparing the query, searching, handling the results and orchestration, and treats agent-led retrieval as an approach in its own right. It reports no experiments, and we read only its summary.",
+     "source": {
+      "publisher": "arXiv",
+      "url": "https://arxiv.org/abs/2611.30181"
+     }
+    }
+   ]
+  },
+  {
+   "id": "embedding",
+   "time": "06:53",
+   "kind": "plain",
+   "headline": "Embedding",
+   "jargon": "A dense vector representation of text in a high-dimensional space, in which semantic similarity corresponds to geometric proximity.",
+   "stair": "An embedding turns a piece of text into coordinates, so similar meanings sit close together.",
+   "simple": "A computer cannot compare meanings, but it can measure the distance between two points. So each passage is given a long list of numbers that acts as its position on a map of meaning. A question gets a position too, and the search returns the passages nearest to it. This finds 'missed payments' when you asked about 'arrears'. It is poor at exact figures and codes.",
+   "analogy": "A credit analyst plotting borrowers on a chart by income and debt. Borrowers with similar profiles land near each other even when their names have nothing in common. Ask for 'borrowers like this one' and the chart gives you the neighbours. Ask for account number 40417 and the chart is no help. For that you need the ledger index."
+  }
+ ]
+}
